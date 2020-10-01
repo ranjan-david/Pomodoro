@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">Pomodoro</string>
+    <string name="profile_display">My Profile</string>
+    <string name="current_display">Currently Checked in to</string>
+    <string name="nickname_display">Your Nickname: </string>
+    <string name="longest_Streak">Longest Pomo Streak: </string>
+    <string name="average_time">Average Pomo Time: </string>
+    <string name="time_challenge">Time Challenged: </string>
+    <string name="longest_challenge">Longest Challenged: </string>
+    <string name="challenge_won">Challenges Won: </string>
 </resources>
