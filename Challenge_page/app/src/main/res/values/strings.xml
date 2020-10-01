@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">Challenge_page</string>
+    <string name="Leave_challenge_btn">Leave Challenge</string>
+    <string name="Start_challenge_btn">Start</string>
+    <string name="Pause_challenge_btn">Pause</string>
+</resources>
