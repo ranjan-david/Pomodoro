@@ -1,8 +1,12 @@
 package com.example.pdf_maker;
 
-import androidx.appcompat.app.AppCompatActivity;
+import com.example.pdf_maker.camera.CameraActivity;
+import com.example.pdf_maker.util.RuntimePermissions;
+import com.pixelnetica.imagesdk.MetaImage;
 
 import android.os.Bundle;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
