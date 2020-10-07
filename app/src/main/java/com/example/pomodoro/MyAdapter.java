@@ -11,16 +11,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
+import java.util.ArrayList;
 
-    String data1[], data2[];
+public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
+    ArrayList<String> locationNames;
     Context context;
     Button clickme ;
 
-    public MyAdapter(Context ct, String[] s1, String[] s2){
+    public MyAdapter(Context ct, ArrayList<String> locNames){
         context = ct;
-        data1 = s1;
-        data2 = s2;
+        locationNames = locNames;
     }
     @NonNull
     @Override
@@ -33,24 +33,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         //Sets the updatable fields
-        holder.text1.setText(data1[position]);
-        holder.text2.setText(data2[position]);
+        holder.text1.setText(locationNames.get(position));
 
     }
 
     @Override
     public int getItemCount() {
-        return data1.length;
+        return locationNames.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        TextView text1, text2;
+        TextView text1;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             text1 = itemView.findViewById(R.id.LocationName);
-            text2 = itemView.findViewById(R.id.Distance);
 
             clickme = itemView.findViewById(R.id.MapView);
             clickme.setOnClickListener(new View.OnClickListener() {

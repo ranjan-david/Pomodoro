@@ -22,29 +22,32 @@
                 android:id="@+id/LocationName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:text="TextView"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:layout_editor_absoluteX="46dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/Distance"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="4dp"
                 android:text="TextView"
-                app:layout_constraintTop_toBottomOf="@+id/LocationName"
-                tools:layout_editor_absoluteX="46dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/LocationName" />
 
             <Button
                 android:id="@+id/MapView"
                 android:layout_width="177dp"
                 android:layout_height="48dp"
+                android:layout_marginStart="32dp"
                 android:layout_marginTop="16dp"
                 android:text="View on map"
-                app:layout_constraintTop_toBottomOf="@+id/Distance"
-                tools:layout_editor_absoluteX="46dp" />
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Distance" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
