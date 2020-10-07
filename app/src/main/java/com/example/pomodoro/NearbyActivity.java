@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class NearbyActivity extends AppCompatActivity {
     String[] s1;
-    String[] s2;
+    String[] s3;
     RecyclerView recyclerView;
 
     @Override
@@ -18,9 +18,9 @@ public class NearbyActivity extends AppCompatActivity {
 
         recyclerView = findViewById(R.id.RecyclerView);
         s1 = getResources().getStringArray(R.array.example_item); // Get the string eg. name of nearby place
-        s2 = getResources().getStringArray(R.array.example_description);
+        s3 = getResources().getStringArray(R.array.example_description);
 
-        MyAdapter newAdapter = new MyAdapter(this, s1, s2); // Pass strings to layout
+        MyAdapter newAdapter = new MyAdapter(this, s1, s3); // Pass strings to layout
 
         recyclerView.setAdapter(newAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
