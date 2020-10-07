@@ -13,31 +13,45 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class MyProfile extends AppCompatActivity {
-
+    public User currentUser;
+    public String x ;
+    public DatabaseReference myRef;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_profile);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+        myRef = database.getReference();
 
-        ValueEventListener postListener = new ValueEventListener() {
-            public User user1;
 
+        //mock ups
+        if (this.currentUser==null){
+            this.currentUser = new User("Tian","TianHang");
+        }
+        else {
+            System.out.println(this.currentUser.UID);
+        }
+
+
+    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                user1 = dataSnapshot.child("User").child("1111").getValue(User.class);
-                System.out.println(user1.Nickname);
+            public void onDataChange(DataSnapshot snapshot) {
+                System.out.println("Result is "+snapshot.getValue());  //prints "Do you have data? You'll love Firebase."
             }
-
             @Override
             public void onCancelled(DatabaseError databaseError) {
-            }
-        };
-        myRef.addValueEventListener(postListener);
+                System.out.println("Wrong");
 
+            }
+        });
+
+        System.out.println("Nickname is "+currentUser.Nickname);
+        System.out.println("NicknameB is "+x);
 
     }
 }
