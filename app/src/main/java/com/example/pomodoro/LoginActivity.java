@@ -3,6 +3,7 @@ package com.example.pomodoro;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -78,6 +79,7 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                     updateUI(mAuth.getCurrentUser());
+                    moveToProfile(mAuth.getCurrentUser());
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Password should not be empty or less than 6 characters",Toast.LENGTH_SHORT).show();
@@ -121,6 +123,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    private void moveToProfile(FirebaseUser currentUser) {
+        if (currentUser!=null){
+            Intent intent=new Intent(LoginActivity.this,MyProfile.class);
+            startActivity(intent);
+        }
+    }
+
     public void onStart() {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
