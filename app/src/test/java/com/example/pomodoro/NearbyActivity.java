@@ -20,7 +20,7 @@ public class NearbyActivity extends AppCompatActivity {
         s1 = getResources().getStringArray(R.array.example_item); // Get the string eg. name of nearby place
         s2 = getResources().getStringArray(R.array.example_description);
 
-        MyAdapter newAdapter = new MyAdapter(this, s1, s2); // Pass strings to layout
+        NearbyAdapter newAdapter = new NearbyAdapter(this, s1, s2); // Pass strings to layout
 
         recyclerView.setAdapter(newAdapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
