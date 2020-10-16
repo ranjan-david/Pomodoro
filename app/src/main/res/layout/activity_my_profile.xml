@@ -126,6 +126,14 @@
             android:gravity="center"
             android:text="loading..."
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <Button
+            android:id="@+id/email_sign_out_button"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Sign Out"
+            android:textStyle="bold"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

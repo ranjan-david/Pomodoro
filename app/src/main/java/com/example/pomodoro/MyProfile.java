@@ -2,9 +2,11 @@ package com.example.pomodoro;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -33,6 +35,7 @@ public class MyProfile extends AppCompatActivity {
 
     private EditText Nickname;
 
+    private Button SignoutButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +44,8 @@ public class MyProfile extends AppCompatActivity {
 
         setContentView(R.layout.activity_my_profile);
 
-        FirebaseUser UserInfo =  FirebaseAuth.getInstance().getCurrentUser();
+        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser UserInfo =  mAuth.getCurrentUser();
         final String UID = UserInfo.getUid();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -57,6 +61,7 @@ public class MyProfile extends AppCompatActivity {
         LongestChallengeData = (TextView)findViewById(R.id.LongestChallData);
         Nickname = (EditText)findViewById(R.id.editTextTextPersonName2);
 
+        this.SignoutButton = (Button)findViewById(R.id.email_sign_out_button);
 
         //System.out.println(UID);
 
@@ -87,12 +92,28 @@ public class MyProfile extends AppCompatActivity {
             }
         });
 
+        this.SignoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mAuth.signOut();
+                if (mAuth.getCurrentUser()==null){
+                    Toast.makeText(getApplicationContext(),"Successfully Logging Out",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(MyProfile.this,LoginActivity.class);
+                    startActivity(intent);
+                }
+                else{
+                    Toast.makeText(getApplicationContext(),"Can not log out Now",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
     }
 
     private void updateData(DataSnapshot snapshot) {
 
     }
+
 
     @Override
     public void onStart() {
