@@ -111,6 +111,7 @@
             android:text="loading..."
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
+
         <TextView
             android:id="@+id/textView_longChall"
             android:layout_width="match_parent"
@@ -126,6 +127,14 @@
             android:gravity="center"
             android:text="loading..."
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <Button
+            android:id="@+id/name_save"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Save"
+            android:textStyle="bold"/>
         <Button
             android:id="@+id/email_sign_out_button"
             style="?android:textAppearanceSmall"

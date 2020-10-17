@@ -36,6 +36,8 @@ public class MyProfile extends AppCompatActivity {
     private EditText Nickname;
 
     private Button SignoutButton;
+    private Button SaveButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class MyProfile extends AppCompatActivity {
         Nickname = (EditText)findViewById(R.id.editTextTextPersonName2);
 
         this.SignoutButton = (Button)findViewById(R.id.email_sign_out_button);
+        this.SaveButton = (Button)findViewById(R.id.name_save);
 
         //System.out.println(UID);
 
@@ -106,6 +109,16 @@ public class MyProfile extends AppCompatActivity {
                 }
             }
         });
+
+        this.SaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                myRef.child("Nickname").setValue(Nickname.getText().toString());
+                Toast.makeText(getApplicationContext(),"Successfully Save Your Nickname！",Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
 
 
     }

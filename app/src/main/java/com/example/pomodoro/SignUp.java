@@ -15,6 +15,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUp extends AppCompatActivity {
     private Button BacktoSign;
@@ -63,7 +65,7 @@ public class SignUp extends AppCompatActivity {
                         if (passwordInput.length() <= 5) {
                             Toast.makeText(SignUp.this, "Password should not be empty or less than 6 characters", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(SignUp.this, "Creating", Toast.LENGTH_SHORT).show();
+                            //Toast.makeText(SignUp.this, "Creating", Toast.LENGTH_SHORT).show();
                             mAuth.createUserWithEmailAndPassword(emailInput, passwordInput)
                                     .addOnCompleteListener(SignUp.this, new OnCompleteListener<AuthResult>() {
                                         @Override
@@ -91,7 +93,24 @@ public class SignUp extends AppCompatActivity {
     }
     private void createData(FirebaseUser currentUser){
         String UID = currentUser.getUid();
+        String Nickname = "Pomodoro";
+        long LongestStreakData =0;
+        long AveragePomoTimeData=0;
+        long TimeChallengedData =0;
+        long ChallengeWonData = 0;
+        long LongestChallengeData = 0;
+
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("User").child(UID).setValue(1);
+        database.child("User").child(UID).child("LongestChallenge").setValue(LongestStreakData);
+        database.child("User").child(UID).child("AveragePomoTime").setValue(AveragePomoTimeData);
+        database.child("User").child(UID).child("TimeChallenge").setValue(TimeChallengedData);
+        database.child("User").child(UID).child("ChallengeWin").setValue(ChallengeWonData);
+        database.child("User").child(UID).child("LongestChallenge").setValue(LongestChallengeData);
+        database.child("User").child(UID).child("Nickname").setValue(Nickname);
 
 
+        Toast.makeText(SignUp.this, " Generating Data Successfully",
+                Toast.LENGTH_SHORT).show();
     }
 }
