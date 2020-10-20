@@ -13,19 +13,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHolder>{
     ArrayList<String> locationNames;
     ArrayList<LatLng> locationLatLng;
+    ArrayList<Double> locationDistance;
     Context context;
     LatLng locPos;
     String locName;
+    Double locDist;
 
-    public NearbyAdapter(Context ct, ArrayList<String> locNames, ArrayList<LatLng> latLng){
+    public NearbyAdapter(Context ct, ArrayList<String> locNames, ArrayList<LatLng> latLng, ArrayList<Double> locDist){
         context = ct;
         locationLatLng = latLng;
         locationNames = locNames;
+        locationDistance = locDist;
     }
 
     @NonNull
@@ -41,7 +45,10 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         //Sets the updatable fields
         locName = locationNames.get(position);
         locPos = locationLatLng.get(position);
+        locDist = locationDistance.get(position);
         holder.name.setText(locName);
+        DecimalFormat df = new DecimalFormat("#.##"); // Format the distance to 2 decimal places
+        holder.distance.setText(String.valueOf(df.format(locDist)) + " km away");
 
         final Intent intent = new Intent(context, MapsActivity.class); // Create new activity intent for map view
         intent.putExtra("locName", locName); // Give location name to map activity
@@ -65,11 +72,13 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView name;
+        TextView distance;
         Button mapButton;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.LocationName);
+            distance = itemView.findViewById(R.id.Distance);
             mapButton = itemView.findViewById(R.id.MapView);
         }
     }
