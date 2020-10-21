@@ -1,19 +1,7 @@
 <resources>
     <string name="app_name">Pomodoro</string>
-    <string name="title_activity_maps">Map</string>
-
-    <string-array name = "example_item">
-        <item>Place One</item>
-        <item>Place Two</item>
-        <item>Place Three</item>
-        <item>Place Four</item>
-        <item>Place Five</item>
-    </string-array>
-    <string-array name = "example_description">
-        <item>Its this far away</item>
-        <item>Its that far away</item>
-        <item>Its Three</item>
-        <item>Its Four</item>
-        <item>Item Five</item>
-    </string-array>
+    <string name="home_page">Home</string>
+    <string name="places_page">Places</string>
+    <string name="people_page">People</string>
+    <string name="pomodoro_page">Pomodoro</string>
 </resources>
