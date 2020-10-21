@@ -1,7 +1,7 @@
 package com.example.pdf_maker;
 
 import com.example.pdf_maker.camera.CameraActivity;
-import com.example.pdf_maker.util.RuntimePermissions;
+import com.example.pdf_maker.util.RuntimePermissions;//done
 
 import android.os.Bundle;
 
