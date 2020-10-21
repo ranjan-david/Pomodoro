@@ -3,10 +3,12 @@ package com.example.face_v1.main;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,10 +45,15 @@ public final class MainActivity extends BaseActivity
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
+//    private Button startChallenge;
 
+//    for timer ===========
 
-    private Button startChallenge;
-
+    private TextView countdowntext;
+    private Button countdown_btn;
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMilliseconds = 600000 ;
+    private boolean timeRunning;
 
 
 
@@ -56,9 +63,11 @@ public final class MainActivity extends BaseActivity
         setContentView(R.layout.activity_main);
 
         preview = findViewById(R.id.firePreview);
-        startChallenge = findViewById(R.id.start_challenge);
-
         graphicOverlay = findViewById(R.id.fireFaceOverlay);
+
+        //for timer ============
+        countdown_btn = findViewById(R.id.start_challenge);
+        countdowntext = findViewById(R.id.timer);
 
 
         if (PublicMethods.allPermissionsGranted(this)) {
@@ -68,13 +77,56 @@ public final class MainActivity extends BaseActivity
         }
 
 
-        startChallenge.setOnClickListener(new View.OnClickListener() {
+        countdown_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                startStop();
             }
         });
+        updateTimer();
     }
+    //for timer =======================================
+    public void startStop(){
+        if (timeRunning){
+            stopTimer();
+        } else{
+            startTimer();
+        }
+    }
+    public void startTimer(){
+        countDownTimer = new CountDownTimer(timeLeftInMilliseconds, 1000) {
+            @Override
+            public void onTick(long l) {
+                timeLeftInMilliseconds = l;
+                updateTimer();
+            }
+
+            @Override
+            public void onFinish() {
+
+            }
+        }.start();
+        countdown_btn.setText("PAUSE");
+        timeRunning = true;
+    }
+    public void stopTimer(){
+        countDownTimer.cancel();
+        countdown_btn.setText("START");
+        timeRunning = false;
+    }
+    public void updateTimer(){
+        int minutes = (int) timeLeftInMilliseconds / 60000;
+        int seconds = (int) timeLeftInMilliseconds % 60000 / 1000;
+        String timeleftText;
+
+        timeleftText = "" + minutes;
+        timeleftText += ":";
+        if (seconds < 10) timeleftText += "0";
+        timeleftText += seconds;
+
+        countdowntext.setText(timeleftText);
+    }
+    // ======================================= for timer
 
 
     private void createCameraSource() {
@@ -154,10 +206,10 @@ public final class MainActivity extends BaseActivity
         }
 
         if (face.getSmilingProbability() >= .6) {
-            startChallenge.setEnabled(true);
+            countdown_btn.setEnabled(true);
         }
         else {
-            startChallenge.setEnabled(false);
+            countdown_btn.setEnabled(false);
         }
 
 
