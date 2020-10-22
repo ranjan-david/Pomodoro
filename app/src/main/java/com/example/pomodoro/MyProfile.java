@@ -1,13 +1,6 @@
 package com.example.pomodoro;
 
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -28,7 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class HomeFragment extends Fragment {
+import java.sql.Time;
+
+public class MyProfile extends AppCompatActivity {
     public User currentUser;
     public DatabaseReference myRef;
 
@@ -43,14 +38,13 @@ public class HomeFragment extends Fragment {
     private Button SignoutButton;
     private Button SaveButton;
 
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_home, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        Toast.makeText(getApplicationContext(),"Loading Profile...",Toast.LENGTH_SHORT).show();
 
-
-        Toast.makeText(getActivity().getApplicationContext(),"Loading Profile...",Toast.LENGTH_SHORT).show();
-
-        //setContentView(R.layout.activity_my_profile);
+        setContentView(R.layout.activity_my_profile);
 
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
@@ -62,15 +56,15 @@ public class HomeFragment extends Fragment {
             currentUser = new User();
         }
 
-        LongestStreakData = (TextView)view.findViewById(R.id.StreakData);
-        AveragePomoTimeData = (TextView)view.findViewById(R.id.pomotimeData);
-        TimeChallengedData = (TextView)view.findViewById(R.id.timeChallData);
-        ChallengeWonData = (TextView)view.findViewById(R.id.WonData);
-        LongestChallengeData = (TextView)view.findViewById(R.id.LongestChallData);
-        Nickname = (EditText)view.findViewById(R.id.editTextTextPersonName2);
+        LongestStreakData = (TextView)findViewById(R.id.StreakData);
+        AveragePomoTimeData = (TextView)findViewById(R.id.pomotimeData);
+        TimeChallengedData = (TextView)findViewById(R.id.timeChallData);
+        ChallengeWonData = (TextView)findViewById(R.id.WonData);
+        LongestChallengeData = (TextView)findViewById(R.id.LongestChallData);
+        Nickname = (EditText)findViewById(R.id.editTextTextPersonName2);
 
-        this.SignoutButton = (Button)view.findViewById(R.id.email_sign_out_button);
-        this.SaveButton = (Button)view.findViewById(R.id.name_save);
+        this.SignoutButton = (Button)findViewById(R.id.email_sign_out_button);
+        this.SaveButton = (Button)findViewById(R.id.name_save);
 
         //System.out.println(UID);
 
@@ -83,7 +77,7 @@ public class HomeFragment extends Fragment {
                 //System.out.println(snapshot.child("TimeChallenge").getValue(long.class));
                 //System.out.println(snapshot.child("ChallengeWin").getValue(long.class));
                 //System.out.println(snapshot.child("LongestChallenge").getValue(long.class));
-
+                
                 //updateData(snapshot);
                 LongestStreakData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
                 AveragePomoTimeData.setText(snapshot.child("AveragePomoTime").getValue(long.class).toString());
@@ -92,7 +86,7 @@ public class HomeFragment extends Fragment {
                 LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
                 Nickname.setText(snapshot.child("Nickname").getValue(String.class));
 
-                Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
 
             }
             @Override
@@ -106,12 +100,12 @@ public class HomeFragment extends Fragment {
             public void onClick(View view) {
                 mAuth.signOut();
                 if (mAuth.getCurrentUser()==null){
-                    Toast.makeText(getActivity().getApplicationContext(),"Successfully Logging Out",Toast.LENGTH_SHORT).show();
-                    Intent intent=new Intent(getActivity().getApplicationContext(),LoginActivity.class);
+                    Toast.makeText(getApplicationContext(),"Successfully Logging Out",Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(MyProfile.this,LoginActivity.class);
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(getActivity().getApplicationContext(),"Can not log out Now",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Can not log out Now",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -120,11 +114,25 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myRef.child("Nickname").setValue(Nickname.getText().toString());
-                Toast.makeText(getActivity().getApplicationContext(),"Successfully Save Your Nickname！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),"Successfully Save Your Nickname！",Toast.LENGTH_SHORT).show();
             }
         });
 
 
-        return view;
+
+
+    }
+
+    private void updateData(DataSnapshot snapshot) {
+
+    }
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        System.out.println(currentUser.getAveragePomoTime());
+        //System.out.println(currentUser.getNickname());
     }
 }
