@@ -16,23 +16,42 @@
         <TextView
             android:id="@+id/textView_profile"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/profile_display"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryLight"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/textView_current"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/current_display"/>
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryLight"
+            android:text="@string/current_display"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            />
+
+        <TextView
+            android:id="@+id/textView_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryLight"
+            android:text="loading..."
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textStyle="italic|bold"/>
+
 
 
         <TextView
             android:id="@+id/textView_nickname"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:gravity="center"
             android:text="@string/nickname_display"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />

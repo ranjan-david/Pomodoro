@@ -94,6 +94,7 @@ public class SignUp extends AppCompatActivity {
     private void createData(FirebaseUser currentUser){
         String UID = currentUser.getUid();
         String Nickname = "Pomodoro";
+        String Location = "Not Check In";
         long LongestStreakData =0;
         long AveragePomoTimeData=0;
         long TimeChallengedData =0;
@@ -108,6 +109,7 @@ public class SignUp extends AppCompatActivity {
         database.child("User").child(UID).child("ChallengeWin").setValue(ChallengeWonData);
         database.child("User").child(UID).child("LongestChallenge").setValue(LongestChallengeData);
         database.child("User").child(UID).child("Nickname").setValue(Nickname);
+        database.child("User").child(UID).child("Location").setValue(Location);
 
 
         Toast.makeText(SignUp.this, " Generating Data Successfully",

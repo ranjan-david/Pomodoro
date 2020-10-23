@@ -37,7 +37,7 @@ public class HomeFragment extends Fragment {
     private TextView TimeChallengedData;
     private TextView ChallengeWonData;
     private TextView LongestChallengeData;
-
+    private TextView location;
     private EditText Nickname;
 
     private Button SignoutButton;
@@ -68,6 +68,7 @@ public class HomeFragment extends Fragment {
         ChallengeWonData = (TextView)view.findViewById(R.id.WonData);
         LongestChallengeData = (TextView)view.findViewById(R.id.LongestChallData);
         Nickname = (EditText)view.findViewById(R.id.editTextTextPersonName2);
+        location = (TextView) view.findViewById(R.id.textView_location);
 
         this.SignoutButton = (Button)view.findViewById(R.id.email_sign_out_button);
         this.SaveButton = (Button)view.findViewById(R.id.name_save);
@@ -91,6 +92,7 @@ public class HomeFragment extends Fragment {
                 ChallengeWonData.setText(snapshot.child("ChallengeWin").getValue(long.class).toString());
                 LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
                 Nickname.setText(snapshot.child("Nickname").getValue(String.class));
+                location.setText(snapshot.child("Location").getValue(String.class));
 
                 Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
 
