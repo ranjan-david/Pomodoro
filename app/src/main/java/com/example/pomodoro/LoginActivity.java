@@ -19,6 +19,8 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -61,8 +63,12 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Currently Login with "+user.getEmail(),Toast.LENGTH_SHORT).show();
                     updateUI(mAuth.getCurrentUser());
                     moveToProfile(mAuth.getCurrentUser());
+
+
+
                 } else {
                     Toast.makeText(getApplicationContext(),"Please Login Again.",Toast.LENGTH_SHORT).show();
+
                 }
             }
         };
@@ -83,13 +89,16 @@ public class LoginActivity extends AppCompatActivity {
                                 updateUI(user);
                                 updateUI(mAuth.getCurrentUser());
                                 moveToProfile(mAuth.getCurrentUser());
+                                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+                                database.child("User").child(user.getUid()).child("LoginState").setValue("Online");
+                                System.out.println("heheheheheeheheheheh");
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
                                         Toast.LENGTH_SHORT).show();
                                 updateUI(null);
                             }
-                            ;
+
                         }
                     });
 
@@ -154,6 +163,9 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(),"Currently Login with "+currentUser.getEmail(),Toast.LENGTH_SHORT).show();
             updateUI(mAuth.getCurrentUser());
             moveToProfile(mAuth.getCurrentUser());
+            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+            database.child("User").child(currentUser.getUid()).child("LoginState").setValue("Online");
+            System.out.println("heheheheheeheheheheh");
         }
         else{
             System.out.println("No user!");

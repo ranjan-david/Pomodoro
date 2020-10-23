@@ -95,6 +95,7 @@ public class SignUp extends AppCompatActivity {
         String UID = currentUser.getUid();
         String Nickname = "Pomodoro";
         String Location = "Not Check In";
+        String Loginstate = "Offline";
         long LongestStreakData =0;
         long AveragePomoTimeData=0;
         long TimeChallengedData =0;
@@ -110,6 +111,8 @@ public class SignUp extends AppCompatActivity {
         database.child("User").child(UID).child("LongestChallenge").setValue(LongestChallengeData);
         database.child("User").child(UID).child("Nickname").setValue(Nickname);
         database.child("User").child(UID).child("Location").setValue(Location);
+        database.child("User").child(UID).child("LoginState").setValue(Loginstate);
+
 
 
         Toast.makeText(SignUp.this, " Generating Data Successfully",

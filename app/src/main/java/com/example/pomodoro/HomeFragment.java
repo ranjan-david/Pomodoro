@@ -106,11 +106,16 @@ public class HomeFragment extends Fragment {
         this.SignoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String UID = mAuth.getCurrentUser().getUid();
                 mAuth.signOut();
+                DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
                 if (mAuth.getCurrentUser()==null){
                     Toast.makeText(getActivity().getApplicationContext(),"Successfully Logging Out",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(getActivity().getApplicationContext(),LoginActivity.class);
                     startActivity(intent);
+                    database.child("User").child(UID).child("LoginState").setValue("Offline");
+                    System.out.println("xixixixixixixi");
                 }
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"Can not log out Now",Toast.LENGTH_SHORT).show();
