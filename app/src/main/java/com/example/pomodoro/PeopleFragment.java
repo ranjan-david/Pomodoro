@@ -14,24 +14,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.location.LocationListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
 import static android.content.Context.LOCATION_SERVICE;
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 public class PeopleFragment extends Fragment {
     private LocationManager myLocationManager;
@@ -39,74 +41,82 @@ public class PeopleFragment extends Fragment {
     Location location;
     Context mContext;
     @Nullable
+    private FirebaseAuth mAuth;
+
+    DatabaseReference database;
+    ArrayList<String> nearbyList;
+    View view;
+    RecyclerView nicknameView;
+    PeopleAdapter peopleAdapter;
+
     @Override
+
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
-        View view = inflater.inflate( R.layout.activity_peoplenearby, null);
+        view = inflater.inflate( R.layout.activity_peoplenearby, null);
+        nearbyList = new ArrayList<String>();
+
         mLocationManager = (LocationManager) mContext.getApplicationContext().getSystemService(LOCATION_SERVICE);
+        this.mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference logout = FirebaseDatabase.getInstance().getReference();
+
+
+
+        FirebaseUser UserInfo =  mAuth.getCurrentUser();
+        logout.child("User").child(UserInfo.getUid()).child("LoginState").onDisconnect().setValue("Offline");
+
+        final String UID = UserInfo.getUid();
         if (checkGPSSetting()){
+            Location location = getLastKnownLocation();
+            updateView(location);
+            database.child("User").child(UID).child("LatestLocation").setValue("1");
             peoplenearby();
+            createRecycleView();
+
         }
         addlistener();
 
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser UserInfo =  mAuth.getCurrentUser();
 
-        final String UID = UserInfo.getUid();
-        System.out.println(UID);
-        System.out.println(UID);
-        System.out.println(UID);
-        System.out.println(UID);
 
         return view;
+    }
+
+    public void onDestroy() {
+
+        super.onDestroy();
     }
 
 
     public void addlistener(){
         LocationListener locationListener=new LocationListener() {
 
-            /**
-             * 位置信息变化时触发
-             */
             public void onLocationChanged(Location location) {
-                Log.i(TAG, "时间："+location.getTime());
-                Log.i(TAG, "经度："+location.getLongitude());
-                Log.i(TAG, "纬度："+location.getLatitude());
-                Log.i(TAG, "海拔："+location.getAltitude());
+                Log.i(TAG, "time："+location.getTime());
+                Log.i(TAG, "Longitude："+location.getLongitude());
+                Log.i(TAG, "Latitude："+location.getLatitude());
+                Log.i(TAG, "Altitud："+location.getAltitude());
             }
 
-            /**
-             * GPS状态变化时触发
-             */
             public void onStatusChanged(String provider, int status, Bundle extras) {
                 switch (status) {
-                    //GPS状态为可见时
                     case LocationProvider.AVAILABLE:
-                        Log.i(TAG, "当前GPS状态为可见状态");
+                        Log.i(TAG, "visible");
                         break;
-                    //GPS状态为服务区外时
                     case LocationProvider.OUT_OF_SERVICE:
-                        Log.i(TAG, "当前GPS状态为服务区外状态");
+                        Log.i(TAG, "out of service");
                         break;
-                    //GPS状态为暂停服务时
                     case LocationProvider.TEMPORARILY_UNAVAILABLE:
-                        Log.i(TAG, "当前GPS状态为暂停服务状态");
+                        Log.i(TAG, "TEMPORARILY_UNAVAILABLE");
                         break;
                 }
             }
-
-            /**
-             * GPS开启时触发
-             */
             public void onProviderEnabled(String provider) {
                 Location location=getLastKnownLocation();
                 updateView(location);
             }
 
-            /**
-             * GPS禁用时触发
-             */
             public void onProviderDisabled(String provider) {
                 Location location=getLastKnownLocation();
                 updateView(null);
@@ -116,26 +126,99 @@ public class PeopleFragment extends Fragment {
         };
     }
 
+    public void createRecycleView(){
+        nicknameView = view.findViewById(R.id.nearbylayout);
+        peopleAdapter = new PeopleAdapter(getActivity(),nearbyList);
+        nicknameView.setAdapter(peopleAdapter);
+        nicknameView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    }
+
     public void peoplenearby(){
 
-
-
-
-
-        location = getLastKnownLocation();
-
-
-
-        System.out.println(location.getLatitude());
-        System.out.println(location.getLatitude());
-        System.out.println(location.getLatitude());
+        ValueEventListener postListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                // Get Post object and use the values to update the UI
+                Iterable<DataSnapshot> a = dataSnapshot.child("User").getChildren();
+                distanceCheck(dataSnapshot,a);
+                createRecycleView();
 
 
 
 
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference();
+                // ...
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Getting Post failed, log a message
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                // ...
+            }
+        };
+        database.addValueEventListener(postListener);
+
+    }
+
+    public void distanceCheck(DataSnapshot dataSnapshot,Iterable<DataSnapshot> dataSnapshots){
+        FirebaseUser UserInfo =  mAuth.getCurrentUser();
+        String UID = UserInfo.getUid();
+        for (DataSnapshot d:dataSnapshots){
+            if (boolConnected(d)&&!d.getKey().equals(UID)){
+
+                double this_latitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Latitude").getValue().toString());
+                double this_longitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Longitude").getValue().toString());
+
+
+
+                double other_latitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Latitude").getValue().toString());
+                double other_longitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Longitude").getValue().toString());
+
+
+                if (this.location!=null&&dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
+                    double distance = distance(this_latitude,this_longitude,other_latitude,other_longitude);
+
+                    if (distance<2){
+                        nearbyList.add(d.child("Nickname").getValue().toString());
+                    }
+
+
+                }
+
+                if (dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
+
+                }
+            }
+        }
+    }
+
+    public boolean boolConnected(DataSnapshot d){
+        return d.child("LoginState").getValue()!=null&&
+                d.child("LatestLocation").getValue()!=null&&
+                d.child("LoginState").getValue().equals("Online")&&
+                d.child("LatestLocation").getValue().equals("1");
+    }
+
+    private double distance(double lat1, double lon1, double lat2, double lon2) {
+        double theta = lon1 - lon2;
+        double dist = Math.sin(deg2rad(lat1))
+                * Math.sin(deg2rad(lat2))
+                + Math.cos(deg2rad(lat1))
+                * Math.cos(deg2rad(lat2))
+                * Math.cos(deg2rad(theta));
+        dist = Math.acos(dist);
+        dist = rad2deg(dist);
+        dist = dist * 60 * 1.1515;
+        return (dist);
+    }
+
+    private double deg2rad(double deg) {
+        return (deg * Math.PI / 180.0);
+    }
+
+    private double rad2deg(double rad) {
+        return (rad * 180.0 / Math.PI);
     }
 
     public boolean checkGPSSetting() {
@@ -143,16 +226,19 @@ public class PeopleFragment extends Fragment {
         if (gpsenable == false) {
             openGPS2();
             if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+
                 return true;
             }
         } else {
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String []{android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},1);
                 if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
                     return true;
                 }
             }
             else{
+
                 return true;
 
 
@@ -165,10 +251,11 @@ public class PeopleFragment extends Fragment {
     }
 
     public void updateView(Location location){
-        System.out.println(location.getLatitude());
-        System.out.println(location.getLatitude());
-        System.out.println(location.getLatitude());
+        FirebaseUser UserInfo =  mAuth.getCurrentUser();
         this.location = location;
+        database.child("User").child(UserInfo.getUid()).child("Longitude").setValue(location.getLongitude());
+        database.child("User").child(UserInfo.getUid()).child("Latitude").setValue(location.getLatitude());
+
     }
 
     public void openGPS2(){

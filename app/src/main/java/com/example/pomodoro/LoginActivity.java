@@ -91,7 +91,8 @@ public class LoginActivity extends AppCompatActivity {
                                 moveToProfile(mAuth.getCurrentUser());
                                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
                                 database.child("User").child(user.getUid()).child("LoginState").setValue("Online");
-                                System.out.println("heheheheheeheheheheh");
+                                database.child("User").child(user.getUid()).child("LatestLocation").setValue("0");
+
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Toast.makeText(LoginActivity.this, "Authentication failed.",
@@ -165,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
             moveToProfile(mAuth.getCurrentUser());
             DatabaseReference database = FirebaseDatabase.getInstance().getReference();
             database.child("User").child(currentUser.getUid()).child("LoginState").setValue("Online");
-            System.out.println("heheheheheeheheheheh");
+            database.child("User").child(currentUser.getUid()).child("LatestLocation").setValue("0");
         }
         else{
             System.out.println("No user!");

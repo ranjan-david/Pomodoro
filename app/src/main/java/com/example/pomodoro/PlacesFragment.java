@@ -152,7 +152,7 @@ public class PlacesFragment extends Fragment {
         return (rad * 180.0 / Math.PI);
     }
 
-    //Class for list of nearby locations, provides method to update the recyclerView when list is changed
+    //Class for list of nearby locations, provides method to update the  recyclerView when list is changed
     public class LocList{
 
         private ArrayList<String> locList = new ArrayList<String>();
@@ -182,7 +182,7 @@ public class PlacesFragment extends Fragment {
         }
 
         public void buildScrollable(){
-            recyclerView = mView.findViewById(R.id.RecyclerView);
+            recyclerView = mView.findViewById(R.id.nearbylayout);
             newAdapter = new NearbyAdapter(getActivity(), locList, latLngList, distanceList); // Pass location name + position to layout
             recyclerView.setAdapter(newAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

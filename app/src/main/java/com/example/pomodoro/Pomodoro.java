@@ -28,13 +28,21 @@ public class Pomodoro extends AppCompatActivity {
     }
 
     public void onDestroy() {
+
         super.onDestroy();
+        /*
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        String uid = UserInfo.getUid();
         if (UserInfo!=null){
-            DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-            database.child("User").child(UserInfo.getUid()).child("LoginState").setValue("Offline");
+            System.out.print("UserInfo:");
+
+            System.out.println(UserInfo);
+
+            database.child("User").child(uid).child("LoginState").setValue("Offline");
         }
+        */
     }
 
 
