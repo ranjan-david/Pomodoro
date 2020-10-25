@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="145dp"
+        android:layout_marginTop="20dp"
+        android:background="#c9c9c9"
+
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="280dp"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+
+            android:background="@drawable/textview_circle_shape"
+            android:elevation="1dp"
+            android:gravity="center"
+            android:text="StudyBuddy"
+            android:textColor="#ffffff"
+            android:textSize="30sp" />
+
+
+        <Button
+            android:id="@+id/challenge"
+            android:layout_width="280dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/button_circle_shape"
+            android:gravity="center"
+            android:text="Challenge" />
+
+
+    </LinearLayout>
+
+</LinearLayout>
