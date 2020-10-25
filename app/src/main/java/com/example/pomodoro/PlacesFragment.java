@@ -182,7 +182,7 @@ public class PlacesFragment extends Fragment {
         }
 
         public void buildScrollable(){
-            recyclerView = mView.findViewById(R.id.nearbylayout);
+            recyclerView = mView.findViewById(R.id.RecyclerView);
             newAdapter = new NearbyAdapter(getActivity(), locList, latLngList, distanceList); // Pass location name + position to layout
             recyclerView.setAdapter(newAdapter);
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
