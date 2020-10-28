@@ -92,7 +92,7 @@ public class HomeFragment extends Fragment {
                 ChallengeWonData.setText(snapshot.child("ChallengeWin").getValue(long.class).toString());
                 LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
                 Nickname.setText(snapshot.child("Nickname").getValue(String.class));
-                location.setText(snapshot.child("Location").getValue(String.class));
+                location.setText(snapshot.child("LocationName").getValue(String.class));
 
                 Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
 
