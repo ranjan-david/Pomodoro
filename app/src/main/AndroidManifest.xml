@@ -23,18 +23,6 @@
         <meta-data
         android:name="com.google.android.geo.API_KEY"
         android:value="@string/google_maps_key" />
-
-        <activity android:name=".MapsActivity" android:parentActivityName=".Pomodoro">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.pomodoro.Pomodoro" />
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-            </intent-filter>
-        </activity>
-
-		<activity android:name=".SignUp"></activity>
         <activity android:name=".ResetPassword" />
         <activity android:name=".LoginActivity">
             <intent-filter>
@@ -43,8 +31,43 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activity_do_pomodoro"
+            android:label="@string/title_activity_do_pomodoro"></activity>
+
+        <service
+            android:name=".MotionControlService"
+            android:enabled="true"
+            android:exported="true" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+        android:name="com.google.android.geo.API_KEY"
+        android:value="@string/google_maps_key" />
+
+        <activity
+            android:name=".MapsActivity"
+            android:parentActivityName=".Pomodoro">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.pomodoro.Pomodoro" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".SignUp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".MyProfile" />
     </application>
-
 
 </manifest>
