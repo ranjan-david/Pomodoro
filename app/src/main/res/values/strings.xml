@@ -4,4 +4,25 @@
     <string name="places_page">Places</string>
     <string name="people_page">People</string>
     <string name="pomodoro_page">Pomodoro</string>
+    <string name="home_page">Home</string>
+    <string name="places_page">Places</string>
+    <string name="people_page">People</string>
+    <string name="pomodoro_page">Pomodoro</string>
+    <string name="profile_display">My Profile</string>
+    <string name="current_display">Currently Checked in to</string>
+    <string name="nickname_display">Your Nickname: </string>
+    <string name="longest_Streak">Longest Pomo Streak: </string>
+    <string name="average_time">Average Pomo Time: </string>
+    <string name="time_challenge">Time Challenged: </string>
+    <string name="longest_challenge">Longest Challenged: </string>
+    <string name="challenge_won">Challenges Won: </string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
 </resources>
