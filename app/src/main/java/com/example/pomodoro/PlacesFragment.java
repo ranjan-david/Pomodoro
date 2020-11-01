@@ -15,11 +15,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,11 +54,11 @@ public class PlacesFragment extends Fragment {
     double longitude;
     public View mView;
     Context mContext;
+    Button newLocation;
 
     //location manager
     private LocationManager lm;
     LocationListener locationListener;
-
     LocList locationNames = new LocList(getActivity());
 
     private static final int RC_SIGN_IN = 9001;
@@ -74,6 +76,25 @@ public class PlacesFragment extends Fragment {
         checkGPSSettings();
         updatePlaces();
         locationNames.buildScrollable();
+
+        final NewLocationFragment selectedFragment = new NewLocationFragment();
+        newLocation = mView.findViewById(R.id.addLocation);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat", latitude);
+                bundle.putDouble("lon", longitude);
+                selectedFragment.setArguments(bundle);
+
+                int i = getActivity().findViewById(R.id.fragment_container).getId();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(i, selectedFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+        });
 
         return mView;
     }

@@ -27,6 +27,8 @@ public class Pomodoro extends AppCompatActivity {
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
+
+
     public void onDestroy() {
 
         super.onDestroy();
@@ -72,4 +74,5 @@ public class Pomodoro extends AppCompatActivity {
                     return true;
                 }
             };
+
 }

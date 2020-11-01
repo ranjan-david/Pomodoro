@@ -96,7 +96,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         final int[] checked = {1};
 
         // Find where the user is currently checked in
-
         database.child("User").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -114,9 +113,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
                 System.out.println("Wrong");
             }
         });
-
-        Log.i("Checked in to ", "somewhere: " + checkedIn);
-
 
 
         holder.checkIn.setOnClickListener(new View.OnClickListener() {
