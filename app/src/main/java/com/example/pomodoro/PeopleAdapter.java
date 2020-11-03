@@ -1,6 +1,7 @@
 package com.example.pomodoro;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,13 +38,27 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
         holder.itemView.findViewById(R.id.challenge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+//                Intent intent=new Intent(PeopleAdapter.this,Challenge.class);
+//                startActivity(intent);
                 /* Challenge function can be invoked by click challenge button by this function */
-                System.out.println(mDatas);
+
+//                Intent intent=new Intent(PeopleAdapter.this,Challenge.class);
+//                startActivity(intent);
+
+// public static final String EXTRA_MESSAGE = "com.example.Pomodoro.MESSAGE";
+
+//                Intent intent = new Intent(this, Challenge.class);
+//                EditText editText = (EditText) findViewById(R.id.nickname);
+//                String message = editText.getText().toString();
+//                intent.putExtra(EXTRA_MESSAGE, message);
+//                startActivity(intent);
             }
         });
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -54,7 +69,9 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
     public cylerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.people_nearby, parent, false);
         return new cylerViewHolder(v);
+
     }
+
 }
 
 

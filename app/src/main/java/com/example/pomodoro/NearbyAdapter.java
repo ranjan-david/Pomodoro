@@ -93,9 +93,9 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         final String finalPlaceId = placeId;
         final Place place = new Place(locName);
         final String finalLocName = locName;
-        final int[] checked = {1};
 
         // Find where the user is currently checked in
+
         database.child("User").child(user.getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -103,10 +103,8 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
                 // Change text if user is checked in
                 if (checkedIn.equals(finalPlaceId)){
                     holder.checkIn.setText("Checked In Here");
-                    checked[0] = 0;
                 }else{
                     holder.checkIn.setText("Check In");
-                    checked[0] = 1;
                 }
             } @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -114,27 +112,34 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             }
         });
 
+        Log.i("Checked in to ", "somewhere: " + checkedIn);
+
+
 
         holder.checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final int status =(Integer) v.getTag();
 
-                if (checked[0] == 1) {
+                if (status == 1) {
                     if (checkedIn != null) {
                         database.child("Location").child(checkedIn).child("Checked in").child(user.getUid()).removeValue();
                     }
+
+                    holder.checkIn.setText("Checked In Here");
+                    v.setTag(0); // Checked In
                     Timestamp time = new Timestamp(System.currentTimeMillis());
+                    database.child("Location").child(finalPlaceId).setValue(place);
                     database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).setValue(time);
                     checkedIn = finalPlaceId;
                     database.child("User").child(user.getUid()).child("Location").setValue(finalPlaceId);
                     database.child("User").child(user.getUid()).child("LocationName").setValue(finalLocName);
-                    checked[0] = 0; //Checked In
 
                 }else {
+                    holder.checkIn.setText("Check In");
                     database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).removeValue();
-                    database.child("User").child(user.getUid()).child("Location").setValue("Not Check In");
                     database.child("User").child(user.getUid()).child("LocationName").removeValue();
-                    checked[0] = 1; //Checked Out
+                    v.setTag(1); //Checked Out
                 }
             }
         });
@@ -144,7 +149,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 Long number = snapshot.child("Checked in").getChildrenCount();
-                if (number.intValue() != 1){
+                if (number != 1){
                     holder.numberChecked.setText(String.valueOf(number) + " people checked in");
                 }else {
                     holder.numberChecked.setText(String.valueOf(number) + " person checked in");
@@ -177,6 +182,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             distance = itemView.findViewById(R.id.Distance);
             mapButton = itemView.findViewById(R.id.MapView);
             checkIn = itemView.findViewById(R.id.CheckIn);
+            checkIn.setTag(1);
         }
     }
 }

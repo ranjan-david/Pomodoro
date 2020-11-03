@@ -65,13 +65,14 @@ public class HomeFragment extends Fragment {
         LongestStreakData = (TextView)view.findViewById(R.id.StreakData);
         AveragePomoTimeData = (TextView)view.findViewById(R.id.pomotimeData);
         TimeChallengedData = (TextView)view.findViewById(R.id.timeChallData);
-        ChallengeWonData = (TextView)view.findViewById(R.id.WonData);
+        ChallengeWonData = (TextView)view.findViewById(R.id.WonData);//
         LongestChallengeData = (TextView)view.findViewById(R.id.LongestChallData);
         Nickname = (EditText)view.findViewById(R.id.editTextTextPersonName2);
         location = (TextView) view.findViewById(R.id.textView_location);
 
         this.SignoutButton = (Button)view.findViewById(R.id.email_sign_out_button);
         this.SaveButton = (Button)view.findViewById(R.id.name_save);
+
 
         //System.out.println(UID);
 

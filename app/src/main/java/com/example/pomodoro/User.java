@@ -12,7 +12,6 @@ public class User {
     public long TimeChallenge;
     public long ChallengeWin;
     public long LongestChallenge;
-    public String MyPlaces;
 
     public User() {
         // Default constructor required for calls to DataSnapshot.getValue(User.class)
@@ -22,9 +21,6 @@ public class User {
     }
     public String getNickname(){
         return this.Nickname;
-    }
-    public String getMyPlaces(){
-        return this.MyPlaces;
     }
     public long getLongestStreak(){
         return this.LongestStreak;
@@ -68,8 +64,5 @@ public class User {
 
     public void setUID(String UID) {
         this.UID = UID;
-    }
-    public void getMyPlaces(String myPlaces){
-        this.MyPlaces = myPlaces;
     }
 }
