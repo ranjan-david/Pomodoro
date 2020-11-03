@@ -32,6 +32,10 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +59,11 @@ public class PlacesFragment extends Fragment {
 
     LocList locationNames = new LocList(getActivity());
 
+    private static final int RC_SIGN_IN = 9001;
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,6 +73,7 @@ public class PlacesFragment extends Fragment {
         PlacesClient placesClient = Places.createClient(getActivity());
         checkGPSSettings();
         updatePlaces();
+        locationNames.buildScrollable();
 
         return mView;
     }
@@ -112,9 +122,6 @@ public class PlacesFragment extends Fragment {
 
                             }
 
-                            // Use location list to build a scrollable list
-                            locationNames.buildScrollable();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -152,7 +159,7 @@ public class PlacesFragment extends Fragment {
         return (rad * 180.0 / Math.PI);
     }
 
-    //Class for list of nearby locations, provides method to update the  recyclerView when list is changed
+    //Class for list of nearby locations, updates the  recyclerView when list is changed
     public class LocList{
 
         private ArrayList<String> locList = new ArrayList<String>();
@@ -173,12 +180,18 @@ public class PlacesFragment extends Fragment {
             locList.add(str);
             latLngList.add(latLng);
             distanceList.add(dist);
+            if (newAdapter != null) {
+                newAdapter.notifyDataSetChanged();
+            }
         }
 
         public void clearList(){
             locList.clear();
             latLngList.clear();
             distanceList.clear();
+            if (newAdapter != null) {
+                newAdapter.notifyDataSetChanged();
+            }
         }
 
         public void buildScrollable(){
@@ -188,9 +201,10 @@ public class PlacesFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         }
 
+
     }
 
-    // Find location methods - taken from tutorial
+    // Find location methods - code taken from tutorial
     public static boolean checkPermissions(Context context, String... permissions) {
         if (context != null && permissions != null) {
             for (String permission : permissions) {
@@ -397,6 +411,8 @@ public class PlacesFragment extends Fragment {
             // permissions this app might request.
         }
     }
+
+
 
 
 }

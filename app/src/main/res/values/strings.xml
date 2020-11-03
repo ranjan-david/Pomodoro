@@ -31,4 +31,8 @@
     <string name="hello_first_fragment">Hello first fragment</string>
     <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="flip_to_start">Place you phone face down to start your Pomodoro</string>
+
+    <string name="Leave_challenge_btn">Leave Challenge</string>
+    <string name="Start_challenge_btn">START</string>
+    <string name="Pause_challenge_btn">Pause</string>
 </resources>
