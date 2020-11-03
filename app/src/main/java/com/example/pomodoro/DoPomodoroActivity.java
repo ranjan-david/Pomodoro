@@ -56,44 +56,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
     long numberOfPomos;
     long currentStreak = 0;
 
-
-
-    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            handleIntent(intent);
-        }
-    };
-
-    private void handleIntent(Intent intent) {
-        if (intent.getAction().equals(MotionControlService.BROADCAST_INTENT)) {
-            String value = intent.getStringExtra(MotionControlService.BROADCAST_VALUE);
-            if(currentState == State.WAITING_FOR_START && value == MotionControlService.DOWN)
-            {
-                try {
-                    if (checkSystemWritePermission()) {
-                        WindowManager.LayoutParams params = getWindow().getAttributes();
-                        params.screenBrightness = 0;
-                        getWindow().setAttributes(params);
-                        WindowManager.LayoutParams params2 = getWindow().getAttributes();
-                        Log.i("DoPomodoroActivity", "SCREEN BRIGHTNESS " + params2.screenBrightness);
-                    }else {
-                        Toast.makeText(this, "Allow modify system settings ==> ON ", Toast.LENGTH_LONG).show();
-                    }
-                    FrameLayout parentLayout = (FrameLayout)findViewById(R.id.root_view);
-                    parentLayout.removeView(findViewById(R.id.info_overlay));
-                    startTimer();
-                }
-                catch (Exception ex)
-                {
-                    Log.i("DoPomodoroActivity", "Exception occured: " + ex.getMessage());
-                }
-            }
-            Log.i("DoPomodoroActivity", "Value received: " + value);
-        }
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +76,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         shortBreakTime = intent.getIntExtra("shortBreakTime", 0);
         longBreakTime = intent.getIntExtra("longBreakTime", 0);
         repeatsTillLongBreak = intent.getIntExtra("repeatsTillLongBreak", 0);
-        timerTextView = (TextView)findViewById(R.id.sampleTextView);
+        timerTextView = (TextView)findViewById(R.id.timerTextView);
         timerLabelTextView = (TextView)findViewById(R.id.timerLabelTextView);
 
         timerTextView.setText(studyTime.toString() + ' ' + shortBreakTime.toString());
@@ -236,7 +198,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         timer = new CountDownTimer(studyTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timerTextView.setText("seconds remaining: " + millisUntilFinished / 1000);
+                timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
                 currentStreak += 1;
             }
 
@@ -341,4 +303,41 @@ public class DoPomodoroActivity extends AppCompatActivity {
             this.startActivity(intent);
         }
     }
+
+    private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            handleIntent(intent);
+        }
+    };
+
+    private void handleIntent(Intent intent) {
+        if (intent.getAction().equals(MotionControlService.BROADCAST_INTENT)) {
+            String value = intent.getStringExtra(MotionControlService.BROADCAST_VALUE);
+            if(currentState == State.WAITING_FOR_START && value == MotionControlService.DOWN)
+            {
+                try {
+                    if (checkSystemWritePermission()) {
+                        WindowManager.LayoutParams params = getWindow().getAttributes();
+                        params.screenBrightness = 0;
+                        getWindow().setAttributes(params);
+                        WindowManager.LayoutParams params2 = getWindow().getAttributes();
+                        Log.i("DoPomodoroActivity", "SCREEN BRIGHTNESS " + params2.screenBrightness);
+                    }else {
+                        Toast.makeText(this, "Allow modify system settings ==> ON ", Toast.LENGTH_LONG).show();
+                    }
+                    FrameLayout parentLayout = (FrameLayout)findViewById(R.id.root_view);
+                    parentLayout.removeView(findViewById(R.id.info_overlay));
+                    startTimer();
+                }
+                catch (Exception ex)
+                {
+                    Log.i("DoPomodoroActivity", "Exception occured: " + ex.getMessage());
+                }
+            }
+            Log.i("DoPomodoroActivity", "Value received: " + value);
+        }
+    }
+
 }
