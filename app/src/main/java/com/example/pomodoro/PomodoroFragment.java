@@ -42,7 +42,7 @@ public class PomodoroFragment extends Fragment {
             public void onClick(View v) {
                 Log.d("POMODOROService", "Button Clicked");
 
-                Intent myIntent = new Intent(getActivity(), activity_do_pomodoro.class);
+                Intent myIntent = new Intent(getActivity(), DoPomodoroActivity.class);
                 myIntent.putExtra("studyTime", Integer.parseInt(studyTime.getText().toString()));
                 myIntent.putExtra("shortBreakTime", Integer.parseInt(shortBreakTime.getText().toString()));
                 myIntent.putExtra("longBreakTime", Integer.parseInt(longBreakTime.getText().toString()));

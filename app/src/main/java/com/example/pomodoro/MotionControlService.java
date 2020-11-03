@@ -10,6 +10,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+
 // Class idea and code components taken from https://stackoverflow.com/questions/17774070/android-detect-when-the-phone-flips-around
 
 public class MotionControlService extends Service implements SensorEventListener {
@@ -19,9 +21,21 @@ public class MotionControlService extends Service implements SensorEventListener
 
     private float mGZ = 0;//gravity acceleration along the z axis
     private int mEventCountSinceGZChanged = 0;
-    private static final int MAX_COUNT_GZ_CHANGE = 10;
+    private static final int MAX_COUNT_GZ_CHANGE = 2;
     private boolean mStarted = false;
     private SensorManager mSensorManager;
+    public static final String BROADCAST_INTENT = "broadcast_intent";
+    public static final String BROADCAST_VALUE = "broadcast_value";
+    public static final String UP = "UP";
+    public static final String DOWN = "DOWN";
+    private LocalBroadcastManager broadcastManager;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        broadcastManager = LocalBroadcastManager.getInstance(this);
+    }
 
     public class MotionControlBinder extends Binder {
         MotionControlService getService() {
@@ -72,8 +86,10 @@ public class MotionControlService extends Service implements SensorEventListener
                         mEventCountSinceGZChanged = 0;
                         if (gz > 0) {
                             Log.d(TAG, "now screen is facing up.");
+                            sendBroadcast(MotionControlService.UP);
                         } else if (gz < 0) {
                             Log.d(TAG, "now screen is facing down.");
+                            sendBroadcast(MotionControlService.DOWN);
                         }
                     }
                 } else {
@@ -89,5 +105,12 @@ public class MotionControlService extends Service implements SensorEventListener
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
         // TODO Auto-generated method stub
+    }
+
+    private void sendBroadcast(String value) {
+
+        Intent intent = new Intent(BROADCAST_INTENT);
+        intent.putExtra(BROADCAST_VALUE, value);
+        broadcastManager.sendBroadcast(intent);
     }
 }
