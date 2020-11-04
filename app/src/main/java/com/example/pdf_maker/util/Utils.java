@@ -17,7 +17,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.pixelnetica.easyscan.AppLog;
+import com.example.pdf_maker.AppLog;
 
 import java.io.Closeable;
 import java.io.File;

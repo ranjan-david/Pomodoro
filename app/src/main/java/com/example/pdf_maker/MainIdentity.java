@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.pixelnetica.easyscan.util.LiveSignal;
+import com.example.pdf_maker.util.LiveSignal;
 import com.pixelnetica.imagesdk.MetaImage;
 
 import java.io.File;
@@ -20,7 +20,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 
-import static com.pixelnetica.easyscan.ProcessImageTask.BWBinarization;
+import static com.example.pdf_maker.ProcessImageTask.BWBinarization;
 
 /**
  * Identity for MainActivity

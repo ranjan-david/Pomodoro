@@ -8,7 +8,7 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.pixelnetica.easyscan.R;
+import com.example.pdf_maker.R;
 
 /**
  * NOTE: Vertical (look at "horizontal" gravity doesn't work

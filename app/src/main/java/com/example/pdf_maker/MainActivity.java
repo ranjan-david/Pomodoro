@@ -39,8 +39,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.pixelnetica.easyscan.camera.CameraActivity;
-import com.pixelnetica.easyscan.util.RuntimePermissions;
+import com.example.pdf_maker.camera.CameraActivity;
+import com.example.pdf_maker.util.RuntimePermissions;
 import com.pixelnetica.imagesdk.MetaImage;
 
 import java.io.File;

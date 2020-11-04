@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Checkable;
 
-import com.pixelnetica.easyscan.AppLog;
+import com.example.pdf_maker.AppLog;
 
 
 /**

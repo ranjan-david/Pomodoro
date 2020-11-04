@@ -6,7 +6,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
-import com.pixelnetica.easyscan.camera.FindDocCornersThread;
+import com.example.pdf_maker.camera.FindDocCornersThread;
 import com.pixelnetica.imagesdk.AutoShotDetector;
 import com.pixelnetica.imagesdk.CutoutAverageF;
 import com.pixelnetica.imagesdk.DocumentCutout;

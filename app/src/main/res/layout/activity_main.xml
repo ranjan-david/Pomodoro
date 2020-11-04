@@ -1,107 +1,161 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar4"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        tools:layout_editor_absoluteX="1dp"
-        tools:layout_editor_absoluteY="3dp" >
-        <LinearLayout
-            style="?attr/buttonBarStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:id="@+id/root"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:layout_alignParentEnd="true"
+	android:orientation="vertical"
+	tools:context="${relativePackage}.${activityClass}">
 
-            <ImageButton
-                android:id="@+id/imageButton4"
-                android:layout_width="126dp"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/camera_24px"
-                tools:layout_editor_absoluteX="22dp"
-                tools:layout_editor_absoluteY="14dp" />
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/app_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?attr/colorPrimary"
+		android:minHeight="?attr/actionBarSize"
+		android:theme="@style/AppTheme.ActionBar"
+		app:popupTheme="@style/AppTheme.ActionBar.Popup">
 
-            <ImageButton
-                android:id="@+id/imageButton5"
-                android:layout_width="126dp"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/insert_photo_24px"
-                tools:layout_editor_absoluteX="189dp"
-                tools:layout_editor_absoluteY="15dp" />
+		<LinearLayout
+			style="?attr/buttonBarStyle"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/imageButton6"
-                android:layout_width="126dp"
-                android:layout_height="match_parent"
-                app:srcCompat="@drawable/settings_24px"
-                tools:layout_editor_absoluteX="355dp"
-                tools:layout_editor_absoluteY="18dp" />
-        </LinearLayout>
-    </androidx.appcompat.widget.Toolbar>
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/btn_take_photo"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="146dp"
+				android:layout_height="wrap_content"
+				android:drawableStart="@drawable/camera_24px"
+				android:text="Scan" />
 
-    <FrameLayout
-        android:layout_width="409dp"
-        android:layout_height="673dp"
-        android:layout_marginStart="1dp"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="57dp">
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/btn_crop_image"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableStart="@drawable/ic_action_crop"
+				android:text="@string/btn_crop_image"
+				android:visibility="gone" />
 
-        <ProgressBar
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/btn_save_image"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:drawableStart="@drawable/ic_action_save"
+				android:text="@string/btn_save_image"
+				android:visibility="gone" />
 
-        <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center|center_horizontal|center_vertical"
-            android:background="?android:attr/fingerprintAuthDrawable"
-            android:foregroundGravity="center_vertical|center|center_horizontal"
-            android:padding="2dp"
-            android:scaleType="fitCenter" />
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/btn_open_image"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="182dp"
+				android:layout_height="wrap_content"
+				android:drawableLeft="@drawable/insert_photo_24px"
+				android:text="@string/btn_open_image" />
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|fill_horizontal"
-            android:background="?attr/colorPrimary"
-            android:minHeight="?attr/actionBarSize"
-            android:theme="?attr/actionBarTheme">
-        <LinearLayout
-            style="?attr/buttonBarStyle"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:orientation="horizontal">
+			<androidx.appcompat.widget.AppCompatButton
+				android:id="@+id/btn_settings"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:drawableStart="@drawable/settings_24px"
+				android:foregroundGravity="center"
+				android:gravity="center|center_horizontal|center_vertical" />
 
-            <Button
-                android:id="@+id/RLeft"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="Button" />
+		</LinearLayout>
 
-            <Button
-                android:id="@+id/RRight"
-                android:layout_width="120dp"
-                android:layout_height="wrap_content"
-                android:text="Button" />
-        </LinearLayout>
-        </androidx.appcompat.widget.Toolbar>
-    </FrameLayout>
+	</androidx.appcompat.widget.Toolbar>
 
+	<!-- Main image view with progress waiter -->
+	<!--
+	    android:paddingBottom="@dimen/activity_vertical_margin"
+	    android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:paddingRight="@dimen/activity_horizontal_margin"
+	    android:paddingTop="@dimen/activity_vertical_margin"
+	-->
 
+	<FrameLayout
+		android:id="@+id/image_container"
+		android:layout_width="match_parent"
+		android:layout_height="0dp"
+		android:layout_weight="1"
+		tools:context="com.pixelnetica.easyscan.MainActivity"
+		tools:ignore="MergeRootFrame">
 
+		<com.pixelnetica.easyscan.CropImageView
+			android:id="@+id/image_holder"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_gravity="center"
+			android:background="@drawable/border_2dp"
+			android:contentDescription="@string/hello_world"
+			android:cropToPadding="true"
+			android:padding="2dp"
+			android:scaleType="fitCenter" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+		<ProgressBar
+			android:id="@+id/progress_wait"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center"
+			android:indeterminate="true"
+			android:visibility="invisible" />
+
+	</FrameLayout>
+
+	<!-- Crop button bar -->
+	<androidx.appcompat.widget.Toolbar
+		android:id="@+id/crop_toolbar"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:background="?attr/colorPrimary"
+		android:minHeight="?attr/actionBarSize"
+		android:theme="@style/AppTheme.ActionBar"
+		android:visibility="gone"
+		app:theme="@style/AppTheme.ActionBar">
+
+		<LinearLayout
+			android:id="@+id/crop_button_bar"
+			style="?attr/buttonBarStyle"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="center_horizontal"
+			android:background="?attr/colorPrimary"
+			android:orientation="horizontal">
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/btn_rotate_left"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_action_rotate_left" />
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/btn_rotate_right"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_action_rotate_right" />
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/btn_revert_selection"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_action_view_as_grid" />
+
+			<androidx.appcompat.widget.AppCompatImageButton
+				android:id="@+id/btn_expand_selection"
+				style="?attr/buttonBarButtonStyle"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_action_select_all" />
+		</LinearLayout>
+	</androidx.appcompat.widget.Toolbar>
+</LinearLayout>

@@ -15,8 +15,8 @@ import android.graphics.drawable.Drawable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.pixelnetica.easyscan.BuildConfig;
-import com.pixelnetica.easyscan.R;
+import com.example.pdf_maker.BuildConfig;
+import com.example.pdf_maker.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
