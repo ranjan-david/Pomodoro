@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewHolder>{
+
     public static class cylerViewHolder extends RecyclerView.ViewHolder{
+//        public static final String EXTRA_MESSAGE = "com.example.Pomodoro.MESSAGE";
         public final TextView title;
         public Button button;
         public cylerViewHolder(View v) {
@@ -39,14 +42,17 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
             @Override
             public void onClick(View v) {
 
-//                Intent intent=new Intent(PeopleAdapter.this,Challenge.class);
-//                startActivity(intent);
+                Intent intent = new Intent (v.getContext(), Challenge.class);
+//                TextView editText = (TextView) v.findViewById(R.id.nickname);
+//                String message = editText.getText().toString();
+//                intent.putExtra("key", message);
+                v.getContext().startActivity(intent);
                 /* Challenge function can be invoked by click challenge button by this function */
 
 //                Intent intent=new Intent(PeopleAdapter.this,Challenge.class);
 //                startActivity(intent);
 
-// public static final String EXTRA_MESSAGE = "com.example.Pomodoro.MESSAGE";
+
 
 //                Intent intent = new Intent(this, Challenge.class);
 //                EditText editText = (EditText) findViewById(R.id.nickname);

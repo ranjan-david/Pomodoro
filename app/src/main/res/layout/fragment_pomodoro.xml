@@ -94,11 +94,22 @@
         android:hint="Enter Number" />
 
     <Button
-        android:id="@+id/startPomoButton"
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatsVal"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Start Pomodoro" />
+    <Button
+        android:id="@+id/button_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="sendMessage"
+
+        android:layout_below="@+id/button"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Challenge" />
 </RelativeLayout>

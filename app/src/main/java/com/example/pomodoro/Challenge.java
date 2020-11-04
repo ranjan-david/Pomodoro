@@ -24,8 +24,11 @@ import com.example.pomodoro.visions.FaceDetectionProcessor;
 import com.google.android.gms.common.annotation.KeepName;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 
 import java.io.IOException;
@@ -35,6 +38,7 @@ public final class Challenge extends BaseActivity
         implements ActivityCompat.OnRequestPermissionsResultCallback, FrameReturn {
     private static final String FACE_DETECTION = "Face Detection";
     private static final String TAG = "MLKitTAG";
+
 
     Bitmap originalImage = null;
     private CameraSource cameraSource = null;
@@ -47,7 +51,7 @@ public final class Challenge extends BaseActivity
     private TextView countdowntext;
     private Button countdown_btn;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 600000 ;
+    private long timeLeftInMilliseconds = 60000 ;
     private boolean timeRunning;
 
 // to update database
@@ -85,15 +89,15 @@ public final class Challenge extends BaseActivity
 
         // database ====================================
 
-        final FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser UserInfo =  mAuth.getCurrentUser();
-        final String UID = UserInfo.getUid();
 
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference().child("User").child(UID);
-        if (currentUser==null){
-            currentUser = new User();
-        }
+//    Intent intent = getIntent();
+//    String message = intent.getStringExtra("key");
+//
+//    // Capture the layout's TextView and set the string as its text
+//    TextView textView = findViewById(R.id.Challenger_Name);
+//    textView.setText(message);
+
+
 
     }
     //for timer =======================================
@@ -137,9 +141,38 @@ public final class Challenge extends BaseActivity
 
         countdowntext.setText(timeleftText);
 
-        // if timeLeftInMilliseconds is 0 - increase the challenge completed by one.
-        if(timeLeftInMilliseconds == 0){
-            // update database
+        // if timeLeftInMilliseconds is 1000 - increase the challenge completed by one.
+        if(timeLeftInMilliseconds == 1000){
+
+            final FirebaseAuth mAuth = FirebaseAuth.getInstance();
+            FirebaseUser UserInfo =  mAuth.getCurrentUser();
+            final String UID = UserInfo.getUid();
+
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            myRef = database.getReference().child("User").child(UID);
+            myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot snapshot) {
+                    long ChallengeWonData = snapshot.child("ChallengeWin").getValue(long.class);
+                    DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+                    ChallengeWonData = ChallengeWonData + 1;
+
+                    database.child("User").child(UID).child("ChallengeWin").setValue(ChallengeWonData);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+
+                });
+
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "You have Successfully completed the challenge",
+                    Toast.LENGTH_SHORT);
+            toast.show();
+
         }
 
     }
@@ -233,18 +266,12 @@ public final class Challenge extends BaseActivity
     }
 
     public void sendMessage(View view) {
-        Intent intent1 = new Intent(Challenge.this, PeopleAdapter.class);
+        Intent intent1 = new Intent(Challenge.this, Pomodoro.class);
         startActivity(intent1);
     }
 
 
-    // on create
-//    Intent intent = getIntent();
-//    String message = intent.getStringExtra(PeopleAdapter.EXTRA_MESSAGE);
-//
-//    // Capture the layout's TextView and set the string as its text
-//    TextView textView = findViewById(R.id.Challenger_Name);
-//    textView.setText(message);
+
 
 
 
