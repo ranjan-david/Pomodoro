@@ -8,9 +8,12 @@ import android.util.AttributeSet;
 
 import androidx.appcompat.widget.AppCompatTextView;
 
-import com.example.pdf_maker.R;
+import com.pixelnetica.easyscan.R;
 
-
+/**
+ * NOTE: Vertical (look at "horizontal" gravity doesn't work
+ * Created by Denis on 10.06.2016.
+ */
 public class ConsoleTextView extends AppCompatTextView {
 
 	private int mDockSide = ConsoleView.DOCK_SIDE_INVALID;

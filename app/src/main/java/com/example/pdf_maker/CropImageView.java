@@ -19,8 +19,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.AppCompatImageView;
 
-import com.example.pdf_maker.widget.CutoutDrawable;
-import com.example.pdf_maker.widget.TransformedDrawable;
+import com.pixelnetica.easyscan.widget.CutoutDrawable;
+import com.pixelnetica.easyscan.widget.TransformedDrawable;
 import com.pixelnetica.imagesdk.Corners;
 import com.pixelnetica.imagesdk.DocumentCutout;
 import com.pixelnetica.imagesdk.MetaImage;

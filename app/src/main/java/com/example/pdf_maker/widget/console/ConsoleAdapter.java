@@ -10,13 +10,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.pdf_maker.R;
-import com.example.pdf_maker.util.IntPair;
-import com.example.pdf_maker.util.Utils;
+import com.pixelnetica.easyscan.R;
+import com.pixelnetica.easyscan.util.IntPair;
+import com.pixelnetica.easyscan.util.Utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Created by Denis on 10.06.2016.
+ */
 public class ConsoleAdapter extends RecyclerView.Adapter<ConsoleAdapter.ConsoleViewHolder>
 		implements ConsoleView.IConsole {
 

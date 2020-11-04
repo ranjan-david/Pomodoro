@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
-import com.example.pdf_maker.util.LiveSignal;
+import com.pixelnetica.easyscan.util.LiveSignal;
 import com.pixelnetica.imagesdk.MetaImage;
 
 import java.io.File;

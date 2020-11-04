@@ -1,13 +1,12 @@
 package com.example.pdf_maker.util;
 
-//done
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.example.pdf_maker.AppLog;
+import com.pixelnetica.easyscan.AppLog;
 
 import java.util.HashSet;
 
@@ -74,8 +73,8 @@ public abstract class SequentialThread extends HandlerThread{
         onThreadStarted();
 
         // Create message handler for a loop
-        Log.d(AppLog.TAG, "Create mWorkerHandler");
-        final Handler handler = new Handler(getLooper(), new Handler.Callback() {
+	    Log.d(AppLog.TAG, "Create mWorkerHandler");
+	    final Handler handler = new Handler(getLooper(), new Handler.Callback() {
             @Override
             public boolean handleMessage(Message msg) {
                 if (msg.what == EXIT_THREAD) {
@@ -98,10 +97,10 @@ public abstract class SequentialThread extends HandlerThread{
             }
         });
 
-        synchronized (this) {
-            mWorkerHandler = handler;
-            notifyAll();
-        }
+	    synchronized (this) {
+		    mWorkerHandler = handler;
+		    notifyAll();
+	    }
     }
 
     @Override
@@ -115,7 +114,7 @@ public abstract class SequentialThread extends HandlerThread{
     }
 
     public synchronized boolean isReady() {
-        return isAlive() && mWorkerHandler != null;
+	    return isAlive() && mWorkerHandler != null;
     }
 
     private void checkWorkingThread() {
@@ -141,17 +140,17 @@ public abstract class SequentialThread extends HandlerThread{
             throw new IllegalArgumentException("Task type cannot be 0");
         }
 
-        // Safe wait for thread started
+	    // Safe wait for thread started
         checkWorkingThread();
 
-        //Log.d(AppLog.TAG, "AddThreadTask for handler" + ((mWorkerHandler == null) ? " null!" : ""));
-        synchronized (this)
+	    //Log.d(AppLog.TAG, "AddThreadTask for handler" + ((mWorkerHandler == null) ? " null!" : ""));
+	    synchronized (this)
         {
             // Remove all pending messages if any
             if (priority == SINGLE_TASK) {
                 mWorkerHandler.removeMessages(type);
             } else if (allowDuplicate && params != null) {
-                mWorkerHandler.removeMessages(type, params);
+	            mWorkerHandler.removeMessages(type, params);
             }
 
             // Create new message
@@ -161,7 +160,7 @@ public abstract class SequentialThread extends HandlerThread{
             mTaskTypes.add(type);
 
             if (priority == PRIORITY_TASK) {
-                mWorkerHandler.sendMessageAtFrontOfQueue(msg);
+	            mWorkerHandler.sendMessageAtFrontOfQueue(msg);
             } else {
                 mWorkerHandler.sendMessage(msg);
             }
@@ -169,10 +168,10 @@ public abstract class SequentialThread extends HandlerThread{
     }
 
     protected synchronized void removeThreadTask(int type, Object params) {
-        checkWorkingThread();
-        synchronized (this) {
-            mWorkerHandler.removeMessages(type, params);
-        }
+	    checkWorkingThread();
+	    synchronized (this) {
+		    mWorkerHandler.removeMessages(type, params);
+	    }
     }
 
     public void finish()

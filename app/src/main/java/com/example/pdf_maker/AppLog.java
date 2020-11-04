@@ -1,5 +1,9 @@
 package com.example.pdf_maker;
-//done need to add logs later if needed.
+
+/**
+ * Created by Denis on 04.10.2016.
+ */
+
 public class AppLog {
-    public static final String TAG = "ImageSDK";
+	public static final String TAG = "ImageSDK";
 }

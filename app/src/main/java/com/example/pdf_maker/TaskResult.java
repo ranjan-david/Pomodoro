@@ -5,7 +5,9 @@ import androidx.annotation.IntDef;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-
+/**
+ * Created by Denis on 23.03.2018.
+ */
 
 class TaskResult {
 	@Retention(RetentionPolicy.SOURCE)

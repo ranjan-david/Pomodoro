@@ -14,7 +14,9 @@ import com.pixelnetica.imagesdk.MetaImage;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
-
+/**
+ * Created by Denis on 28.10.2016.
+ */
 
 class ProcessImageTask extends AsyncTask<MetaImage, Void, ProcessImageTask.ProcessImageResult> {
 

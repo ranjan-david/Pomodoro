@@ -11,7 +11,10 @@ import android.util.SparseArray;
 import androidx.annotation.NonNull;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-
+/**
+ * Get colors from styled attributes
+ * Created by Denis on 02.04.2018.
+ */
 class StyledColors {
 
 	// Some default value to show error

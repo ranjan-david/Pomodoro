@@ -11,7 +11,10 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-
+/**
+ * notify each observer only one time
+ * @param <T>
+ */
 public class LiveSignal<T> extends MediatorLiveData<T> {
 	private static class ObserverWrapper<T> implements Observer<T> {
 		@NonNull

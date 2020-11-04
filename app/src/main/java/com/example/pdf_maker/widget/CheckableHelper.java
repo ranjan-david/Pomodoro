@@ -6,10 +6,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.Checkable;
 
-import com.example.pdf_maker.AppLog;
+import com.pixelnetica.easyscan.AppLog;
 
 
-
+/**
+ * Helper class to implement Checkable interface
+ * Based on {@code #CompoundButton} class
+ * Created by Denis on 15.06.2015.
+ */
 public class CheckableHelper implements Checkable {
 
 	private final Object mOwner;

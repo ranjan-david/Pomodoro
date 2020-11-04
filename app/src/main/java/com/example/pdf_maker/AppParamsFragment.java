@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-
+/**
+ * Created by Denis on 17.09.2016.
+ */
 public class AppParamsFragment extends Fragment implements ISettingsFragment {
 	private CheckBox mForceManualCrop;
 	private CheckBox mAutoCropOnOpen;

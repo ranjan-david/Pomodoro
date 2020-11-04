@@ -4,7 +4,11 @@ import android.graphics.Paint;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
-
+/**
+ * Data set for Canvas.drawArc
+ * @author Denis
+ *
+ */
 public class DrawSector {
 	private PointF center;
 	private float radius;
