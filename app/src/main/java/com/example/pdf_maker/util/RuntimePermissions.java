@@ -15,7 +15,7 @@ import androidx.collection.SparseArrayCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.pixelnetica.easyscan.R;
+import com.example.pdf_maker.R;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

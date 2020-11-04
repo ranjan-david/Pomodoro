@@ -6,7 +6,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
-import com.pixelnetica.easyscan.AppLog;
+import com.example.pdf_maker.AppLog;
 
 import java.util.HashSet;
 
