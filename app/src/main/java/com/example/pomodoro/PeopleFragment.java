@@ -72,7 +72,14 @@ public class PeopleFragment extends Fragment {
             updateView(location);
             database.child("User").child(UID).child("LatestLocation").setValue("1");
             peoplenearby();
-            createRecycleView();
+            nicknameView = view.findViewById(R.id.nearbylayout);
+            peopleAdapter = new PeopleAdapter(getActivity(),nearbyList);
+            nicknameView.setAdapter(peopleAdapter);
+
+            nicknameView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+
+
 
         }
         addlistener();
@@ -127,10 +134,11 @@ public class PeopleFragment extends Fragment {
     }
 
     public void createRecycleView(){
-        nicknameView = view.findViewById(R.id.nearbylayout);
-        peopleAdapter = new PeopleAdapter(getActivity(),nearbyList);
-        nicknameView.setAdapter(peopleAdapter);
-        nicknameView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        //
+        peopleAdapter.notifyDataSetChanged();
+
+
+
     }
 
     public void peoplenearby(){
@@ -164,6 +172,7 @@ public class PeopleFragment extends Fragment {
     public void distanceCheck(DataSnapshot dataSnapshot,Iterable<DataSnapshot> dataSnapshots){
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
         String UID = UserInfo.getUid();
+        nearbyList.clear();
         for (DataSnapshot d:dataSnapshots){
             if (boolConnected(d)&&!d.getKey().equals(UID)){
 
@@ -191,6 +200,7 @@ public class PeopleFragment extends Fragment {
                 }
             }
         }
+
     }
 
     public boolean boolConnected(DataSnapshot d){
