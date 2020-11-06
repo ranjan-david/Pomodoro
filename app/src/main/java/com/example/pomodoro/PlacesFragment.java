@@ -60,6 +60,7 @@ public class PlacesFragment extends Fragment {
     public View mView;
     Context mContext;
     Button newLocation;
+    boolean nearbyShown = true;
 
     //location manager
     private LocationManager lm;
@@ -89,6 +90,8 @@ public class PlacesFragment extends Fragment {
         updatePlaces();
         locationNames.buildScrollable();
 
+
+        // Add listener for Add Location button
         final NewLocationFragment selectedFragment = new NewLocationFragment();
         newLocation = mView.findViewById(R.id.addLocation);
         newLocation.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +111,33 @@ public class PlacesFragment extends Fragment {
             }
         });
 
+        // Add listener for Nearby Libraries button
+        newLocation = mView.findViewById(R.id.NearbyLibs);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePlaces();
+                nearbyShown = true;
+            }
+        });
+
+        // Add listener for My Spots button
+        newLocation = mView.findViewById(R.id.MySpots);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nearbyShown = false;
+                displayMySpots();
+            }
+        });
+
         return mView;
     }
 
 
     private void updatePlaces(){
 
+        Toast.makeText(getActivity().getApplicationContext(),"Updating Place List",Toast.LENGTH_SHORT).show();
         //build places query string
         String placesSearchStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ String.valueOf(latitude) + "," + String.valueOf(longitude) + "&rankby=distance&type=library&name&geometry&key=AIzaSyCpfH3kSTZK-NIbv00PuMCgGMK1YyrY9V8";
         final String[] jsonToParse = new String[1];
@@ -150,8 +174,6 @@ public class PlacesFragment extends Fragment {
                                 double distance = distance(latitude, longitude, locLat, locLon);
 
                                 locationNames.addToList(name, loc, distance); // Add name, lat/long of location
-                                Log.i("Adding to location list: ", name + " " + String.valueOf(loc));
-
 
                             }
 
@@ -168,8 +190,11 @@ public class PlacesFragment extends Fragment {
 
         // Add the request to the RequestQueue.
         queue.add(request);
+    }
 
-
+    private void displayMySpots(){
+        // Clear the list of locations before re-building it
+        locationNames.clearList();
         // Find "My Places" in firebase database and add to list.
         final ArrayList<String> placeIds = new ArrayList<>();
         database.child("User").child(user.getUid()).child("MyPlaces").addValueEventListener(new ValueEventListener() {
@@ -185,13 +210,12 @@ public class PlacesFragment extends Fragment {
             }
         });
 
-        //
-        database.child("Location").addValueEventListener(new ValueEventListener() {
+        // Find custom places of current user and add to location list.
+        database.child("Location").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot dsp : snapshot.getChildren()) {
                     String curPlaceId = String.valueOf(dsp.getKey());
-                    Log.i("Location found: ", curPlaceId);
                     for(int i = 0; i < placeIds.size(); i++){
                         if (curPlaceId.equals(placeIds.get(i))){
                             double curLat = 0;
@@ -211,7 +235,6 @@ public class PlacesFragment extends Fragment {
 
                             double distance = distance(latitude, longitude, curLat, curLon);
                             locationNames.addToList(curName, loc, distance); // Add name, lat/long of location
-                            Log.i("Adding to location list: ", curName + " " + String.valueOf(loc));
                         }
                     }
                 }
@@ -220,10 +243,9 @@ public class PlacesFragment extends Fragment {
             public void onCancelled(@NonNull DatabaseError databaseError) {
             }
         });
-
-
     }
 
+    //Find the distance between two locations - result in kilometres
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -280,6 +302,7 @@ public class PlacesFragment extends Fragment {
             }
         }
 
+        // only called when list is first built
         public void buildScrollable(){
             recyclerView = mView.findViewById(R.id.RecyclerView);
             newAdapter = new NearbyAdapter(getActivity(), locList, latLngList, distanceList); // Pass location name + position to layout
@@ -373,8 +396,10 @@ public class PlacesFragment extends Fragment {
             double longitude = finalLoc.getLongitude();
 
             Log.d("Nearby Places", "Found location: latitude：" + latitude + "\nlongitude" + longitude);
-            // Update the list of places close by
-            updatePlaces();
+            // Update the list of places close by if Nearby Libraries is selected
+            if (nearbyShown) {
+                updatePlaces();
+            };
 
         } else {
             Log.d("Nearby Places", "no available location");

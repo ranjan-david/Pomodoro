@@ -1,12 +1,15 @@
 package com.example.pomodoro;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -16,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -38,17 +42,21 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
     FirebaseUser user;
     FirebaseAuth mAuth;
     private GoogleMap mMap;
-    float zoomLevel = 16.0f; // Default zoom level for map camera
+    float zoomLevel = 8.0f; // Default zoom level for map camera
     LatLng newLoc;
     private Marker marker;
     Button addLocation;
     private EditText locName;
+    Marker currentMarker;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        Toast.makeText(getActivity().getApplicationContext(),"Loading map",Toast.LENGTH_SHORT).show();
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         mView = inflater.inflate(R.layout.activity_add_loc, null);
+        locName = (EditText) mView.findViewById(R.id.editLocName);
 
         Places.initialize(getActivity().getApplicationContext(), apiKey);
         PlacesClient placesClient = Places.createClient(getActivity());
@@ -60,8 +68,8 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
         // Get lat and lon from bundle
         Bundle bundle = this.getArguments();
         if (bundle != null) {
-            double lat = bundle.getDouble("lat", 0);
-            double lon = bundle.getDouble("lon", 0);
+            lat = bundle.getDouble("lat", -37.41632596324618);
+            lon = bundle.getDouble("lon", 143.91006331890821);
         }
         newLoc = new LatLng(lat,lon);
 
@@ -76,6 +84,7 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
         addLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getActivity().getApplicationContext(),"Location added!",Toast.LENGTH_SHORT).show();
                 //Turn lat/lon into location id
                 String placeId = String.valueOf(newLoc);
                 placeId = placeId.replace(",", "");
@@ -83,7 +92,6 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
                 placeId = placeId.replace("/", "");
 
                 // New Location to database
-                locName = (EditText) mView.findViewById(R.id.editLocName);
                 final String finalPlaceId = placeId;
                 final Place place = new Place(locName.getText().toString());
                 final String finalLocName = locName.getText().toString();
@@ -96,6 +104,25 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
             }
         });
 
+        locName.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                if(s.length() != 0) {
+                    marker.setTitle(locName.getText().toString());
+                }
+            }
+        });
+
         return mView;
     }
 
@@ -105,7 +132,8 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
 
         LatLng pos = new LatLng(lat,lon);
         // Add a marker at position and move camera
-        mMap.addMarker(new MarkerOptions().position(pos).title("Current position"));
+        currentMarker = mMap.addMarker(new MarkerOptions().position(pos).title("Current position"));
+        currentMarker.showInfoWindow();
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(pos, zoomLevel));
 
         UiSettings settings = mMap.getUiSettings();
@@ -126,8 +154,9 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
         if (marker != null){
             marker.remove();
         }
-        marker = mMap.addMarker(new MarkerOptions().position(point).title("New Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(point, zoomLevel));
+        String markerText = locName.getText().toString();
+        marker = mMap.addMarker(new MarkerOptions().position(point).title(markerText).draggable(true).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+        marker.showInfoWindow();
     }
 
     @Override
