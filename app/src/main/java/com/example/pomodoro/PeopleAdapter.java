@@ -31,8 +31,10 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
     }
 
     private List<String> mDatas;
-    public PeopleAdapter(Context context, List<String> data) {
+    private List<Integer> challengeTimes;
+    public PeopleAdapter(Context context, List<String> data,List<Integer> challengeTime) {
         this.mDatas = data;
+        this.challengeTimes = challengeTime;
     }
 
 
@@ -41,7 +43,10 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
 
     public void onBindViewHolder(@NonNull cylerViewHolder holder, int position) {
         holder.title.setText(mDatas.get(position));
+        Integer challenge_time = challengeTimes.get(position);
+        holder.Challenge_time.setText(challenge_time.toString()+" "+"minutes");
         Cname = holder.title.getText().toString();
+        Ctime = challenge_time.toString();
         holder.itemView.findViewById(R.id.challenge).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
