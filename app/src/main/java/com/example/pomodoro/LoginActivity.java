@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser == null) {
             Toast.makeText(getApplicationContext(), "Login Failed!" , Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Login in as" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Login in as " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
     }
 
