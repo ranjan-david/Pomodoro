@@ -45,6 +45,7 @@ public class PeopleFragment extends Fragment {
 
     DatabaseReference database;
     ArrayList<String> nearbyList;
+    ArrayList<Integer> challengeTimelist;
     View view;
     RecyclerView nicknameView;
     PeopleAdapter peopleAdapter;
@@ -55,6 +56,7 @@ public class PeopleFragment extends Fragment {
         mContext = getActivity();
         view = inflater.inflate( R.layout.activity_peoplenearby, null);
         nearbyList = new ArrayList<String>();
+        challengeTimelist = new ArrayList<Integer>();
 
         mLocationManager = (LocationManager) mContext.getApplicationContext().getSystemService(LOCATION_SERVICE);
         this.mAuth = FirebaseAuth.getInstance();
@@ -73,7 +75,7 @@ public class PeopleFragment extends Fragment {
             database.child("User").child(UID).child("LatestLocation").setValue("1");
             peoplenearby();
             nicknameView = view.findViewById(R.id.nearbylayout);
-            peopleAdapter = new PeopleAdapter(getActivity(),nearbyList);
+            peopleAdapter = new PeopleAdapter(getActivity(),nearbyList,challengeTimelist);
             nicknameView.setAdapter(peopleAdapter);
 
             nicknameView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -179,6 +181,7 @@ public class PeopleFragment extends Fragment {
             String UID = UserInfo.getUid();
 
             nearbyList.clear();
+            challengeTimelist.clear();
             for (DataSnapshot d:dataSnapshots){
                 if (boolConnected(d)&&!d.getKey().equals(UID)){
 
@@ -196,6 +199,7 @@ public class PeopleFragment extends Fragment {
 
                         if (distance<2){
                             nearbyList.add(d.child("Nickname").getValue().toString());
+                            challengeTimelist.add(Integer.parseInt(d.child("Challengetime").getValue().toString()));
                         }
 
 
@@ -323,4 +327,6 @@ public class PeopleFragment extends Fragment {
 
 
 }
+
+
 
