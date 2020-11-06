@@ -18,8 +18,14 @@
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="133dp"
-            android:text="Promodoro Login"
-            android:textSize="36sp" />
+            android:text="Promodoro"
+            android:textStyle="bold"
+            android:textSize="36sp"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:layout_marginBottom="100px"
+            android:fontFamily="sans-serif-condensed"
+            />
 
         <EditText
             android:id="@+id/email"
@@ -27,17 +33,23 @@
             android:layout_height="wrap_content"
             android:hint="@string/prompt_email"
             android:inputType="textEmailAddress"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:layout_marginBottom="50px"/>
 
         <EditText
             android:id="@+id/password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
+            android:hint="Enter Your Password"
             android:imeActionLabel="@string/action_sign_in_short"
             android:imeOptions="actionUnspecified"
             android:inputType="textPassword"
             android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:layout_marginBottom="100px"
             />
 
         <Button
@@ -45,7 +57,7 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
             android:text="Sign In"
             android:textStyle="bold"/>
 
@@ -55,7 +67,7 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
             android:text="Sign up"
             android:textStyle="bold"/>
 
@@ -64,7 +76,6 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Forget Your Password?"
             android:textStyle="bold"/>
 

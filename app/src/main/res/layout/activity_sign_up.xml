@@ -18,12 +18,18 @@
         android:layout_height="60dp"
         android:gravity="center"
         android:text="Sign Up"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginBottom="50px"
+        android:fontFamily="sans-serif-condensed"/>
         <TextView
             android:id="@+id/textView_EmailTitle"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Email Address"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:fontFamily="sans-serif-condensed"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <EditText
             android:id="@+id/emailSignUp"
@@ -32,14 +38,18 @@
             android:hint="Enter Your Email Address"
             android:gravity="center"
             android:inputType="textEmailAddress"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"/>
 
         <TextView
-        android:id="@+id/textView_resetPasswordTitle1"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:text="Password"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+            android:id="@+id/textView_resetPasswordTitle1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:text="Password"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <EditText
             android:id="@+id/password1"
             android:layout_width="match_parent"
@@ -47,12 +57,16 @@
             android:hint="Enter Your Password"
             android:gravity="center"
             android:inputType="textEmailAddress"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"/>
         <TextView
             android:id="@+id/textView_resetPasswordTitle2"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:text="Confirm Your Password"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <EditText
             android:id="@+id/password2"
@@ -61,13 +75,15 @@
             android:hint="Confirm Your Password"
             android:gravity="center"
             android:inputType="textEmailAddress"
-            android:maxLines="1"/>
+            android:maxLines="1"
+            android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed"/>
         <Button
             android:id="@+id/signup"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginBottom="5dp"
             android:text="Sign Up"
             android:textStyle="bold"/>
         <Button
@@ -75,7 +91,6 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Back To Login"
             android:textStyle="bold"/>
 
