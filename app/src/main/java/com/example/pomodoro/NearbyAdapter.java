@@ -129,7 +129,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
                     holder.checkIn.setText("Checked In Here");
                     v.setTag(0); // Checked In
                     Timestamp time = new Timestamp(System.currentTimeMillis());
-                    database.child("Location").child(finalPlaceId).setValue(place);
                     database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).setValue(time);
                     checkedIn = finalPlaceId;
                     database.child("User").child(user.getUid()).child("Location").setValue(finalPlaceId);
