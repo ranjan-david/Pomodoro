@@ -15,10 +15,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPassword extends AppCompatActivity {
+
+    //Initialize the FirebaseAuth
     private FirebaseAuth mAuth;
+
+    //Initialize the Button
     private Button BacktoSign;
     private Button ResetPassword;
 
+    //Initialize the Edit Text
     private EditText MailCurrent;
 
     @Override
@@ -26,12 +31,17 @@ public class ResetPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reset_password);
 
+        //Binding the FirebaseAuth
         this.mAuth = FirebaseAuth.getInstance();
+
+        //Binding the Buttons
         this.BacktoSign = (Button)findViewById(R.id.back);
         this.ResetPassword = (Button)findViewById(R.id.send_email);
 
+        //Binding the Edit text
         this.MailCurrent = (EditText)findViewById(R.id.email);
 
+        //Link to Sign In page
         this.BacktoSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -40,9 +50,14 @@ public class ResetPassword extends AppCompatActivity {
             }
         });
 
+        //Send the Email with reset password link
+        //Using the framework of FireBase
+        //More information in https://firebase.google.com/docs/auth
+
         this.ResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Get the current Email
                String currentMail = MailCurrent.getText().toString();
                if (currentMail!=null){
                    Toast.makeText(getApplicationContext(),"Email Sent Successfully",Toast.LENGTH_SHORT).show();
@@ -53,13 +68,15 @@ public class ResetPassword extends AppCompatActivity {
                                    if (task.isSuccessful()) {
                                        //Toast.makeText(getApplicationContext(),"Email Sent Successfully",Toast.LENGTH_SHORT).show();
                                    }
-                                   else{
-                                       //Toast.makeText(getApplicationContext(),"Email Sent Failed, Please check your email entered",Toast.LENGTH_SHORT).show();
+                                   else {
+                                       //Error Occurs
+                                       Toast.makeText(getApplicationContext(),"Email Sent Failed, Check Your Email is correct",Toast.LENGTH_SHORT).show();
                                    }
                                }
                            });
                }
                else{
+                   //Empty Email
                    Toast.makeText(getApplicationContext(),"Please Enter Your Email",Toast.LENGTH_SHORT).show();
                }
             }

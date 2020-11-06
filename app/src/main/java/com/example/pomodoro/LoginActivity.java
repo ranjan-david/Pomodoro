@@ -23,81 +23,87 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final int RC_SIGN_IN = 9001;
-
+    //Initialize the firebaseAuth
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //Initialize Buttons
     private Button SigninButton;
-
     private Button SignupButton;
     private Button ResetPassword;
 
+    //Initialize EditText
     private EditText MailCurrent;
     private EditText PasswordCurrent;
-
-
-    private ProgressDialog mProgressDialog;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Get the instance of FirebaseAuth
         this.mAuth = FirebaseAuth.getInstance();
 
-
+        //Binding the buttons
         this.SigninButton = (Button)findViewById(R.id.email_sign_in_button);
-
         this.SignupButton = (Button)findViewById(R.id.email_sign_up_button);
         this.ResetPassword = (Button)findViewById(R.id.resetPassword);
+        //Binding the edit text
         this.MailCurrent = (EditText)findViewById(R.id.email);
         this.PasswordCurrent = (EditText)findViewById(R.id.password);
+
+        //Check whether there exists user already login
+        //Using the framework of FirebaseAuth
+        //More information in https://firebase.google.com/docs/auth
 
         this.mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged( FirebaseAuth firebaseAuth) {
+                //Try to Get current User
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(getApplicationContext(),"Currently Login with "+user.getEmail(),Toast.LENGTH_SHORT).show();
                     updateUI(mAuth.getCurrentUser());
                     moveToProfile(mAuth.getCurrentUser());
-
-
-
                 } else {
                     Toast.makeText(getApplicationContext(),"Please Login Again.",Toast.LENGTH_SHORT).show();
-
                 }
             }
         };
+
+        //Sign in Button functionality
+        //Using the framework of FirebaseAuth
+        //More information in https://firebase.google.com/docs/auth
         this.SigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Read the email and password
                 String emailInput = MailCurrent.getText().toString();
                 String passwordInput = PasswordCurrent.getText().toString();
-                //System.out.println(emailInput+" "+passwordInput);
-                Toast.makeText(LoginActivity.this, "Loading", Toast.LENGTH_SHORT).show();
+
                 if (!emailInput.isEmpty()&&passwordInput.length()>5){
+                    Toast.makeText(LoginActivity.this, "Loading", Toast.LENGTH_SHORT).show();
                     mAuth.signInWithEmailAndPassword(emailInput, passwordInput).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                                //Get the user after Signing
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                                updateUI(mAuth.getCurrentUser());
-                                moveToProfile(mAuth.getCurrentUser());
+                                //Get the database of current user
                                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+                                //Set the Values when Sign in
                                 database.child("User").child(user.getUid()).child("LoginState").setValue("Online");
                                 database.child("User").child(user.getUid()).child("LatestLocation").setValue("0");
 
+                                //Go to HomePage
+                                moveToProfile(mAuth.getCurrentUser());
                             } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUI(null);
+                                //If Auth Failed, show the information
+                                String error= task.getException().getLocalizedMessage();
+                                Toast.makeText(LoginActivity.this, "Authentication failed." +error, Toast.LENGTH_LONG).show();
+                                //updateUI(null);
                             }
 
                         }
@@ -105,12 +111,13 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 else{
+                    //If password is not following structure
                     Toast.makeText(getApplicationContext(),"Password should not be empty or less than 6 characters",Toast.LENGTH_SHORT).show();
                 }
             }
         });
         
-
+        //Link to Sign up Page
         this.SignupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -119,6 +126,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        //Link to reset password page
         this.ResetPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -129,6 +137,7 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+    //Move to home page
     private void moveToProfile(FirebaseUser currentUser) {
         if (currentUser!=null){
             Intent intent=new Intent(LoginActivity.this,Pomodoro.class);
@@ -136,42 +145,26 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    private void signIn() {
-    }
-
-
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+
+        //Check whether user is login
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null) {
             Toast.makeText(getApplicationContext(),"Currently Login with "+currentUser.getEmail(),Toast.LENGTH_SHORT).show();
-            updateUI(mAuth.getCurrentUser());
-            moveToProfile(mAuth.getCurrentUser());
+
+            //Update status of user
             DatabaseReference database = FirebaseDatabase.getInstance().getReference();
             database.child("User").child(currentUser.getUid()).child("LoginState").setValue("Online");
             database.child("User").child(currentUser.getUid()).child("LatestLocation").setValue("0");
+
+            //Move to Homepage
+            moveToProfile(mAuth.getCurrentUser());
         }
         else{
-            System.out.println("No user!");
+            System.out.println("Please Login !");
         }
-        //updateUI(currentUser);
     }
 
     private void updateUI(FirebaseUser currentUser) {
@@ -181,5 +174,4 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Login in as " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
     }
-
 }
