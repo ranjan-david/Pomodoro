@@ -162,5 +162,6 @@
             android:layout_marginTop="16dp"
             android:text="Sign Out"
             android:textStyle="bold"/>
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
