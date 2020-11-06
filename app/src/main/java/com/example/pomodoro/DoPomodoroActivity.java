@@ -85,6 +85,26 @@ public class DoPomodoroActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.cancelButton);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+
+                if(currentStreak/60 >= 1)
+                {
+                    if(numberOfPomos == 0)
+                    {
+                        averagePomoTimeData = currentStreak/60;
+                    }
+                    else
+                    {
+                        averagePomoTimeData = averagePomoTimeData + (currentStreak/60 - averagePomoTimeData)/numberOfPomos;
+                    }
+                    myDatabaseRef.child("AveragePomoTime").setValue(averagePomoTimeData);
+                    myDatabaseRef.child("NumberOfPomos").setValue(++numberOfPomos);
+                    if(currentStreak/60 > longestStreakData)
+                    {
+                        myDatabaseRef.child("LongestStreak").setValue(currentStreak/60);
+                    }
+                }
+                timer.cancel();
+                currentState = State.WAITING_FOR_START;
                 Intent myIntent = new Intent(DoPomodoroActivity.this, Pomodoro.class);
                 startActivity(myIntent);
             }
@@ -152,26 +172,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
 
     @Override
     protected void onPause() {
-        super.onStop();
-        timer.cancel();
-
-        if(currentStreak/60 >= 1)
-        {
-            if(numberOfPomos == 0)
-            {
-                averagePomoTimeData = currentStreak/60;
-            }
-            else
-            {
-                averagePomoTimeData = averagePomoTimeData + (currentStreak/60 - averagePomoTimeData)/numberOfPomos;
-            }
-            myDatabaseRef.child("AveragePomoTime").setValue(averagePomoTimeData);
-            myDatabaseRef.child("NumberOfPomos").setValue(++numberOfPomos);
-            if(currentStreak/60 > longestStreakData)
-            {
-                myDatabaseRef.child("LongestStreak").setValue(currentStreak/60);
-            }
-        }
+        super.onPause();
     }
 
     @Override
@@ -276,7 +277,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
 
     private void playNotification(){
         try {
-            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+            Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
             r = RingtoneManager.getRingtone(getApplicationContext(), notification);
             r.play();
         } catch (Exception e) {
@@ -321,7 +322,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
     private void handleIntent(Intent intent) {
         if (intent.getAction().equals(MotionControlService.BROADCAST_INTENT)) {
             String value = intent.getStringExtra(MotionControlService.BROADCAST_VALUE);
-            if(currentState == State.WAITING_FOR_START && value == MotionControlService.DOWN)
+            if(value == MotionControlService.DOWN)
             {
                 try {
                     if (checkSystemWritePermission()) {
@@ -333,9 +334,31 @@ public class DoPomodoroActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(this, "Allow modify system settings ==> ON ", Toast.LENGTH_LONG).show();
                     }
-                    FrameLayout parentLayout = (FrameLayout)findViewById(R.id.root_view);
-                    parentLayout.removeView(findViewById(R.id.info_overlay));
-                    startTimer();
+                    if(currentState == State.WAITING_FOR_START) {
+                        FrameLayout parentLayout = (FrameLayout) findViewById(R.id.root_view);
+                        parentLayout.removeView(findViewById(R.id.info_overlay));
+                        startTimer();
+                    }
+                    currentState = State.SCREEN_DOWN;
+                }
+                catch (Exception ex)
+                {
+                    Log.i("DoPomodoroActivity", "Exception occured: " + ex.getMessage());
+                }
+            }
+            if(value == MotionControlService.UP)
+            {
+                try {
+                    if (checkSystemWritePermission()) {
+                        WindowManager.LayoutParams params = getWindow().getAttributes();
+                        params.screenBrightness = -1;
+                        getWindow().setAttributes(params);
+                        WindowManager.LayoutParams params2 = getWindow().getAttributes();
+                        Log.i("DoPomodoroActivity", "SCREEN BRIGHTNESS " + params2.screenBrightness);
+                    }else {
+                        Toast.makeText(this, "Allow modify system settings ==> ON ", Toast.LENGTH_LONG).show();
+                    }
+                    currentState = State.SCREEN_UP;
                 }
                 catch (Exception ex)
                 {

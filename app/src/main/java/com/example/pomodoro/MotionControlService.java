@@ -21,7 +21,7 @@ public class MotionControlService extends Service implements SensorEventListener
 
     private float mGZ = 0;//gravity acceleration along the z axis
     private int mEventCountSinceGZChanged = 0;
-    private static final int MAX_COUNT_GZ_CHANGE = 2;
+    private static final int MAX_COUNT_GZ_CHANGE = 10;
     private boolean mStarted = false;
     private SensorManager mSensorManager;
     public static final String BROADCAST_INTENT = "broadcast_intent";
@@ -75,7 +75,7 @@ public class MotionControlService extends Service implements SensorEventListener
         int type = event.sensor.getType();
         if (type == Sensor.TYPE_ACCELEROMETER) {
             float gz = event.values[2];
-            Log.d(TAG, "EVENT TRIGGERED");
+            //Log.d(TAG, "EVENT TRIGGERED");
             if (mGZ == 0) {
                 mGZ = gz;
             } else {
