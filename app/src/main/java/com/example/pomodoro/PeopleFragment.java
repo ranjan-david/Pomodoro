@@ -54,26 +54,31 @@ public class PeopleFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         mContext = getActivity();
+        //initialize the view and variables
         view = inflater.inflate( R.layout.activity_peoplenearby, null);
         nearbyList = new ArrayList<String>();
         challengeTimelist = new ArrayList<Integer>();
-
+        //manage location
         mLocationManager = (LocationManager) mContext.getApplicationContext().getSystemService(LOCATION_SERVICE);
+
+        //get the authenication
         this.mAuth = FirebaseAuth.getInstance();
+        //get firebase variables
         database = FirebaseDatabase.getInstance().getReference();
         DatabaseReference logout = FirebaseDatabase.getInstance().getReference();
-
-
-
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
         logout.child("User").child(UserInfo.getUid()).child("LoginState").onDisconnect().setValue("Offline");
 
         final String UID = UserInfo.getUid();
+        //check whether gps is opened
         if (checkGPSSetting()){
             Location location = getLastKnownLocation();
             updateView(location);
+            //set the location is updated
             database.child("User").child(UID).child("LatestLocation").setValue("1");
+            //update people nearby
             peoplenearby();
+            //initialize the adapter
             nicknameView = view.findViewById(R.id.nearbylayout);
             peopleAdapter = new PeopleAdapter(getActivity(),nearbyList,challengeTimelist);
             nicknameView.setAdapter(peopleAdapter);
@@ -97,8 +102,7 @@ public class PeopleFragment extends Fragment {
         super.onDestroy();
 
     }
-
-
+    //listener to the change of position
     public void addlistener(){
         LocationListener locationListener=new LocationListener() {
 
@@ -122,6 +126,7 @@ public class PeopleFragment extends Fragment {
                         break;
                 }
             }
+            //change when the gps is available
             public void onProviderEnabled(String provider) {
                 Location location=getLastKnownLocation();
                 updateView(location);
@@ -137,7 +142,7 @@ public class PeopleFragment extends Fragment {
     }
 
     public void createRecycleView(){
-        //
+        // update the people nearby list and challenge time list
         peopleAdapter.notifyDataSetChanged();
 
 
@@ -145,7 +150,7 @@ public class PeopleFragment extends Fragment {
     }
 
     public void peoplenearby(){
-
+        //listen to the database change
         ValueEventListener postListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -171,7 +176,7 @@ public class PeopleFragment extends Fragment {
         database.addValueEventListener(postListener);
 
     }
-
+    // check the distance between users
     public void distanceCheck(DataSnapshot dataSnapshot,Iterable<DataSnapshot> dataSnapshots){
         try{
             FirebaseUser UserInfo =  mAuth.getCurrentUser();
@@ -182,9 +187,11 @@ public class PeopleFragment extends Fragment {
 
             nearbyList.clear();
             challengeTimelist.clear();
+            //traverse the database
             for (DataSnapshot d:dataSnapshots){
+                //check connection state of user
                 if (boolConnected(d)&&!d.getKey().equals(UID)){
-
+                    //get the distance
                     double this_latitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Latitude").getValue().toString());
                     double this_longitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Longitude").getValue().toString());
 
@@ -195,8 +202,10 @@ public class PeopleFragment extends Fragment {
 
 
                     if (this.location!=null&&dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
+                        //distance computing
                         double distance = distance(this_latitude,this_longitude,other_latitude,other_longitude);
 
+                        //threshold of distance is 2km
                         if (distance<2){
                             nearbyList.add(d.child("Nickname").getValue().toString());
                             challengeTimelist.add(Integer.parseInt(d.child("Challengetime").getValue().toString()));
@@ -216,13 +225,15 @@ public class PeopleFragment extends Fragment {
 
 
     }
-
+    //check whether user is connected
     public boolean boolConnected(DataSnapshot d){
         return d.child("LoginState").getValue()!=null&&
                 d.child("LatestLocation").getValue()!=null&&
                 d.child("LoginState").getValue().equals("Online")&&
                 d.child("LatestLocation").getValue().equals("1");
     }
+
+    // distance calculating function
 
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
@@ -245,15 +256,21 @@ public class PeopleFragment extends Fragment {
         return (rad * 180.0 / Math.PI);
     }
 
+
+    //check the setting of GPS on device
     public boolean checkGPSSetting() {
         boolean gpsenable = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+
         if (gpsenable == false) {
+            // if GPS is closed, open gps
             openGPS2();
             if (mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
-
+                //if gps is enabled, return directly
                 return true;
             }
         } else {
+            // if gps is available
             if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 ActivityCompat.requestPermissions(getActivity(), new String []{android.Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.ACCESS_FINE_LOCATION},1);
                 if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
@@ -273,7 +290,7 @@ public class PeopleFragment extends Fragment {
         }
         return false;
     }
-
+    // update the database data including longitude and latitude
     public void updateView(Location location){
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
         this.location = location;
@@ -283,6 +300,7 @@ public class PeopleFragment extends Fragment {
     }
 
     public void openGPS2(){
+        //invoke the notification to user whether open gps
         Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
         startActivityForResult(intent,0);
     }
