@@ -40,6 +40,7 @@ public class HomeFragment extends Fragment {
     private TextView LongestChallengeData;
     private TextView location;
     private EditText Nickname;
+    private EditText ChallengeTime;
 
     //Set up the local button of signout and save
     private Button SignoutButton;
@@ -73,6 +74,8 @@ public class HomeFragment extends Fragment {
         LongestChallengeData = (TextView)view.findViewById(R.id.LongestChallData);
         Nickname = (EditText)view.findViewById(R.id.editTextTextPersonName2);
         location = (TextView) view.findViewById(R.id.textView_location);
+        ChallengeTime = (EditText)view.findViewById(R.id.editTextChallengeTime);
+
         //Binding the buttons
         this.SignoutButton = (Button)view.findViewById(R.id.email_sign_out_button);
         this.SaveButton = (Button)view.findViewById(R.id.name_save);
@@ -91,9 +94,9 @@ public class HomeFragment extends Fragment {
                     TimeChallengedData.setText(snapshot.child("TimeChallenge").getValue(long.class).toString());
                     ChallengeWonData.setText(snapshot.child("ChallengeWin").getValue(long.class).toString());
                     LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
+                    ChallengeTime.setText(snapshot.child("Challengetime").getValue(long.class).toString());
                     Nickname.setText(snapshot.child("Nickname").getValue(String.class));
                     location.setText(snapshot.child("LocationName").getValue(String.class));
-
                     Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
                 }
                 catch (Exception e){
@@ -139,10 +142,23 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 myRef.child("Nickname").setValue(Nickname.getText().toString());
-                Toast.makeText(getActivity().getApplicationContext(),"Successfully Save Your Nickname！",Toast.LENGTH_SHORT).show();
+                String timechallenge = ChallengeTime.getText().toString();
+                long num=10;
+                try {
+                    num = Integer.parseInt(timechallenge);
+                    if (num>60){
+                        Toast.makeText(getActivity().getApplicationContext(),"Challenge Time should be smaller than 60 mins",Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        myRef.child("Challengetime").setValue(num);
+                    }
+                }catch(NumberFormatException nfe) {
+                    Toast.makeText(getActivity().getApplicationContext(),"Wrong Format of Challenge Time!",Toast.LENGTH_SHORT).show();
+                }
+
+                Toast.makeText(getActivity().getApplicationContext(),"Successfully Save Your Profile！",Toast.LENGTH_SHORT).show();
             }
         });
         return view;
-
     }
 }

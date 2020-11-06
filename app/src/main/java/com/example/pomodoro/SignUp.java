@@ -172,6 +172,7 @@ public class SignUp extends AppCompatActivity {
         long LongestChallengeData = 0;
         long Latitude = 0;
         long Longitude = 0;
+        long challengetime=10;
 
         //Initial all the parameters which will be used.
         DatabaseReference database = FirebaseDatabase.getInstance().getReference();
@@ -186,6 +187,7 @@ public class SignUp extends AppCompatActivity {
         database.child("User").child(UID).child("LoginState").setValue(Loginstate);
         database.child("User").child(UID).child("Latitude").setValue(Latitude);
         database.child("User").child(UID).child("Longitude").setValue(Longitude);
+        database.child("User").child(UID).child("Challengetime").setValue(challengetime);
         database.child("User").child(UID).child("LatestLocation").setValue("0");
 
 
