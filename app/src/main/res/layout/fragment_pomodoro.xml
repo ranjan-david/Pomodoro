@@ -94,7 +94,7 @@
         android:hint="Enter Number" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/startPomoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatsVal"

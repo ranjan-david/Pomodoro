@@ -1,19 +1,17 @@
 package com.example.pomodoro;
 
-import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
-import java.util.Calendar;
 
 public class PomodoroFragment extends Fragment {
     @Nullable
@@ -23,66 +21,33 @@ public class PomodoroFragment extends Fragment {
 
         final EditText studyTime;
         studyTime=(EditText) view.findViewById(R.id.studyTimeVal);
-        studyTime.setInputType(InputType.TYPE_NULL);
-        studyTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                TimePickerDialog picker = new TimePickerDialog(PomodoroFragment.this.getActivity(),
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                studyTime.setText(sHour + ":" + sMinute);
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-            }
-        });
+        studyTime.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         final EditText shortBreakTime;
         shortBreakTime=(EditText) view.findViewById(R.id.shrtBreakTimeVal);
-        shortBreakTime.setInputType(InputType.TYPE_NULL);
-        shortBreakTime.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                TimePickerDialog picker = new TimePickerDialog(PomodoroFragment.this.getActivity(),
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                shortBreakTime.setText(sHour + ":" + sMinute);
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-            }
-        });
+        shortBreakTime.setInputType(InputType.TYPE_CLASS_NUMBER);
 
         final EditText longBreakTime;
         longBreakTime=(EditText) view.findViewById(R.id.lngBreakTimeVal);
-        longBreakTime.setInputType(InputType.TYPE_NULL);
-        longBreakTime.setOnClickListener(new View.OnClickListener() {
-            @Override
+        longBreakTime.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        final EditText repeatsTillLongBreak;
+        repeatsTillLongBreak=(EditText) view.findViewById(R.id.repeatsVal);
+        repeatsTillLongBreak.setInputType(InputType.TYPE_CLASS_NUMBER);
+
+        Button button = (Button) view.findViewById(R.id.startPomoButton);
+        button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                final Calendar cldr = Calendar.getInstance();
-                int hour = cldr.get(Calendar.HOUR_OF_DAY);
-                int minutes = cldr.get(Calendar.MINUTE);
-                // time picker dialog
-                TimePickerDialog picker = new TimePickerDialog(PomodoroFragment.this.getActivity(),
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePicker tp, int sHour, int sMinute) {
-                                longBreakTime.setText(sHour + ":" + sMinute);
-                            }
-                        }, hour, minutes, true);
-                picker.show();
-            }
-        });
+
+            Intent myIntent = new Intent(getActivity(), DoPomodoroActivity.class);
+                myIntent.putExtra("studyTime", Integer.parseInt(studyTime.getText().toString()));
+                myIntent.putExtra("shortBreakTime", Integer.parseInt(shortBreakTime.getText().toString()));
+                myIntent.putExtra("longBreakTime", Integer.parseInt(longBreakTime.getText().toString()));
+                myIntent.putExtra("repeatsTillLongBreak", Integer.parseInt(repeatsTillLongBreak.getText().toString()));
+            startActivity(myIntent);
+        }
+    });
+
         return view;
     }
 }
