@@ -38,7 +38,7 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
     FirebaseUser user;
     FirebaseAuth mAuth;
     private GoogleMap mMap;
-    float zoomLevel = 16.0f; // Default zoom level for map camera
+    float zoomLevel = 8.0f; // Default zoom level for map camera
     LatLng newLoc;
     private Marker marker;
     Button addLocation;

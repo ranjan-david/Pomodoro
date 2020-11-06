@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -49,6 +51,8 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference();
+
+        Log.i("This many locations: ", String.valueOf(locationNames.size()));
     }
 
     @NonNull
@@ -95,16 +99,17 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         final String finalLocName = locName;
 
         // Find where the user is currently checked in
-
-        database.child("User").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+        database.child("User").child(user.getUid()).child("Location").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                checkedIn = snapshot.child("Location").getValue().toString();
+                checkedIn = snapshot.getValue().toString();
                 // Change text if user is checked in
                 if (checkedIn.equals(finalPlaceId)){
-                    holder.checkIn.setText("Checked In Here");
+                    holder.checkIn.setText("Check Out");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 }else{
                     holder.checkIn.setText("Check In");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
                 }
             } @Override
             public void onCancelled(DatabaseError databaseError) {
@@ -112,10 +117,8 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             }
         });
 
-        Log.i("Checked in to ", "somewhere: " + checkedIn);
 
-
-
+        // Update database, change text and background colour when "Check In" button is pressed
         holder.checkIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,8 +128,8 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
                     if (checkedIn != null) {
                         database.child("Location").child(checkedIn).child("Checked in").child(user.getUid()).removeValue();
                     }
-
-                    holder.checkIn.setText("Checked In Here");
+                    holder.checkIn.setText("Check Out");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                     v.setTag(0); // Checked In
                     Timestamp time = new Timestamp(System.currentTimeMillis());
                     database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).setValue(time);
@@ -136,6 +139,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
 
                 }else {
                     holder.checkIn.setText("Check In");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
                     database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).removeValue();
                     database.child("User").child(user.getUid()).child("LocationName").removeValue();
                     v.setTag(1); //Checked Out
@@ -173,6 +177,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         TextView numberChecked;
         Button mapButton;
         Button checkIn;
+        ConstraintLayout card;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -181,6 +186,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             distance = itemView.findViewById(R.id.Distance);
             mapButton = itemView.findViewById(R.id.MapView);
             checkIn = itemView.findViewById(R.id.CheckIn);
+            card = itemView.findViewById(R.id.Card);
             checkIn.setTag(1);
         }
     }

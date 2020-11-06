@@ -22,6 +22,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/Card"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimaryDark">
@@ -59,7 +60,7 @@
                 style="?android:attr/borderlessButtonStyle"
                 android:layout_width="304dp"
                 android:layout_height="28dp"
-                android:background="@color/colorPrimaryDark"
+                android:background="#00303F9F"
                 android:text="0 people checked in"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryLight"
@@ -69,25 +70,25 @@
 
             <Button
                 android:id="@+id/MapView"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="155dp"
                 android:layout_height="46dp"
-                android:background="@color/colorPrimaryLight"
+                android:background="@color/colorButton"
                 android:text="View on map"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryLight"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/CheckIn"
                 app:layout_constraintTop_toBottomOf="@+id/NumberCheckedIn" />
 
             <Button
                 android:id="@+id/CheckIn"
-                style="?android:attr/borderlessButtonStyle"
+                style="@style/Widget.AppCompat.Button"
                 android:layout_width="160dp"
                 android:layout_height="46dp"
-                android:background="@color/colorPrimaryLight"
+                android:background="@color/colorButton"
                 android:text="Check in"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimaryLight"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/NumberCheckedIn" />
 
