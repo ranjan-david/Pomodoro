@@ -52,8 +52,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MyProfile" />
-        <activity android:name=".Challenge"></activity>
+
+        <activity android:name=".Challenge">
+        </activity>
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

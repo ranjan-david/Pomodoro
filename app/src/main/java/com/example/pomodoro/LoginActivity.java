@@ -5,11 +5,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -23,81 +25,103 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
-
-    private static final int RC_SIGN_IN = 9001;
-
+    //Initialize the firebaseAuth
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
 
+    //Initialize Buttons
     private Button SigninButton;
-
     private Button SignupButton;
     private Button ResetPassword;
 
+    //Initialize EditText
     private EditText MailCurrent;
     private EditText PasswordCurrent;
 
-
-    private ProgressDialog mProgressDialog;
-
+    //Init button UI
+    private AnimationDrawable animationbtn1;
+    private AnimationDrawable animationbg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        //Get the instance of FirebaseAuth
         this.mAuth = FirebaseAuth.getInstance();
 
-
+        //Binding the buttons
         this.SigninButton = (Button)findViewById(R.id.email_sign_in_button);
-
-        this.SignupButton = (Button)findViewById(R.id.email_sign_up_button);
-        this.ResetPassword = (Button)findViewById(R.id.resetPassword);
+        //this.SignupButton = (Button)findViewById(R.id.email_sign_up_button);
+        //this.ResetPassword = (Button)findViewById(R.id.resetPassword);
+        //Binding the edit text
         this.MailCurrent = (EditText)findViewById(R.id.email);
         this.PasswordCurrent = (EditText)findViewById(R.id.password);
+
+        //Set the Button UI
+        //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+        //By Desarrollador Creativo
+        //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+        animationbtn1 = (AnimationDrawable)SigninButton.getBackground();
+        animationbtn1.setEnterFadeDuration(3000);
+        animationbtn1.setExitFadeDuration(3000);
+
+        TextView title = (TextView)findViewById(R.id.textView);
+        animationbg = (AnimationDrawable)title.getBackground();
+        animationbg.setEnterFadeDuration(4500);
+        animationbg.setExitFadeDuration(4500);
+
+        //Check whether there exists user already login
+        //Using the framework of FirebaseAuth
+        //More information in https://firebase.google.com/docs/auth
 
         this.mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged( FirebaseAuth firebaseAuth) {
+                //Try to Get current User
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
                     Toast.makeText(getApplicationContext(),"Currently Login with "+user.getEmail(),Toast.LENGTH_SHORT).show();
                     updateUI(mAuth.getCurrentUser());
                     moveToProfile(mAuth.getCurrentUser());
-
-
-
                 } else {
                     Toast.makeText(getApplicationContext(),"Please Login Again.",Toast.LENGTH_SHORT).show();
-
                 }
             }
         };
+
+        //Sign in Button functionality
+        //Using the framework of FirebaseAuth
+        //More information in https://firebase.google.com/docs/auth
         this.SigninButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Read the email and password
                 String emailInput = MailCurrent.getText().toString();
                 String passwordInput = PasswordCurrent.getText().toString();
-                //System.out.println(emailInput+" "+passwordInput);
-                Toast.makeText(LoginActivity.this, "Loading", Toast.LENGTH_SHORT).show();
+
                 if (!emailInput.isEmpty()&&passwordInput.length()>5){
+                    Toast.makeText(LoginActivity.this, "Loading", Toast.LENGTH_SHORT).show();
                     mAuth.signInWithEmailAndPassword(emailInput, passwordInput).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                // Sign in success, update UI with the signed-in user's information
+                                //Get the user after Signing
                                 FirebaseUser user = mAuth.getCurrentUser();
-                                updateUI(user);
-                                updateUI(mAuth.getCurrentUser());
-                                moveToProfile(mAuth.getCurrentUser());
+                                //Get the database of current user
                                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+
+                                //Set the Values when Sign in
                                 database.child("User").child(user.getUid()).child("LoginState").setValue("Online");
                                 database.child("User").child(user.getUid()).child("LatestLocation").setValue("0");
 
+                                //Go to HomePage
+                                moveToProfile(mAuth.getCurrentUser());
                             } else {
-                                // If sign in fails, display a message to the user.
-                                Toast.makeText(LoginActivity.this, "Authentication failed.",
-                                        Toast.LENGTH_SHORT).show();
-                                updateUI(null);
+                                //If Auth Failed, show the information
+                                String error= task.getException().getLocalizedMessage();
+                                Toast.makeText(LoginActivity.this, "Authentication failed." +error, Toast.LENGTH_LONG).show();
+                                //updateUI(null);
                             }
 
                         }
@@ -105,30 +129,28 @@ public class LoginActivity extends AppCompatActivity {
 
                 }
                 else{
+                    //If password is not following structure
                     Toast.makeText(getApplicationContext(),"Password should not be empty or less than 6 characters",Toast.LENGTH_SHORT).show();
                 }
             }
         });
-        
 
-        this.SignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this,SignUp.class);
-                startActivity(intent);
-            }
-        });
-
-        this.ResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this,ResetPassword.class);
-                startActivity(intent);
-            }
-        });
 
     }
 
+    //Sign up
+    public void onClickSignup(View v){
+        Intent intent=new Intent(LoginActivity.this,SignUp.class);
+        startActivity(intent);
+    }
+
+    //Reset Password
+    public void onClickReset(View v){
+        Intent intent=new Intent(LoginActivity.this,ResetPassword.class);
+        startActivity(intent);
+    }
+
+    //Move to home page
     private void moveToProfile(FirebaseUser currentUser) {
         if (currentUser!=null){
             Intent intent=new Intent(LoginActivity.this,Pomodoro.class);
@@ -136,50 +158,72 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage("Loading...");
-            mProgressDialog.setIndeterminate(true);
-        }
-
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
-
-    private void signIn() {
-    }
-
-
     public void onStart() {
         super.onStart();
-        // Check if user is signed in (non-null) and update UI accordingly.
+
+        //Check whether user is login
         FirebaseUser currentUser = mAuth.getCurrentUser();
+
         if (currentUser != null) {
             Toast.makeText(getApplicationContext(),"Currently Login with "+currentUser.getEmail(),Toast.LENGTH_SHORT).show();
-            updateUI(mAuth.getCurrentUser());
-            moveToProfile(mAuth.getCurrentUser());
+
+            //Update status of user
             DatabaseReference database = FirebaseDatabase.getInstance().getReference();
             database.child("User").child(currentUser.getUid()).child("LoginState").setValue("Online");
             database.child("User").child(currentUser.getUid()).child("LatestLocation").setValue("0");
+
+            //Move to Homepage
+            moveToProfile(mAuth.getCurrentUser());
         }
         else{
-            System.out.println("No user!");
+            System.out.println("Please Login !");
         }
-        //updateUI(currentUser);
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if (animationbtn1!=null){
+            if (!animationbtn1.isRunning()){
+                animationbtn1.start();
+            }
+        }
+
+        if (animationbg!=null){
+            if (!animationbg.isRunning()){
+                animationbg.start();
+            }
+        }
+
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (animationbtn1!=null){
+            if (animationbtn1.isRunning()){
+                animationbtn1.stop();
+            }
+        }
+        if (animationbg!=null){
+            if (animationbg.isRunning()){
+                animationbg.stop();
+            }
+        }
     }
 
     private void updateUI(FirebaseUser currentUser) {
         if (currentUser == null) {
             Toast.makeText(getApplicationContext(), "Login Failed!" , Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Login in as" + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Login in as " + currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
     }
-
 }

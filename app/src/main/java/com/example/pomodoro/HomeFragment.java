@@ -29,9 +29,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 public class HomeFragment extends Fragment {
-    public User currentUser;
+    //Set up the firebase parameters
     public DatabaseReference myRef;
 
+    //Set up the original data
     private TextView LongestStreakData;
     private TextView AveragePomoTimeData;
     private TextView TimeChallengedData;
@@ -40,6 +41,7 @@ public class HomeFragment extends Fragment {
     private TextView location;
     private EditText Nickname;
 
+    //Set up the local button of signout and save
     private Button SignoutButton;
     private Button SaveButton;
 
@@ -49,21 +51,21 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-
+        //loading profile from the database
         Toast.makeText(getActivity().getApplicationContext(),"Loading Profile...",Toast.LENGTH_SHORT).show();
-
-        //setContentView(R.layout.activity_my_profile);
-
+        //Initial the current user
         final FirebaseAuth mAuth = FirebaseAuth.getInstance();
         FirebaseUser UserInfo =  mAuth.getCurrentUser();
+        //Get the user id of current use to find the data of this user
         final String UID = UserInfo.getUid();
 
+        //Initial database instance
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        myRef = database.getReference().child("User").child(UID);
-        if (currentUser==null){
-            currentUser = new User();
-        }
 
+        //Try to find the data of current user
+        myRef = database.getReference().child("User").child(UID);
+
+        //Binding the variables with the textview in front end
         LongestStreakData = (TextView)view.findViewById(R.id.StreakData);
         AveragePomoTimeData = (TextView)view.findViewById(R.id.pomotimeData);
         TimeChallengedData = (TextView)view.findViewById(R.id.timeChallData);
@@ -71,60 +73,68 @@ public class HomeFragment extends Fragment {
         LongestChallengeData = (TextView)view.findViewById(R.id.LongestChallData);
         Nickname = (EditText)view.findViewById(R.id.editTextTextPersonName2);
         location = (TextView) view.findViewById(R.id.textView_location);
-
+        //Binding the buttons
         this.SignoutButton = (Button)view.findViewById(R.id.email_sign_out_button);
         this.SaveButton = (Button)view.findViewById(R.id.name_save);
 
 
-        //System.out.println(UID);
-
+        //Read data from backend
+        //Using the framework of Firebase database
+        //More information could be found in https://firebase.google.com/docs/database
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                //System.out.println(snapshot.child("UID").getValue(String.class));
-                //System.out.println(snapshot.child("Nickname").getValue(String.class));
-                //System.out.println(snapshot.child("LongestChallenge").getValue(long.class));
-                //System.out.println(snapshot.child("TimeChallenge").getValue(long.class));
-                //System.out.println(snapshot.child("ChallengeWin").getValue(long.class));
-                //System.out.println(snapshot.child("LongestChallenge").getValue(long.class));
+                //Try to read the data
+                try {
+                    LongestStreakData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
+                    AveragePomoTimeData.setText(snapshot.child("AveragePomoTime").getValue(long.class).toString());
+                    TimeChallengedData.setText(snapshot.child("TimeChallenge").getValue(long.class).toString());
+                    ChallengeWonData.setText(snapshot.child("ChallengeWin").getValue(long.class).toString());
+                    LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
+                    Nickname.setText(snapshot.child("Nickname").getValue(String.class));
+                    location.setText(snapshot.child("LocationName").getValue(String.class));
 
-                //updateData(snapshot);
-                LongestStreakData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
-                AveragePomoTimeData.setText(snapshot.child("AveragePomoTime").getValue(long.class).toString());
-                TimeChallengedData.setText(snapshot.child("TimeChallenge").getValue(long.class).toString());
-                ChallengeWonData.setText(snapshot.child("ChallengeWin").getValue(long.class).toString());
-                LongestChallengeData.setText(snapshot.child("LongestChallenge").getValue(long.class).toString());
-                Nickname.setText(snapshot.child("Nickname").getValue(String.class));
-                location.setText(snapshot.child("LocationName").getValue(String.class));
+                    Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
+                }
+                catch (Exception e){
+                    throw e;
+                }
+                //Read the Value from database
 
-                Toast.makeText(getActivity().getApplicationContext(),"Successfully Loading Profile",Toast.LENGTH_SHORT).show();
 
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Wrong");
+                System.out.println("Database Errors! Please check your connection");
             }
         });
 
+        //Sign Out functionality
         this.SignoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Get user id of current user
                 String UID = mAuth.getCurrentUser().getUid();
+                //sign out using firebase author
                 mAuth.signOut();
                 DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
+                //If logout successfully
                 if (mAuth.getCurrentUser()==null){
                     Toast.makeText(getActivity().getApplicationContext(),"Successfully Logging Out",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(getActivity().getApplicationContext(),LoginActivity.class);
                     startActivity(intent);
+                    //Set the status to offline
                     database.child("User").child(UID).child("LoginState").setValue("Offline");
                 }
+                //if Logout failed
                 else{
                     Toast.makeText(getActivity().getApplicationContext(),"Can not log out Now",Toast.LENGTH_SHORT).show();
                 }
             }
         });
 
+        //Save new Nick name
         this.SaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -132,10 +142,7 @@ public class HomeFragment extends Fragment {
                 Toast.makeText(getActivity().getApplicationContext(),"Successfully Save Your Nickname！",Toast.LENGTH_SHORT).show();
             }
         });
-
-
         return view;
-
 
     }
 }
