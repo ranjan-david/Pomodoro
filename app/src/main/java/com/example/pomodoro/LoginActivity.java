@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -39,6 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //Init button UI
     private AnimationDrawable animationbtn1;
+    private AnimationDrawable animationbg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +66,10 @@ public class LoginActivity extends AppCompatActivity {
         animationbtn1.setEnterFadeDuration(3000);
         animationbtn1.setExitFadeDuration(3000);
 
+        TextView title = (TextView)findViewById(R.id.textView);
+        animationbg = (AnimationDrawable)title.getBackground();
+        animationbg.setEnterFadeDuration(4500);
+        animationbg.setExitFadeDuration(4500);
 
         //Check whether there exists user already login
         //Using the framework of FirebaseAuth
@@ -187,6 +193,12 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
 
+        if (animationbg!=null){
+            if (!animationbg.isRunning()){
+                animationbg.start();
+            }
+        }
+
     }
 
     //Reference & Idea from Android Studio - Custom Button - Dynamic Background
@@ -198,6 +210,11 @@ public class LoginActivity extends AppCompatActivity {
         if (animationbtn1!=null){
             if (animationbtn1.isRunning()){
                 animationbtn1.stop();
+            }
+        }
+        if (animationbg!=null){
+            if (animationbg.isRunning()){
+                animationbg.stop();
             }
         }
     }
