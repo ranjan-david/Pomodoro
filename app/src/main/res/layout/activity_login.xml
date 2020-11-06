@@ -49,35 +49,58 @@
             android:maxLines="1"
             android:fontFamily="sans-serif-condensed"
             android:gravity="center"
-            android:layout_marginBottom="100px"
+            android:layout_marginBottom="10px"
             />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp">
+            <TextView
+                android:id="@+id/SignupText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:textSize="15dp"
+                android:text="@string/sign_up_text"
+                android:onClick="onClickSignup"
+                android:clickable="true"
+                android:textColor="@color/blue_dark"/>
+
+            <TextView
+                android:id="@+id/tv_find_pwd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:gravity="right"
+                android:padding="15dp"
+                android:textSize="15dp"
+                android:text="@string/reset_text"
+                android:onClick="onClickReset"
+                android:clickable="true"
+                android:textColor="@color/blue_dark"/>
+
+        </RelativeLayout>
+
 
         <Button
             android:id="@+id/email_sign_in_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="60dp
+"
             android:text="Sign In"
+            android:background="@drawable/animation_btn_1"
+            android:textColor="@color/quantum_white_100"
             android:textStyle="bold"/>
 
 
-        <Button
-            android:id="@+id/email_sign_up_button"
-            style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:text="Sign up"
-            android:textStyle="bold"/>
 
-        <Button
-            android:id="@+id/resetPassword"
-            style="?android:textAppearanceSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Forget Your Password?"
-            android:textStyle="bold"/>
 
 
     </LinearLayout>

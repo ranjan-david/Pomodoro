@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,7 +33,9 @@ public class SignUp extends AppCompatActivity {
     //Initial Firebase authority
     private FirebaseAuth mAuth;
 
-
+    //Init button UI
+    private AnimationDrawable animationbtn1;
+    private AnimationDrawable animationbtn2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,18 @@ public class SignUp extends AppCompatActivity {
 
         //Binding the FirebaseAuth instance
         this.mAuth = FirebaseAuth.getInstance();
+
+        //Set the Button UI
+        //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+        //By Desarrollador Creativo
+        //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+        animationbtn1 = (AnimationDrawable)BacktoSign.getBackground();
+        animationbtn1.setEnterFadeDuration(3000);
+        animationbtn1.setExitFadeDuration(3000);
+
+        animationbtn2 = (AnimationDrawable)SignUp.getBackground();
+        animationbtn2.setEnterFadeDuration(3000);
+        animationbtn2.setExitFadeDuration(3000);
 
         //Click on back to sign
         //go back to sign in pages
@@ -104,6 +119,43 @@ public class SignUp extends AppCompatActivity {
             }
         });
 
+    }
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if (animationbtn1!=null){
+            if (!animationbtn1.isRunning()){
+                animationbtn1.start();
+            }
+        }
+        if (animationbtn2!=null){
+            if (!animationbtn2.isRunning()){
+                animationbtn2.start();
+            }
+        }
+
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (animationbtn1!=null){
+            if (animationbtn1.isRunning()){
+                animationbtn1.stop();
+            }
+        }
+        if (animationbtn2!=null){
+            if (animationbtn2.isRunning()){
+                animationbtn2.stop();
+            }
+        }
     }
     private void createData(FirebaseUser currentUser){
         //Initial setting of the config values

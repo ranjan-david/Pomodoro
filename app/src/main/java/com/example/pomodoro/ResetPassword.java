@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -26,6 +27,10 @@ public class ResetPassword extends AppCompatActivity {
     //Initialize the Edit Text
     private EditText MailCurrent;
 
+    //Init button UI
+    private AnimationDrawable animationbtn1;
+    private AnimationDrawable animationbtn2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +45,18 @@ public class ResetPassword extends AppCompatActivity {
 
         //Binding the Edit text
         this.MailCurrent = (EditText)findViewById(R.id.email);
+
+        //Set the Button UI
+        //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+        //By Desarrollador Creativo
+        //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+        animationbtn1 = (AnimationDrawable)BacktoSign.getBackground();
+        animationbtn1.setEnterFadeDuration(3000);
+        animationbtn1.setExitFadeDuration(3000);
+
+        animationbtn2 = (AnimationDrawable)ResetPassword.getBackground();
+        animationbtn2.setEnterFadeDuration(3000);
+        animationbtn2.setExitFadeDuration(3000);
 
         //Link to Sign In page
         this.BacktoSign.setOnClickListener(new View.OnClickListener() {
@@ -82,5 +99,42 @@ public class ResetPassword extends AppCompatActivity {
             }
         });
 
+    }
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if (animationbtn1!=null){
+            if (!animationbtn1.isRunning()){
+                animationbtn1.start();
+            }
+        }
+        if (animationbtn2!=null){
+            if (!animationbtn2.isRunning()){
+                animationbtn2.start();
+            }
+        }
+
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (animationbtn1!=null){
+            if (animationbtn1.isRunning()){
+                animationbtn1.stop();
+            }
+        }
+        if (animationbtn2!=null){
+            if (animationbtn2.isRunning()){
+                animationbtn2.stop();
+            }
+        }
     }
 }

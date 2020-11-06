@@ -80,14 +80,18 @@
             android:fontFamily="sans-serif-condensed"/>
         <Button
             android:id="@+id/signup"
+            android:background="@drawable/animation_btn_1"
+            android:textColor="@color/quantum_white_100"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="15dp"
             android:text="Sign Up"
             android:textStyle="bold"/>
         <Button
             android:id="@+id/back"
+            android:background="@drawable/animation_btn_1"
+            android:textColor="@color/quantum_white_100"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

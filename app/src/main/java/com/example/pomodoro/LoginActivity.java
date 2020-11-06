@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -36,6 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText MailCurrent;
     private EditText PasswordCurrent;
 
+    //Init button UI
+    private AnimationDrawable animationbtn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +50,20 @@ public class LoginActivity extends AppCompatActivity {
 
         //Binding the buttons
         this.SigninButton = (Button)findViewById(R.id.email_sign_in_button);
-        this.SignupButton = (Button)findViewById(R.id.email_sign_up_button);
-        this.ResetPassword = (Button)findViewById(R.id.resetPassword);
+        //this.SignupButton = (Button)findViewById(R.id.email_sign_up_button);
+        //this.ResetPassword = (Button)findViewById(R.id.resetPassword);
         //Binding the edit text
         this.MailCurrent = (EditText)findViewById(R.id.email);
         this.PasswordCurrent = (EditText)findViewById(R.id.password);
+
+        //Set the Button UI
+        //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+        //By Desarrollador Creativo
+        //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+        animationbtn1 = (AnimationDrawable)SigninButton.getBackground();
+        animationbtn1.setEnterFadeDuration(3000);
+        animationbtn1.setExitFadeDuration(3000);
+
 
         //Check whether there exists user already login
         //Using the framework of FirebaseAuth
@@ -116,25 +128,20 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-        
-        //Link to Sign up Page
-        this.SignupButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this,SignUp.class);
-                startActivity(intent);
-            }
-        });
 
-        //Link to reset password page
-        this.ResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(LoginActivity.this,ResetPassword.class);
-                startActivity(intent);
-            }
-        });
 
+    }
+
+    //Sign up
+    public void onClickSignup(View v){
+        Intent intent=new Intent(LoginActivity.this,SignUp.class);
+        startActivity(intent);
+    }
+
+    //Reset Password
+    public void onClickReset(View v){
+        Intent intent=new Intent(LoginActivity.this,ResetPassword.class);
+        startActivity(intent);
     }
 
     //Move to home page
@@ -164,6 +171,34 @@ public class LoginActivity extends AppCompatActivity {
         }
         else{
             System.out.println("Please Login !");
+        }
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onResume(){
+        super.onResume();
+
+        if (animationbtn1!=null){
+            if (!animationbtn1.isRunning()){
+                animationbtn1.start();
+            }
+        }
+
+    }
+
+    //Reference & Idea from Android Studio - Custom Button - Dynamic Background
+    //By Desarrollador Creativo
+    //from https://www.youtube.com/watch?v=JUgoVCdF5kY
+    @Override
+    protected void onPause(){
+        super.onPause();
+        if (animationbtn1!=null){
+            if (animationbtn1.isRunning()){
+                animationbtn1.stop();
+            }
         }
     }
 
