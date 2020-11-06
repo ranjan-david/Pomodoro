@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -47,12 +48,9 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         locationLatLng = latLng;
         locationNames = locNames;
         locationDistance = locDist;
-
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference();
-
-        Log.i("This many locations: ", String.valueOf(locationNames.size()));
     }
 
     @NonNull

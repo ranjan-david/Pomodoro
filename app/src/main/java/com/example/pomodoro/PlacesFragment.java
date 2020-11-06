@@ -137,6 +137,7 @@ public class PlacesFragment extends Fragment {
 
     private void updatePlaces(){
 
+        Toast.makeText(getActivity().getApplicationContext(),"Updating Place List",Toast.LENGTH_SHORT).show();
         //build places query string
         String placesSearchStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ String.valueOf(latitude) + "," + String.valueOf(longitude) + "&rankby=distance&type=library&name&geometry&key=AIzaSyCpfH3kSTZK-NIbv00PuMCgGMK1YyrY9V8";
         final String[] jsonToParse = new String[1];
@@ -173,8 +174,6 @@ public class PlacesFragment extends Fragment {
                                 double distance = distance(latitude, longitude, locLat, locLon);
 
                                 locationNames.addToList(name, loc, distance); // Add name, lat/long of location
-                                Log.i("Adding to location list: ", name + " " + String.valueOf(loc));
-
 
                             }
 
