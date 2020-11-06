@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -39,15 +40,40 @@ public class PomodoroFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-            Intent myIntent = new Intent(getActivity(), DoPomodoroActivity.class);
-                myIntent.putExtra("studyTime", Integer.parseInt(studyTime.getText().toString()));
-                myIntent.putExtra("shortBreakTime", Integer.parseInt(shortBreakTime.getText().toString()));
-                myIntent.putExtra("longBreakTime", Integer.parseInt(longBreakTime.getText().toString()));
-                myIntent.putExtra("repeatsTillLongBreak", Integer.parseInt(repeatsTillLongBreak.getText().toString()));
-            startActivity(myIntent);
+            int[] inputValues = validateFields(studyTime.getText().toString(), shortBreakTime.getText().toString(), longBreakTime.getText().toString(), repeatsTillLongBreak.getText().toString());
+
+            if(inputValues != null)
+            {
+                Intent myIntent = new Intent(getActivity(), DoPomodoroActivity.class);
+                myIntent.putExtra("studyTime", inputValues[0]);
+                myIntent.putExtra("shortBreakTime", inputValues[1]);
+                myIntent.putExtra("longBreakTime", inputValues[2]);
+                myIntent.putExtra("repeatsTillLongBreak", inputValues[3]);
+                startActivity(myIntent);
+            }
+            else
+            {
+                Toast.makeText(getActivity(), "Please Provide Valid Input", Toast.LENGTH_SHORT).show();
+            }
         }
     });
 
         return view;
+    }
+
+    private int[] validateFields(String studyTime, String shortBreakTime, String longBreakTime, String repeatsTillLongBreak)
+    {
+        try {
+            int studyTimeInt = Integer.parseInt(studyTime);
+            int shortBreakTimeInt = Integer.parseInt(studyTime);
+            int longBreakTimeInt = Integer.parseInt(studyTime);
+            int repeatsTillLongBreakInt = Integer.parseInt(studyTime);
+
+            return new int[]{studyTimeInt, shortBreakTimeInt, longBreakTimeInt, repeatsTillLongBreakInt};
+        }
+        catch (Exception ex)
+        {
+            return null;
+        }
     }
 }

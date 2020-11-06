@@ -19,12 +19,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DoPomodoroActivity"></activity>
+        <activity android:name=".DoPomodoroActivity"
+            android:screenOrientation="portrait"></activity>
         <activity android:name=".Pomodoro"></activity>
         <service
         android:name=".MotionControlService"
         android:enabled="true"
         android:exported="true" />
+
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
