@@ -93,6 +93,7 @@ public class PeopleFragment extends Fragment {
     public void onDestroy() {
 
         super.onDestroy();
+
     }
 
 
@@ -170,36 +171,45 @@ public class PeopleFragment extends Fragment {
     }
 
     public void distanceCheck(DataSnapshot dataSnapshot,Iterable<DataSnapshot> dataSnapshots){
-        FirebaseUser UserInfo =  mAuth.getCurrentUser();
-        String UID = UserInfo.getUid();
-        nearbyList.clear();
-        for (DataSnapshot d:dataSnapshots){
-            if (boolConnected(d)&&!d.getKey().equals(UID)){
+        try{
+            FirebaseUser UserInfo =  mAuth.getCurrentUser();
+            if (UserInfo==null){
+                return;
+            }
+            String UID = UserInfo.getUid();
 
-                double this_latitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Latitude").getValue().toString());
-                double this_longitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Longitude").getValue().toString());
+            nearbyList.clear();
+            for (DataSnapshot d:dataSnapshots){
+                if (boolConnected(d)&&!d.getKey().equals(UID)){
+
+                    double this_latitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Latitude").getValue().toString());
+                    double this_longitude = Double.parseDouble(dataSnapshot.child("User").child(UID).child("Longitude").getValue().toString());
 
 
 
-                double other_latitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Latitude").getValue().toString());
-                double other_longitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Longitude").getValue().toString());
+                    double other_latitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Latitude").getValue().toString());
+                    double other_longitude = Double.parseDouble(dataSnapshot.child("User").child(d.getKey()).child("Longitude").getValue().toString());
 
 
-                if (this.location!=null&&dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
-                    double distance = distance(this_latitude,this_longitude,other_latitude,other_longitude);
+                    if (this.location!=null&&dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
+                        double distance = distance(this_latitude,this_longitude,other_latitude,other_longitude);
 
-                    if (distance<2){
-                        nearbyList.add(d.child("Nickname").getValue().toString());
+                        if (distance<2){
+                            nearbyList.add(d.child("Nickname").getValue().toString());
+                        }
+
+
                     }
 
+                    if (dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
 
-                }
-
-                if (dataSnapshot.child("User").child(d.getKey()).child("Latitude")!=null){
-
+                    }
                 }
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         }
+
 
     }
 

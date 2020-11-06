@@ -89,13 +89,13 @@ public final class Challenge extends BaseActivity
 
         // database ====================================
 
-
-//    Intent intent = getIntent();
-//    String message = intent.getStringExtra("key");
+        Intent intent = getIntent();
+        String message = intent.getStringExtra("Name");
 //
 //    // Capture the layout's TextView and set the string as its text
-//    TextView textView = findViewById(R.id.Challenger_Name);
-//    textView.setText(message);
+        TextView textView = findViewById(R.id.Challenger_Name);
+        textView.setText(message);
+
 
 
 

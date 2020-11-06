@@ -103,15 +103,5 @@
         android:text="Start Pomodoro"
         android:backgroundTint="@color/colorPrimaryDark"
         android:textColor="@color/colorPrimaryLight"/>
-    <Button
-        android:id="@+id/button_v2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="sendMessage"
-        android:layout_below="@+id/startPomoButton"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Challenge"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColor="@color/colorPrimaryLight"/>
+
 </RelativeLayout>
