@@ -15,10 +15,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Pomodoro extends AppCompatActivity {
 
-//    public void sendMessage(View view) {
-//        Intent intent1 = new Intent(Pomodoro.this, Challenge.class);
-//        startActivity(intent1);
-//    }
+    public void sendMessage(View view) {
+        Intent intent1 = new Intent(Pomodoro.this, Challenge.class);
+        startActivity(intent1);
+    }
 
 
 
