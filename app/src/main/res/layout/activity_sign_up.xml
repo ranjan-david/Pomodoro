@@ -15,13 +15,15 @@
     <TextView
         android:id="@+id/textView_signup"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="150dp"
         android:gravity="center"
         android:text="Sign Up"
         android:textStyle="bold"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:layout_marginBottom="50px"
-        android:fontFamily="sans-serif-condensed"/>
+        android:textColor="@color/quantum_white_100"
+        android:fontFamily="sans-serif-condensed"
+        android:background="@drawable/backgorund_list"/>
         <TextView
             android:id="@+id/textView_EmailTitle"
             android:layout_width="match_parent"
@@ -80,6 +82,7 @@
             android:fontFamily="sans-serif-condensed"/>
         <Button
             android:id="@+id/signup"
+            android:foreground="?attr/selectableItemBackground"
             android:background="@drawable/animation_btn_1"
             android:textColor="@color/quantum_white_100"
             style="?android:textAppearanceSmall"
@@ -90,6 +93,7 @@
             android:textStyle="bold"/>
         <Button
             android:id="@+id/back"
+            android:foreground="?attr/selectableItemBackground"
             android:background="@drawable/animation_btn_1"
             android:textColor="@color/quantum_white_100"
             style="?android:textAppearanceSmall"

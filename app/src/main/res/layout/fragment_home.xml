@@ -53,13 +53,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/quantum_black_100"
             android:text="@string/nickname_display"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <EditText
             android:id="@+id/editTextTextPersonName2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/quantum_black_100"
             android:ems="10"
             android:gravity="center"
             android:inputType="textPersonName"
@@ -69,9 +71,10 @@
             android:id="@+id/textView_challengetime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/quantum_black_100"
             android:gravity="center"
             android:text="Max Challenge Time"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <EditText
             android:id="@+id/editTextChallengeTime"
@@ -80,15 +83,17 @@
             android:ems="10"
             android:gravity="center"
             android:inputType="numberDecimal"
+            android:textColor="@color/quantum_black_100"
             android:text="loading..." />
 
         <TextView
             android:id="@+id/textView_streak"
+            android:textColor="@color/quantum_black_100"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/longest_Streak"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/StreakData"
@@ -96,15 +101,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="loading..."
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/textView_pomoTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/quantum_black_100"
             android:text="@string/average_time"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/pomotimeData"
@@ -112,7 +119,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="loading..."
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/textView_TimeChall"
@@ -120,15 +128,17 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/time_challenge"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/timeChallData"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:textColor="@color/quantum_black_100"
             android:text="loading..."
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/textView_Won"
@@ -136,7 +146,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/challenge_won"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/WonData"
@@ -144,7 +155,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="loading..."
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
 
         <TextView
@@ -153,7 +165,8 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/longest_challenge"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
         <TextView
             android:id="@+id/LongestChallData"
@@ -161,22 +174,28 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="loading..."
-            android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
         <Button
             android:id="@+id/name_save"
             style="?android:textAppearanceSmall"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="10dp"
             android:text="Save"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryLight"
             android:textStyle="bold"/>
         <Button
             android:id="@+id/email_sign_out_button"
             style="?android:textAppearanceSmall"
+            android:foreground="?attr/selectableItemBackground"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
             android:text="Sign Out"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:textColor="@color/colorPrimaryLight"
             android:textStyle="bold"/>
 
     </LinearLayout>

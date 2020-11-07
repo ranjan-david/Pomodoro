@@ -9,6 +9,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.Button;
 import android.widget.TextView;
@@ -45,6 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_login);
 
         //Get the instance of FirebaseAuth
@@ -142,12 +144,14 @@ public class LoginActivity extends AppCompatActivity {
     public void onClickSignup(View v){
         Intent intent=new Intent(LoginActivity.this,SignUp.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     //Reset Password
     public void onClickReset(View v){
         Intent intent=new Intent(LoginActivity.this,ResetPassword.class);
         startActivity(intent);
+        overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
     }
 
     //Move to home page
@@ -155,6 +159,7 @@ public class LoginActivity extends AppCompatActivity {
         if (currentUser!=null){
             Intent intent=new Intent(LoginActivity.this,Pomodoro.class);
             startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         }
     }
 
