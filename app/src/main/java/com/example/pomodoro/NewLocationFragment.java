@@ -104,6 +104,7 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
             }
         });
 
+        //Listener for location name field entry
         locName.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -118,7 +119,9 @@ public class NewLocationFragment extends Fragment implements GoogleMap.OnMapClic
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if(s.length() != 0) {
-                    marker.setTitle(locName.getText().toString());
+                    if (marker != null){
+                        marker.setTitle(locName.getText().toString());
+                    }
                 }
             }
         });

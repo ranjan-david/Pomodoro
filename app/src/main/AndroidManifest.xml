@@ -56,6 +56,13 @@
         <activity android:name=".Challenge">
         </activity>
 
+        <receiver android:name="processTimerReceiver" >
+            <intent-filter>
+                <action android:name="processTimerReceiver" >
+                </action>
+            </intent-filter>
+        </receiver>
+
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"
             android:value="face" />
