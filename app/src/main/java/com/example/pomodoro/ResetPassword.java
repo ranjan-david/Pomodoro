@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,6 +31,7 @@ public class ResetPassword extends AppCompatActivity {
     //Init button UI
     private AnimationDrawable animationbtn1;
     private AnimationDrawable animationbtn2;
+    private AnimationDrawable animationbtn3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,12 +60,17 @@ public class ResetPassword extends AppCompatActivity {
         animationbtn2.setEnterFadeDuration(3000);
         animationbtn2.setExitFadeDuration(3000);
 
+        TextView title = (TextView)findViewById(R.id.textView_resetPassword) ;
+        animationbtn3 = (AnimationDrawable)title.getBackground();
+        animationbtn3.setEnterFadeDuration(3000);
+        animationbtn3.setExitFadeDuration(3000);
         //Link to Sign In page
         this.BacktoSign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(ResetPassword.this,LoginActivity.class);
                 startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
         });
 
@@ -117,6 +124,11 @@ public class ResetPassword extends AppCompatActivity {
                 animationbtn2.start();
             }
         }
+        if (animationbtn3!=null){
+            if (!animationbtn3.isRunning()){
+                animationbtn3.start();
+            }
+        }
 
     }
 
@@ -134,6 +146,11 @@ public class ResetPassword extends AppCompatActivity {
         if (animationbtn2!=null){
             if (animationbtn2.isRunning()){
                 animationbtn2.stop();
+            }
+        }
+        if (animationbtn3!=null){
+            if (animationbtn3.isRunning()){
+                animationbtn3.stop();
             }
         }
     }
