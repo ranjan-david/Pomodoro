@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-->Reference & Idea from Android Studio -Animated Gradient Background like Instagram - Android Studio Tutorial
+By coding in flow
+from https://codinginflow.com/tutorials/android/animated-gradient-background <-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient
+        android:angle="270"
+        android:endColor="#044fab"
+        android:startColor="#ffd6d3" />
+</shape>

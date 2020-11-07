@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-->Reference & Idea from Android Studio - Custom Button - Dynamic Background
+By Desarrollador Creativo
+from https://www.youtube.com/watch?v=JUgoVCdF5kY <-->
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/color_btn_1"
+        android:duration="3000"/>
+    <item android:drawable="@drawable/color_btn_2"
+        android:duration="3000"/>
+
+</animation-list>

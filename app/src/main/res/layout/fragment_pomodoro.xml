@@ -42,7 +42,7 @@
         android:id="@+id/shrtBreakTimeLbl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Study Time"
+        android:text="Short Break Time"
         android:gravity="center"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="25dp"
@@ -60,7 +60,7 @@
         android:id="@+id/lngBreakTimeLbl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Study Time"
+        android:text="Long Break Time"
         android:gravity="center"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="25dp"
@@ -78,7 +78,7 @@
         android:id="@+id/repeatsLbl"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:text="Study Time"
+        android:text="Repeats before long break"
         android:gravity="center"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="25dp"
@@ -94,12 +94,26 @@
         android:hint="Enter Number" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/startPomoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatsVal"
         android:layout_centerHorizontal="true"
         android:gravity="center"
-        android:text="Start Pomodoro" />
+        android:text="Start Pomodoro"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:textColor="@color/colorPrimaryLight"/>
+
+    <Button
+        android:id="@+id/button_v2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:onClick="sendMessage"
+
+        android:layout_below="@+id/startPomoButton"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Challenge" />
 
 </RelativeLayout>

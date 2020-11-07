@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
 
-            android:background="@drawable/textview_circle_shape"
+            android:background="@color/colorPrimaryDark"
             android:elevation="1dp"
             android:gravity="center"
             android:text="StudyBuddy"
@@ -30,7 +30,7 @@
             android:layout_width="280dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:background="@color/common_google_signin_btn_text_dark_focused"
+            android:background="@color/places_autocomplete_error_button"
             android:elevation="1dp"
             android:gravity="center"
             android:text="10 Minutes"

@@ -15,11 +15,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -34,14 +37,18 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -52,28 +59,77 @@ public class PlacesFragment extends Fragment {
     double longitude;
     public View mView;
     Context mContext;
+    Button newLocation;
+    boolean nearbyShown = true;
 
     //location manager
     private LocationManager lm;
     LocationListener locationListener;
-
     LocList locationNames = new LocList(getActivity());
 
     private static final int RC_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    DatabaseReference database;
+    FirebaseUser user;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = getActivity();
         mView = inflater.inflate(R.layout.activity_places, null);
+
+        mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
+        database = FirebaseDatabase.getInstance().getReference();
+
         Places.initialize(getActivity().getApplicationContext(), apiKey);
         PlacesClient placesClient = Places.createClient(getActivity());
         checkGPSSettings();
         updatePlaces();
         locationNames.buildScrollable();
+
+
+        // Add listener for Add Location button
+        final NewLocationFragment selectedFragment = new NewLocationFragment();
+        newLocation = mView.findViewById(R.id.addLocation);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putDouble("lat", latitude);
+                bundle.putDouble("lon", longitude);
+                selectedFragment.setArguments(bundle);
+
+                int i = getActivity().findViewById(R.id.fragment_container).getId();
+                FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
+                fragmentTransaction.replace(i, selectedFragment);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+
+            }
+        });
+
+        // Add listener for Nearby Libraries button
+        newLocation = mView.findViewById(R.id.NearbyLibs);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePlaces();
+                nearbyShown = true;
+            }
+        });
+
+        // Add listener for My Spots button
+        newLocation = mView.findViewById(R.id.MySpots);
+        newLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nearbyShown = false;
+                displayMySpots();
+            }
+        });
 
         return mView;
     }
@@ -81,6 +137,7 @@ public class PlacesFragment extends Fragment {
 
     private void updatePlaces(){
 
+        Toast.makeText(getActivity().getApplicationContext(),"Updating Place List",Toast.LENGTH_SHORT).show();
         //build places query string
         String placesSearchStr = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location="+ String.valueOf(latitude) + "," + String.valueOf(longitude) + "&rankby=distance&type=library&name&geometry&key=AIzaSyCpfH3kSTZK-NIbv00PuMCgGMK1YyrY9V8";
         final String[] jsonToParse = new String[1];
@@ -117,8 +174,6 @@ public class PlacesFragment extends Fragment {
                                 double distance = distance(latitude, longitude, locLat, locLon);
 
                                 locationNames.addToList(name, loc, distance); // Add name, lat/long of location
-                                Log.i("Adding to location list: ", name + " " + String.valueOf(loc));
-
 
                             }
 
@@ -135,9 +190,62 @@ public class PlacesFragment extends Fragment {
 
         // Add the request to the RequestQueue.
         queue.add(request);
-
     }
 
+    private void displayMySpots(){
+        // Clear the list of locations before re-building it
+        locationNames.clearList();
+        // Find "My Places" in firebase database and add to list.
+        final ArrayList<String> placeIds = new ArrayList<>();
+        database.child("User").child(user.getUid()).child("MyPlaces").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot dsp : snapshot.getChildren()) {
+                    placeIds.add(String.valueOf(dsp.getValue())); //add result into array list
+                    Log.i("place ID", String.valueOf(dsp.getValue()));
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+
+        // Find custom places of current user and add to location list.
+        database.child("Location").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot dsp : snapshot.getChildren()) {
+                    String curPlaceId = String.valueOf(dsp.getKey());
+                    for(int i = 0; i < placeIds.size(); i++){
+                        if (curPlaceId.equals(placeIds.get(i))){
+                            double curLat = 0;
+                            double curLon = 0;
+                            Number tempLat = (Number) snapshot.child(curPlaceId).child("Latitude").getValue();
+                            Number tempLon = (Number) snapshot.child(curPlaceId).child("Longitude").getValue();
+                            String curName = snapshot.child(curPlaceId).child("PlaceName").getValue().toString();
+
+                            if (tempLat != null) {
+                                curLat = tempLat.doubleValue();
+                            }
+                            if (tempLon != null) {
+                                curLon = tempLon.doubleValue();
+                            }
+
+                            LatLng loc = new LatLng(curLat, curLon);
+
+                            double distance = distance(latitude, longitude, curLat, curLon);
+                            locationNames.addToList(curName, loc, distance); // Add name, lat/long of location
+                        }
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+            }
+        });
+    }
+
+    //Find the distance between two locations - result in kilometres
     private double distance(double lat1, double lon1, double lat2, double lon2) {
         double theta = lon1 - lon2;
         double dist = Math.sin(deg2rad(lat1))
@@ -194,6 +302,7 @@ public class PlacesFragment extends Fragment {
             }
         }
 
+        // only called when list is first built
         public void buildScrollable(){
             recyclerView = mView.findViewById(R.id.RecyclerView);
             newAdapter = new NearbyAdapter(getActivity(), locList, latLngList, distanceList); // Pass location name + position to layout
@@ -287,8 +396,10 @@ public class PlacesFragment extends Fragment {
             double longitude = finalLoc.getLongitude();
 
             Log.d("Nearby Places", "Found location: latitude：" + latitude + "\nlongitude" + longitude);
-            // Update the list of places close by
-            updatePlaces();
+            // Update the list of places close by if Nearby Libraries is selected
+            if (nearbyShown) {
+                updatePlaces();
+            };
 
         } else {
             Log.d("Nearby Places", "no available location");

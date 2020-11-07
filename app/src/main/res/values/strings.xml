@@ -13,10 +13,12 @@
     <string name="longest_challenge">Longest Challenged: </string>
     <string name="challenge_won">Challenges Won: </string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_email">Email</string>
-    <string name="prompt_password">Password</string>
+    <string name="prompt_email">Please Enter Your Email</string>
+    <string name="prompt_password">Please Enter Your Password</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Sign in</string>
+    <string name="sign_up_text"><u>Register</u></string>
+    <string name="reset_text"><u>Forget Your Password ?</u></string>
     <string name="welcome">"Welcome !"</string>
     <string name="invalid_username">Not a valid username</string>
     <string name="invalid_password">Password must be >5 characters</string>
@@ -25,4 +27,21 @@
     <string name="Leave_challenge_btn">Leave Challenge</string>
     <string name="Start_challenge_btn">START</string>
     <string name="Pause_challenge_btn">Pause</string>
+
+    <string name="search_hint">Enter query ...</string>
+    <string name="about_dev">Pomodoro</string>
+    <string name="dismiss">DISMISS</string>
+    <string name="okay">OKAY</string>
+    <string name="error_network_not_available">Please check your network connectivity and try again.</string>
+    <string name="error_unable_to_search">Unable to retrieve data.\nPlease try again later.</string>
+    <string name="menu_recognize_photo">Recognize Photo</string>
+    <string name="menu_run_ocr">OCR</string>
+    <string name="about_dialog_title">About App</string>
+    <string name="menu_detect_emotion">Detect Emotion</string>
+    <string name="menu_clear_history">Clear History</string>
+    <string name="menu_clear_result">Clear Result</string>
+    <string name="menu_about">About</string>
+
+
+    <string name="welcome_description">To get information on anything enter your search query in the search bar. You can also use voice input to enter query.\n\nTap on menu for more options on image based search.</string>
 </resources>
