@@ -4,8 +4,14 @@ package com.example.pomodoro;
  *
  * This is the main function for the Document scanner + PDF maker written by Abhishek Anand - 1005884.
  *
- * Packages used by this function are
- * Files used by this caller are
+ * Packages used by this function are Camera, Util, Util.Console & Widget.
+ *
+ * Files used by this caller are applog, appparamsfragment,appsdkfactory,cropdata,cropimageview,
+ * DetectDocCorners, SettingsFragment, LoadImageTask, MainActivity, MainIdentity, ProcessImageTask,
+ * SdkFactory, SettingsActivity and the calling functions.
+ *
+ * Free license for scanning tool provided by pixelnetica.
+ * Code inspired and edited from pixelnetica's - Dennis as a trial for their full app and license.
  * */
 
 import com.example.pomodoro.camera.CameraActivity;
