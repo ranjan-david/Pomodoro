@@ -65,9 +65,9 @@ public class PomodoroFragment extends Fragment {
     {
         try {
             int studyTimeInt = Integer.parseInt(studyTime);
-            int shortBreakTimeInt = Integer.parseInt(studyTime);
-            int longBreakTimeInt = Integer.parseInt(studyTime);
-            int repeatsTillLongBreakInt = Integer.parseInt(studyTime);
+            int shortBreakTimeInt = Integer.parseInt(shortBreakTime);
+            int longBreakTimeInt = Integer.parseInt(longBreakTime);
+            int repeatsTillLongBreakInt = Integer.parseInt(repeatsTillLongBreak);
 
             return new int[]{studyTimeInt, shortBreakTimeInt, longBreakTimeInt, repeatsTillLongBreakInt};
         }
