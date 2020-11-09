@@ -50,14 +50,13 @@ public final class Challenge extends BaseActivity
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
-//    private Button startChallenge;
 
 //    for timer ===========
 
     private TextView countdowntext;
     private Button countdown_btn;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 600000;
+    private long timeLeftInMilliseconds;
     private boolean timeRunning;
 
     // to update database
