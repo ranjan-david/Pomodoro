@@ -14,6 +14,11 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 
 import java.nio.ByteBuffer;
+/**
+ * Code inspired and edited from
+ * ateymoori - github - https://github.com/ateymoori/android_face_detection
+ */
+
 
 public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
 

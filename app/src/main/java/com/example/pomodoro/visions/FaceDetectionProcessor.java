@@ -21,7 +21,10 @@ import com.google.firebase.ml.vision.face.FirebaseVisionFaceDetectorOptions;
 
 import java.io.IOException;
 import java.util.List;
-
+/**
+ * Code inspired and edited from
+ * ateymoori - github- https://github.com/ateymoori/android_face_detection
+ */
 public class FaceDetectionProcessor extends VisionProcessorBase<List<FirebaseVisionFace>> {
 
     private static final String TAG = "FaceDetectionProcessor";

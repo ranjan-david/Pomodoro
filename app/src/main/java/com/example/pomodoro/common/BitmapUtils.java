@@ -16,6 +16,11 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 
+/**
+ * Code inspired and edited from
+ * https://github.com/ateymoori/android_face_detection
+ */
+
 public class BitmapUtils {
 
     @Nullable

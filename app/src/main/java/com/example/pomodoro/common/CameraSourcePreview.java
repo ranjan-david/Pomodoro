@@ -12,6 +12,10 @@ import android.view.ViewGroup;
 import com.google.android.gms.common.images.Size;
 
 import java.io.IOException;
+/**
+ * Code inspired and edited from
+ * googlesamples - https://github.com/googlesamples - CameraSourcePreview
+ */
 
 public class CameraSourcePreview extends ViewGroup {
     private static final String TAG = "MIDemoApp:Preview";

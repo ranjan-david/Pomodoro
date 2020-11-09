@@ -18,6 +18,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * Code inspired and edited from
+ * https://github.com/ateymoori/android_face_detection
+ */
 
 public class PublicMethods {
     private static final int PERMISSION_REQUESTS = 1;

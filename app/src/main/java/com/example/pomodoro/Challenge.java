@@ -36,6 +36,17 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.ml.vision.face.FirebaseVisionFace;
 
 import java.io.IOException;
+/**
+ *
+ * This is the challenge function written by Ramana Jeyaprakash - 1099310.
+ *
+ * 1.Packages used by this function -Base, Common(CameraSource, GraphicOverlay, FrameMetadata).
+ * 2.uses firebase MLkit to detect smile and left and right eye open Probabilities
+ * 3.gets the user name and challenge time from PeopleAdapter activity and allows to enter(start) the challenge when the user smiles.
+ * 4.can detect eye movement and prompt user to open both eyes if closed
+ * 5.if user completes challenge , number of challenges won by user is updated in firebase database
+ * */
+
 
 @KeepName
 public final class Challenge extends BaseActivity

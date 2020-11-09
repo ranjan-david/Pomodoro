@@ -7,6 +7,11 @@ import android.view.View;
 
 import java.util.HashSet;
 import java.util.Set;
+/**
+ * Code inspired and edited from
+ * googlesamples - https://github.com/googlesamples - GraphicOverlay
+ */
+
 
 public class GraphicOverlay extends View {
     private final Object mLock = new Object();
@@ -17,11 +22,7 @@ public class GraphicOverlay extends View {
     private int mFacing = CameraSource.CAMERA_FACING_BACK;
     private Set<Graphic> mGraphics = new HashSet<>();
 
-    /**
-     * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass
-     * this and implement the {@link Graphic#draw(Canvas)} method to define the
-     * graphics element.  Add instances to the overlay using {@link GraphicOverlay#add(Graphic)}.
-     */
+
     public static abstract class Graphic {
         private GraphicOverlay mOverlay;
 
@@ -29,18 +30,7 @@ public class GraphicOverlay extends View {
             mOverlay = overlay;
         }
 
-        /**
-         * Draw the graphic on the supplied canvas.  Drawing should use the following methods to
-         * convert to view coordinates for the graphics that are drawn:
-         * <ol>
-         * <li>{@link Graphic#scaleX(float)} and {@link Graphic#scaleY(float)} adjust the size of
-         * the supplied value from the preview scale to the view scale.</li>
-         * <li>{@link Graphic#translateX(float)} and {@link Graphic#translateY(float)} adjust the
-         * coordinate from the preview's coordinate system to the view coordinate system.</li>
-         * </ol>
-         *
-         * @param canvas drawing canvas
-         */
+
         public abstract void draw(Canvas canvas);
 
         /**
