@@ -12,7 +12,10 @@ import android.util.Log;
 
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-// Class idea and code components taken from https://stackoverflow.com/questions/17774070/android-detect-when-the-phone-flips-around
+// Class idea and code components based on
+// https://stackoverflow.com/questions/17774070/android-detect-when-the-phone-flips-around
+// Service to read accelerometer data and send broadcast when the phone is placed screen down
+// or back down
 
 public class MotionControlService extends Service implements SensorEventListener {
 
@@ -81,14 +84,18 @@ public class MotionControlService extends Service implements SensorEventListener
             } else {
                 if ((mGZ * gz) < 0) {
                     mEventCountSinceGZChanged++;
+                    // Check if the sensor has changed significantly enough to warrant change.
+                    // Current value works on real device which was available
                     if (mEventCountSinceGZChanged == MAX_COUNT_GZ_CHANGE) {
                         mGZ = gz;
                         mEventCountSinceGZChanged = 0;
                         if (gz > 0) {
                             Log.d(TAG, "now screen is facing up.");
+                            // When the screen is facing up, send a broadcast
                             sendBroadcast(MotionControlService.UP);
                         } else if (gz < 0) {
                             Log.d(TAG, "now screen is facing down.");
+                            // When the screen is facing down, send a broadcast
                             sendBroadcast(MotionControlService.DOWN);
                         }
                     }
@@ -103,9 +110,7 @@ public class MotionControlService extends Service implements SensorEventListener
     }
 
     @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // TODO Auto-generated method stub
-    }
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {}
 
     private void sendBroadcast(String value) {
 

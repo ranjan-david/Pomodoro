@@ -13,8 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+//An activity which contains the bottom nav bar and space for feature fragments
 public class Pomodoro extends AppCompatActivity {
-
 
     public void callMain(View view){
         Log.d("MyApp","I am here1");
@@ -32,13 +32,16 @@ public class Pomodoro extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //remove title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pomodoro);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
 
+        //initial fragment is the home fragment
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
 
+        // set the navlistener for the navbar
         bottomNav.setOnNavigationItemSelectedListener(navListener);
     }
 
@@ -64,6 +67,7 @@ public class Pomodoro extends AppCompatActivity {
     private BottomNavigationView.OnNavigationItemSelectedListener navListener =
             new BottomNavigationView.OnNavigationItemSelectedListener() {
                 @Override
+                //Load fragment based on which button is pressed
                 public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                     Fragment selectedFragment = null;
 

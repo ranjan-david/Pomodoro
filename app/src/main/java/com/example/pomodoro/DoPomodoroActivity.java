@@ -71,6 +71,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
             currentUser = new User();
         }
 
+        //get values from the intent
         Intent intent = getIntent();
         studyTime = intent.getIntExtra("studyTime", 0);
         shortBreakTime = intent.getIntExtra("shortBreakTime", 0);
@@ -86,6 +87,8 @@ public class DoPomodoroActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
+                // Check if the current pomodoro is more than one minute long, update
+                // details in database if it is
                 if(currentStreak/60 >= 1)
                 {
                     if(numberOfPomos == 0)
@@ -103,8 +106,10 @@ public class DoPomodoroActivity extends AppCompatActivity {
                         myDatabaseRef.child("LongestStreak").setValue(currentStreak/60);
                     }
                 }
+                // cancel timer on exit
                 timer.cancel();
                 currentState = State.WAITING_FOR_START;
+                // Go back to home activity
                 Intent myIntent = new Intent(DoPomodoroActivity.this, Pomodoro.class);
                 startActivity(myIntent);
             }
@@ -113,6 +118,8 @@ public class DoPomodoroActivity extends AppCompatActivity {
 
         Button continueBtn = (Button) findViewById(R.id.continueBtn);
         continueBtn.setOnClickListener(new View.OnClickListener() {
+            // On clicking the continue, stop the notification that is playing,
+            // hide the continue button and start the next step
             public void onClick(View v) {
                 stopNotification();
                 startNextStep();
@@ -121,13 +128,16 @@ public class DoPomodoroActivity extends AppCompatActivity {
         });
 
         try {
+            // Check if the app has permission to lower the brightness of the screen
             checkSystemWritePermission();
         }
         catch (Exception e)
         {
+            // Warn the user about higher battery usage if permission is not given
             Toast.makeText(this, "Not giving permission will result in significantly lower battery life", Toast.LENGTH_LONG).show();
         }
 
+        // Set the user values from database
         myDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -170,9 +180,13 @@ public class DoPomodoroActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // Start the motion control service
         Intent intent = new Intent(this, MotionControlService.class);
         startService(intent);
+        // Bind the service to this activity
         bindService(intent, connection, Context.BIND_AUTO_CREATE);
+
+        // register a local broadcast receiver to get the broadcast from the service when the sensor changes
         IntentFilter broadcastIntentFilter = new IntentFilter();
         broadcastIntentFilter.addAction(MotionControlService.BROADCAST_INTENT);
         LocalBroadcastManager.getInstance(this).registerReceiver((broadcastReceiver), broadcastIntentFilter);
@@ -188,17 +202,18 @@ public class DoPomodoroActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        // unbind the service so that it can be destroyed
         LocalBroadcastManager.getInstance(this).unregisterReceiver(broadcastReceiver);
         unbindService(connection);
         mBound = false;
     }
 
+    // serviceconnection for the motion control service
     private ServiceConnection connection = new ServiceConnection() {
 
         @Override
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
-            // We've bound to LocalService, cast the IBinder and get LocalService instance
             MotionControlService.MotionControlBinder binder = (MotionControlService.MotionControlBinder) service;
             motionControlService = binder.getService();
             mBound = true;
@@ -210,12 +225,15 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     };
 
-
+    // This method is called when the study timer is to be called
     private void startTimer(){
+        // Define timer methods and start timer
         timer = new CountDownTimer(studyTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                // Update UI on tick
                 timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
+                // The current streak of the user
                 currentStreak += 1;
             }
 
@@ -242,16 +260,20 @@ public class DoPomodoroActivity extends AppCompatActivity {
                  */
             }
         }.start();
+        // Set the current state to study
         currentPomoState = PomoState.STUDY;
     }
 
     private void startShortBreak(){
+        // Define timer methods and start timer
         timer = new CountDownTimer(shortBreakTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                // Update UI on tick
                 timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
             }
 
+            // Increment break count, play notification and show the continue button
             public void onFinish() {
                 breakCount++;
                 playNotification();
@@ -272,12 +294,15 @@ public class DoPomodoroActivity extends AppCompatActivity {
     }
 
     private void startLongBreak(){
+        // Define timer methods and start timer
         timer = new CountDownTimer(longBreakTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
+                // Update UI on tick
                 timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
             }
 
+            // Increment break count, play notification and show the continue button
             public void onFinish() {
                 breakCount++;
                 playNotification();
@@ -298,6 +323,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         currentPomoState = PomoState.LONG_BREAK;
     }
 
+    // Plays the notification (alarm) sound on the device
     private void playNotification(){
         try {
             Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
@@ -308,6 +334,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     }
 
+    // Stops the notification on the device
     private void stopNotification(){
         try {
             r.stop();
@@ -316,6 +343,8 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     }
 
+    // Based on the current step, start the next step in the pomodoro process
+    // Also updates the UI message
     private void startNextStep()
     {
         if(currentPomoState == PomoState.STUDY)
@@ -343,18 +372,21 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     }
 
+    // Makes the continue button visible
     private void showContinueButton()
     {
         Button continueBtn = (Button) findViewById(R.id.continueBtn);
         continueBtn.setVisibility(View.VISIBLE);
     }
 
+    // Makes the continue button invisible
     private void hideContinueButton()
     {
         Button continueBtn = (Button) findViewById(R.id.continueBtn);
         continueBtn.setVisibility(View.INVISIBLE);
     }
 
+    // Check if the app has permission to change system settings, ask if not.
     private boolean checkSystemWritePermission() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if(Settings.System.canWrite(this))
@@ -365,6 +397,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         return false;
     }
 
+    // opens the android permission menu for the WRITE_SETTINGS permission
     private void openAndroidPermissionsMenu() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Intent intent = new Intent(Settings.ACTION_MANAGE_WRITE_SETTINGS);
@@ -373,6 +406,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     }
 
+    // Broadcast message for the motion control service
     private BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
 
         @Override
@@ -381,12 +415,16 @@ public class DoPomodoroActivity extends AppCompatActivity {
         }
     };
 
+    // Handle the signal received from the motion control service
     private void handleIntent(Intent intent) {
+        // If this is the correct broadcast intent
         if (intent.getAction().equals(MotionControlService.BROADCAST_INTENT)) {
+            // Get the broadcast value
             String value = intent.getStringExtra(MotionControlService.BROADCAST_VALUE);
             if(value == MotionControlService.DOWN)
             {
                 try {
+                    // If the app has write permissions, then reduce the screen brightness
                     if (checkSystemWritePermission()) {
                         WindowManager.LayoutParams params = getWindow().getAttributes();
                         params.screenBrightness = 0;
@@ -396,6 +434,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
                     }else {
                         Toast.makeText(this, "Allow modify system settings ==> ON ", Toast.LENGTH_LONG).show();
                     }
+                    // If waiting for start, start the pomodoro
                     if(currentState == State.WAITING_FOR_START) {
                         FrameLayout parentLayout = (FrameLayout) findViewById(R.id.root_view);
                         parentLayout.removeView(findViewById(R.id.info_overlay));
@@ -412,6 +451,7 @@ public class DoPomodoroActivity extends AppCompatActivity {
             if(value == MotionControlService.UP)
             {
                 try {
+                    // If the app has write permissions, then increase the screen brightness
                     if (checkSystemWritePermission()) {
                         WindowManager.LayoutParams params = getWindow().getAttributes();
                         params.screenBrightness = -1;
