@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +16,7 @@ import java.util.List;
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewHolder>{
     public static String Cname;
     public static String Ctime;
+
     // create the holder class
     public static class cylerViewHolder extends RecyclerView.ViewHolder{
         // name,button and challengetime should be update by adapter
@@ -70,7 +70,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
                 String Time = Ctime;
 
                 intent.putExtra("Name", message);
-//                intent.putExtra("Time", Time);
+                intent.putExtra("Time", Time);
                 v.getContext().startActivity(intent);
 
 

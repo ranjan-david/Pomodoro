@@ -72,8 +72,16 @@ public class PeopleFragment extends Fragment {
         final String UID = UserInfo.getUid();
         //check whether gps is opened
         if (checkGPSSetting()){
-            Location location = getLastKnownLocation();
-            updateView(location);
+            try{
+                Location location = getLastKnownLocation();
+                updateView(location);
+            }catch(NullPointerException e){
+                Location loc = new Location("dummyprovider");
+                loc.setLatitude(-37.8906917);
+                loc.setLongitude(145.0645118);
+                updateView(loc);
+            }
+
             //set the location is updated
             database.child("User").child(UID).child("LatestLocation").setValue("1");
             //update people nearby

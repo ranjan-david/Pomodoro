@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
+import com.example.pomodoro.PeopleAdapter;
 import com.example.pomodoro.Base.BaseActivity;
 import com.example.pomodoro.Base.PublicMethods;
 import com.example.pomodoro.common.CameraSource;
@@ -49,14 +50,13 @@ public final class Challenge extends BaseActivity
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
     private GraphicOverlay graphicOverlay;
-//    private Button startChallenge;
 
 //    for timer ===========
 
     private TextView countdowntext;
     private Button countdown_btn;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 600000;
+    private long timeLeftInMilliseconds;
     private boolean timeRunning;
 
     // to update database
@@ -90,7 +90,7 @@ public final class Challenge extends BaseActivity
                 startStop();
             }
         });
-        updateTimer();
+        //updateTimer();
 
         // database ====================================
 
@@ -99,14 +99,14 @@ public final class Challenge extends BaseActivity
         String message = intent.getStringExtra("Name");
         String Challenge_time = intent.getStringExtra("Time");
 
+        String[] words = Challenge_time.split(" ");
+        Challenge_time = words[0];
+
 //
         long T = 0;
-        try {
             T = Long.parseLong(Challenge_time);
             timeLeftInMilliseconds = T * 60000;
-        } catch (NumberFormatException nfe) {
-            System.out.println("Could not parse " + nfe);
-        }
+
         // setting value for the challenge timer
 
 
