@@ -9,7 +9,7 @@
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     >
 
-<com.pixelnetica.easyscan.widget.console.ConsoleTextView
+<com.example.pomodoro.widget.console.ConsoleTextView
     style="@style/CameraConsole"
     android:id="@android:id/text1"
     android:layout_width="wrap_content"

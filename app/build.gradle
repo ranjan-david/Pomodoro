@@ -1,4 +1,6 @@
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
 
 def getGitHash = { ->
     def stdout = new ByteArrayOutputStream()
@@ -9,17 +11,6 @@ def getGitHash = { ->
     }
     return stdout.toString().trim()
 }
-
-// Using external file for app signing
-// Create a variable called keystorePropertiesFile, and initialize it to your
-// keystore.properties file, in the rootProject folder.
-//def keystorePropertiesFile = rootProject.file("keystore.properties")
-
-// Initialize a new Properties() object called keystoreProperties.
-//def keystoreProperties = new Properties()
-
-// Load your keystore.properties file into the keystoreProperties object.
-//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     def gitHash
@@ -43,43 +34,28 @@ android {
             storeFile file("${rootDir}/demo.keystore.jks")
             storePassword '123456'
         }
-        // Signing config which utilize external file properties
-        easyscan {
-//            keyAlias keystoreProperties['keyAlias']
-//            keyPassword keystoreProperties['keyPassword']
-//            storeFile file(keystoreProperties['storeFile'])
-//            storePassword keystoreProperties['storePassword']
-        }
-    }
-
+        pomodoro {}}
     compileSdkVersion 30
-    buildToolsVersion '30.0.2'
+    buildToolsVersion "30.0.1"
+
     defaultConfig {
-        applicationId "com.pixelnetica.easyscan"
-        // NOTE: Don't change value here. Select build flavor
+        applicationId "com.example.pomodoro"
         buildConfigField "boolean", "DEVELOP", "false"
         buildConfigField "String", "GIT_HASH", "\"${gitHash}\""
-
-        minSdkVersion 21
+        minSdkVersion 24
         targetSdkVersion 30
+        versionCode 1
+        versionName "1.0"
 
-        versionCode 46
-        versionName "2.3.8." + versionCode.toString()
-
-        // Add build version and git hash to bundle (.aab) file name.
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         setProperty("archivesBaseName", "$project.name-v$versionCode-${gitHash}")
 
         ndk {
             abiFilters = ['armeabi-v7a', 'arm64-v8a', 'x86_64', 'x86']
         }
-
     }
+
     buildTypes {
-        debug {
-            debuggable true
-            jniDebuggable true
-            minifyEnabled false
-        }
         release {
             minifyEnabled true
             shrinkResources true
@@ -88,30 +64,8 @@ android {
             debuggable false
             jniDebuggable false
         }
-        signed {
-            initWith release
-            matchingFallbacks = ['release']
-            // To run release under IDE
-            signingConfig signingConfigs.demo
-        }
-        // EasyScan app build variant for PlayStore publishing
-        playstore {
-            initWith release
-            matchingFallbacks = ['release']
-            // To run release under IDE
-            signingConfig signingConfigs.easyscan
-        }
-
-    }
-
-    // Add build version to apk file name
-    applicationVariants.all { variant ->
-        variant.outputs.all {
-            outputFileName = "${project.name}-${variant.flavorName}-v${variant.versionCode}-${gitHash}.apk"
-        }
     }
 }
-
 repositories{
     flatDir{
         dirs 'libs'
@@ -120,23 +74,68 @@ repositories{
         url 'http://repo.pixelnetica.com:8081/artifactory/libs-release'
     }
 }
-
-// Lookup dynamic libraries changes every 10 minutes
-configurations.all {
-    resolutionStrategy.cacheChangingModulesFor 10, 'minutes'
-}
-
-// Command to refresh dependencies
-// gradlew.bat clean build --refresh-dependencies
+    configurations.all {
+        resolutionStrategy.cacheChangingModulesFor 10, 'minutes'
+    }
 
 dependencies {
-    // Take release library "-SNAPSHOT" behavior: update every changes, not only version number
-    implementation('com.pixelnetica.sdk:scanning-release:2.3.8') { changing = true }
-
-    implementation "androidx.annotation:annotation:1.1.0"
-    implementation "androidx.appcompat:appcompat:1.2.0"
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
-    implementation 'androidx.exifinterface:exifinterface:1.2.0'
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.1'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
+    implementation 'androidx.cardview:cardview:1.0.0'
     implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.1.0'
+    implementation 'com.google.firebase:firebase-database:17.0.0'
+    implementation 'com.google.firebase:firebase-auth:17.0.0'
+    implementation 'androidx.navigation:navigation-runtime:2.3.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    implementation 'com.google.android.libraries.places:places:2.4.0'
+    implementation 'com.google.android.material:material:1.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
+    implementation 'androidx.cardview:cardview:1.0.0'
+    implementation 'com.google.android.gms:play-services-maps:16.1.0'
+    implementation 'com.android.volley:volley:1.1.1'
+
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation 'com.google.firebase:firebase-ml-vision:24.0.1'
+    implementation 'com.google.firebase:firebase-ml-vision-face-model:19.0.0'
+    implementation 'com.google.android.gms:play-services-vision:19.0.0'
+
+    implementation 'com.google.firebase:firebase-core:16.0.9'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
+    implementation group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation group: 'commons-io', name: 'commons-io', version: '2.5'
+    // Facebook Fresco Image Loading Library
+    implementation 'com.facebook.fresco:fresco:1.4.0'
+    // For animated GIF support
+    implementation 'com.facebook.fresco:animated-gif:1.4.0'
+    // Lottie Animation : https://github.com/airbnb/lottie-android
+    implementation 'com.airbnb.android:lottie:3.4.4'
+    // https://github.com/Tapadoo/Alerter
+    implementation 'com.tapadoo.android:alerter:2.0.0'
+
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.2.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    implementation 'androidx.media:media:1.0.0'
+    implementation 'androidx.slidingpanelayout:slidingpanelayout:1.0.0'
+
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
+
+    implementation 'com.pixelnetica.sdk:scanning-release:2.3.8'
+
 }
+apply plugin: 'com.google.gms.google-services'
+

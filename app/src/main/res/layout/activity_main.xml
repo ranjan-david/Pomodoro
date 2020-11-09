@@ -12,7 +12,8 @@
 		android:id="@+id/app_toolbar"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:background="?attr/colorPrimary"
+		android:background="@drawable/backgorund_list"
+		android:textColor="@color/quantum_white_100"
 		android:minHeight="?attr/actionBarSize"
 		android:theme="@style/AppTheme.ActionBar"
 		app:popupTheme="@style/AppTheme.ActionBar.Popup">
@@ -30,6 +31,7 @@
 				android:layout_width="146dp"
 				android:layout_height="wrap_content"
 				android:drawableStart="@drawable/camera_24px"
+				android:textColor="@color/quantum_white_100"
 				android:text="Scan" />
 
 			<androidx.appcompat.widget.AppCompatButton
@@ -56,17 +58,8 @@
 				android:layout_width="182dp"
 				android:layout_height="wrap_content"
 				android:drawableLeft="@drawable/insert_photo_24px"
+				android:textColor="@color/quantum_white_100"
 				android:text="@string/btn_open_image" />
-
-			<androidx.appcompat.widget.AppCompatButton
-				android:id="@+id/btn_settings"
-				style="?attr/buttonBarButtonStyle"
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:layout_gravity="center"
-				android:drawableStart="@drawable/settings_24px"
-				android:foregroundGravity="center"
-				android:gravity="center|center_horizontal|center_vertical" />
 
 		</LinearLayout>
 
@@ -85,10 +78,10 @@
 		android:layout_width="match_parent"
 		android:layout_height="0dp"
 		android:layout_weight="1"
-		tools:context="com.pixelnetica.easyscan.MainActivity"
+		tools:context="com.example.pomodoro.MainActivity"
 		tools:ignore="MergeRootFrame">
 
-		<com.pixelnetica.easyscan.CropImageView
+		<com.example.pomodoro.CropImageView
 			android:id="@+id/image_holder"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
@@ -106,6 +99,15 @@
 			android:layout_gravity="center"
 			android:indeterminate="true"
 			android:visibility="invisible" />
+
+		<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/call_home"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom"
+			android:layout_margin="@dimen/fab_margin"
+			android:onClick="callhome"
+			android:src="@drawable/ic_home_24px" />
 
 	</FrameLayout>
 

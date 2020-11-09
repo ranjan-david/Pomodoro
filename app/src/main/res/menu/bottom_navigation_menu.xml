@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/menuHome"
+        android:title="@string/home_page"
+        android:icon="@drawable/ic_home_24px"
+        android:enabled="true"
+        />
+    <item android:id="@+id/menuPlaces"
+        android:title="@string/places_page"
+        android:icon="@drawable/ic_place_24px"
+        android:enabled="true"
+        />
+    <item android:id="@+id/menuPeople"
+        android:title="@string/people_page"
+        android:icon="@drawable/ic_people_24px"
+        android:enabled="true"
+        />
+    <item android:id="@+id/menuTimer"
+        android:title="@string/pomodoro_page"
+        android:icon="@drawable/ic_timer_24px"
+        android:enabled="true"
+        />
+</menu>

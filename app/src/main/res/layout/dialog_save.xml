@@ -78,5 +78,6 @@
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:id="@+id/save_format_simulate_pages"
+		android:enabled="false"
 		android:text="@string/save_format_simulate_pages"/>
 </LinearLayout>

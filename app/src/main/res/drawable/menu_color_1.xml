@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-->Reference & Idea from Android Studio - Custom Button - Dynamic Background
+By Desarrollador Creativo
+from https://www.youtube.com/watch?v=JUgoVCdF5kY <-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <corners android:radius="0dp"/>
+    <gradient android:angle="45"
+        android:endColor="#023857"
+        android:startColor="#0093a2"/>
+
+</shape>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="POMODORO"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="25dp"
+        android:layout_alignParentTop="true"
+        android:textColor="@color/quantum_white_100"
+        android:fontFamily="sans-serif-condensed"
+        android:background="@drawable/backgorund_list"/>
+
+
+    <TextView
+        android:id="@+id/studyTimeLbl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Study Time"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="25dp"
+        android:layout_below="@+id/header"/>
+
+    <EditText
+        android:id="@+id/studyTimeVal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:layout_below="@+id/studyTimeLbl"
+        android:gravity="center"
+        android:hint="Enter Time" />
+
+    <TextView
+        android:id="@+id/shrtBreakTimeLbl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Short Break Time"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="25dp"
+        android:layout_below="@+id/studyTimeVal"/>
+
+    <EditText
+        android:id="@+id/shrtBreakTimeVal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:layout_below="@+id/shrtBreakTimeLbl"
+        android:gravity="center"
+        android:hint="Enter Time" />
+    <TextView
+        android:id="@+id/lngBreakTimeLbl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Long Break Time"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="25dp"
+        android:layout_below="@+id/shrtBreakTimeVal"/>
+
+    <EditText
+        android:id="@+id/lngBreakTimeVal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:layout_below="@+id/lngBreakTimeLbl"
+        android:gravity="center"
+        android:hint="Enter Time" />
+    <TextView
+        android:id="@+id/repeatsLbl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Repeats before long break"
+        android:gravity="center"
+        tools:layout_editor_absoluteX="176dp"
+        tools:layout_editor_absoluteY="25dp"
+        android:layout_below="@+id/lngBreakTimeVal"/>
+
+    <EditText
+        android:id="@+id/repeatsVal"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:ems="10"
+        android:layout_below="@+id/repeatsLbl"
+        android:gravity="center"
+        android:hint="Enter Number" />
+
+    <Button
+        android:id="@+id/startPomoButton"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/repeatsVal"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:text="Start Pomodoro"
+        android:textColor="@color/quantum_white_100"
+        android:background="@drawable/animation_btn_1" />
+
+</RelativeLayout>

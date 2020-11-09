@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SignUp">
+    <LinearLayout
+        android:id="@+id/signup_display"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        tools:ignore="MissingConstraints">
+
+    <TextView
+        android:id="@+id/textView_signup"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="Sign Up"
+        android:textStyle="bold"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginBottom="50px"
+        android:fontFamily="sans-serif-condensed"/>
+        <TextView
+            android:id="@+id/textView_EmailTitle"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Email Address"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:fontFamily="sans-serif-condensed"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <EditText
+            android:id="@+id/emailSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Your Email Address"
+            android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"/>
+
+        <TextView
+            android:id="@+id/textView_resetPasswordTitle1"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:text="Password"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <EditText
+            android:id="@+id/password1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Your Password"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:fontFamily="sans-serif-condensed"/>
+        <TextView
+            android:id="@+id/textView_resetPasswordTitle2"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:text="Confirm Your Password"
+            android:fontFamily="sans-serif-condensed"
+            android:gravity="center"
+            android:textColor="@color/quantum_black_100"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+        <EditText
+            android:id="@+id/password2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Confirm Your Password"
+            android:gravity="center"
+            android:inputType="textPassword"
+            android:maxLines="1"
+            android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed"/>
+        <Button
+            android:id="@+id/signup"
+            android:background="@drawable/animation_btn_1"
+            android:textColor="@color/quantum_white_100"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:text="Sign Up"
+            android:textStyle="bold"/>
+        <Button
+            android:id="@+id/back"
+            android:background="@drawable/animation_btn_1"
+            android:textColor="@color/quantum_white_100"
+            style="?android:textAppearanceSmall"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Back To Login"
+            android:textStyle="bold"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
