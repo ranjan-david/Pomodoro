@@ -65,7 +65,22 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-
+/**
+ *
+ * This is the mainfunction for the Wolfram API access for the search and math calculator function
+ *
+ * Packages used by this function are adapter, api, contentprovider, model and parser.
+ *
+ * Files used are myActivity and Utils - which contains the wolfram alpha apis.
+ *
+ * Code inspired and edited from two sources
+ *
+ * SumitSahoo - Github - AskMeAnything
+ *
+ * JojojojoChen - Github - OfflineBling_Android App.
+ *
+ * Apis accessed WolframAlpha free trial.
+ */
 
 
 public class myActivity extends BaseActivity implements ActivityCompat.OnRequestPermissionsResultCallback, FrameReturn {
