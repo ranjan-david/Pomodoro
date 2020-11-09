@@ -8,7 +8,6 @@ import androidx.appcompat.widget.AppCompatImageButton;
 
 /**
  * Check box using only image, without text
- * Created by Denis on 14.02.2015.
  */
 public class ImageCheckBox extends AppCompatImageButton implements Checkable {
 	private final CheckableHelper mCheckableHelper = new CheckableHelper(this);

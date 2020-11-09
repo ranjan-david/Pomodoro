@@ -17,9 +17,6 @@ import com.example.pomodoro.util.Utils;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * Created by Denis on 10.06.2016.
- */
 public class ConsoleAdapter extends RecyclerView.Adapter<ConsoleAdapter.ConsoleViewHolder>
 		implements ConsoleView.IConsole {
 

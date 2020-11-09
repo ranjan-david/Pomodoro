@@ -12,7 +12,6 @@ import com.example.pomodoro.R;
 
 /**
  * NOTE: Vertical (look at "horizontal" gravity doesn't work
- * Created by Denis on 10.06.2016.
  */
 public class ConsoleTextView extends AppCompatTextView {
 

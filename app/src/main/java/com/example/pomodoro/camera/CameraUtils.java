@@ -11,9 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-/**
- * Created by Denis on 24.10.2016.
- */
+
 
 class CameraUtils {
 

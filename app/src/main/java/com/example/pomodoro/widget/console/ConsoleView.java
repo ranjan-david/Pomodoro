@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.pomodoro.R;
 
 /**
- * Created by Denis on 10.06.2016.
  */
 public class ConsoleView extends RecyclerView {
 

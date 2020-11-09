@@ -16,9 +16,7 @@ import com.example.pomodoro.R;
 import com.example.pomodoro.SdkFactory;
 import com.pixelnetica.imagesdk.CutoutAverageF;
 
-/**
- * Created by Denis on 28.02.2015.
- */
+
 public class CameraOverlay extends View implements ICameraOverlay {
 
 	private boolean mShowCorners;

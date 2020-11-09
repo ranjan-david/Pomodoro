@@ -29,9 +29,7 @@ import java.util.Arrays;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Created by Denis on 03.10.2016.
- */
+
 
 public class Utils {
 

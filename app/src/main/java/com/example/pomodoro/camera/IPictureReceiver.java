@@ -11,9 +11,7 @@ import java.io.IOException;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicReference;
 
-/**
- * Created by Denis on 11.06.2016.
- */
+
 public interface IPictureReceiver {
 	File getSinkPath();
 

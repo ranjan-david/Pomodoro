@@ -6,9 +6,6 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
-/**
- * Created by Denis on 09.02.2015.
- */
 public class MotionDetector implements SensorEventListener {
 
     public interface MotionDetectorCallbacks {

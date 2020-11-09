@@ -22,9 +22,6 @@ import com.pixelnetica.imagesdk.MetaImage;
 
 import java.lang.ref.WeakReference;
 
-/**
- * Created by Denis on 15.07.2017.
- */
 
 public abstract class SdkFactory {
 

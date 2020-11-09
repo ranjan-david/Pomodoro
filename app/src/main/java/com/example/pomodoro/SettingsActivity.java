@@ -10,9 +10,6 @@ import android.widget.CheckBox;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-/**
- * Created by Denis on 30.08.2016.
- */
 public class SettingsActivity extends AppCompatActivity {
 
 	// Custom Fragments

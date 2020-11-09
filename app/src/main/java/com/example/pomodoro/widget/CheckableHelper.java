@@ -12,7 +12,7 @@ import com.example.pomodoro.AppLog;
 /**
  * Helper class to implement Checkable interface
  * Based on {@code #CompoundButton} class
- * Created by Denis on 15.06.2015.
+
  */
 public class CheckableHelper implements Checkable {
 

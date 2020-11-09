@@ -22,11 +22,7 @@ import java.util.List;
 
 import static com.example.pomodoro.ProcessImageTask.BWBinarization;
 
-/**
- * Identity for MainActivity
- * Contains all "back-end" stuff for MainActivity
- * Created by Denis on 25.03.2018.
- */
+
 
 public class MainIdentity extends AndroidViewModel {
 

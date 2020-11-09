@@ -14,9 +14,6 @@ import com.pixelnetica.imagesdk.MetaImage;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * Created by Denis on 23.03.2018.
- */
 
 class LoadImageTask extends AsyncTask<Uri, Void, LoadImageTask.LoadImageResult> {
 	static class LoadImageResult extends TaskResult {

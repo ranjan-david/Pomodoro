@@ -14,9 +14,7 @@ import com.pixelnetica.imagesdk.ImageSdkLibrary;
 import com.pixelnetica.imagesdk.ImageWriter;
 import com.pixelnetica.imagesdk.ImageWriterException;
 
-/**
- * Created by Denis on 26.11.2016.
- */
+
 
 public class AppSdkFactory extends SdkFactory {
 

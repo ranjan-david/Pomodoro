@@ -36,9 +36,7 @@ import java.util.Map;
 
 import static java.util.Map.Entry;
 
-/**
- * Created by Denis on 04.02.2015.
- */
+
 public class CameraView extends TextureView implements
 		TextureView.SurfaceTextureListener,
 		Camera.AutoFocusCallback,

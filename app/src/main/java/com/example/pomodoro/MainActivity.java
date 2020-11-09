@@ -1,5 +1,12 @@
 package com.example.pomodoro;
 
+/**
+ *
+ * This is the main function for the Document scanner + PDF maker written by Abhishek Anand - 1005884.
+ *
+ * Packages used by this function are
+ * Files used by this caller are
+ * */
 
 import com.example.pomodoro.camera.CameraActivity;
 import com.example.pomodoro.util.RuntimePermissions;

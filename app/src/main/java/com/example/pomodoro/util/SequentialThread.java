@@ -10,10 +10,7 @@ import com.example.pomodoro.AppLog;
 
 import java.util.HashSet;
 
-/**
- * Worker thread to make something in sequence order
- * Created by Denis on 30.04.2015.
- */
+
 public abstract class SequentialThread extends HandlerThread{
     protected static final int EXIT_THREAD = 0;
 

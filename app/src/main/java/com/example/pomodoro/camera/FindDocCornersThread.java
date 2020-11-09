@@ -28,10 +28,6 @@ import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Find document corners by SDK
- * Created by Denis on 22.03.2015.
- */
 public class FindDocCornersThread extends SequentialThread {
 
 	private static final int PROCESS_CORNERS = EXIT_THREAD + 1;

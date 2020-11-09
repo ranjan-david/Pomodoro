@@ -24,9 +24,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 
-/**
- * Created by Denis on 07.07.2016.
- */
+
 public class RuntimePermissions {
 
 	public interface Callback {
