@@ -37,6 +37,7 @@ import com.google.android.libraries.places.api.Places;
 import com.google.android.libraries.places.api.net.PlacesClient;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,6 +91,7 @@ public class PlacesFragment extends Fragment {
         updatePlaces();
         locationNames.buildScrollable();
 
+        final String[] location = new String[1];
 
         // Add listener for Add Location button
         final NewLocationFragment selectedFragment = new NewLocationFragment();
