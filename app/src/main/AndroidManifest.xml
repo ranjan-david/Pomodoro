@@ -7,10 +7,16 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-feature android:name="android.hardware.camera" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
 
     <application
         android:allowBackup="true"
@@ -18,10 +24,32 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DoPomodoroActivity"
-            android:screenOrientation="portrait"></activity>
-        <activity android:name=".Pomodoro"></activity>
+
+        <provider
+            android:name=".contentprovider.SearchSuggestionProvider"
+            android:authorities="com.example.pomodoro.contentprovider.SearchSuggestionProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_provider_paths" />
+        </provider>
+
+        <activity
+            android:name=".DoPomodoroActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".Pomodoro" />
         <service
         android:name=".MotionControlService"
         android:enabled="true"
@@ -52,9 +80,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.pomodoro.MainActivity" />
 
-        <activity android:name=".Challenge">
-        </activity>
+        <activity android:name=".Challenge" />
 
         <receiver android:name="processTimerReceiver" >
             <intent-filter>
@@ -62,6 +90,32 @@
                 </action>
             </intent-filter>
         </receiver>
+
+        <activity android:name=".pdfcaller">
+        </activity>
+
+        <activity android:name=".maincaller" />
+
+        <activity android:name=".myActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+                <action android:name="android.media.action.IMAGE_CAPTURE" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.pomodoro.camera.CameraActivity"
+            android:label="@string/title_activity_camera"
+            android:screenOrientation="portrait"
+            android:theme="@style/CameraTheme" >
+        </activity>
+
+        <activity android:name="com.example.pomodoro.SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/SettingsTheme"
+            >
+
+        </activity>
+
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

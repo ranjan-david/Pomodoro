@@ -1,18 +1,12 @@
 package com.example.pomodoro;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.app.job.JobScheduler;
 import android.content.Context;
 import android.content.Intent;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,10 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.text.DecimalFormat;
-import java.time.Duration;
 import java.util.ArrayList;
-
-import static android.content.Context.ALARM_SERVICE;
 
 public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHolder>{
     ArrayList<String> locationNames;
@@ -52,12 +43,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
     FirebaseUser user;
     DatabaseReference database;
 
-    //Time managers
-    AlarmManager processTimer;
-    Intent timeIntent;
-
-    Integer timeSpent;
-
     public NearbyAdapter(Context ct, ArrayList<String> locNames, ArrayList<LatLng> latLng, ArrayList<Double> locDist){
         context = ct;
         locationLatLng = latLng;
@@ -66,8 +51,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance().getReference();
-        processTimer = (AlarmManager) context.getSystemService(ALARM_SERVICE);
-        timeIntent = new Intent(context, processTimerReceiver.class);
     }
 
     @NonNull
@@ -87,7 +70,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         locDist = locationDistance.get(position);
         holder.name.setText(locName);
 
-
         // Formatting distance and locPos
         DecimalFormat df = new DecimalFormat("#.##"); // Format the distance to 2 decimal places
         holder.distance.setText(String.valueOf(df.format(locDist)) + " km away");
@@ -97,15 +79,15 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         placeId = placeId.replace("/", "");
 
         // Allows location to be viewed on map
-        final Intent[] intent = {new Intent(context, MapsActivity.class)}; // Create new activity intent for map view
-        intent[0].putExtra("locName", locName); // Give location name to map activity
-        intent[0].putExtra("locPos", locPos); //Give latitude, longitude to map activity
+        final Intent intent = new Intent(context, MapsActivity.class); // Create new activity intent for map view
+        intent.putExtra("locName", locName); // Give location name to map activity
+        intent.putExtra("locPos", locPos); //Give latitude, longitude to map activity
 
         //Bind map activity intent to "View on Map" button
         holder.mapButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(intent[0]);
+                context.startActivity(intent);
             }
         });
 
@@ -114,7 +96,7 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         final Place place = new Place(locName);
         final String finalLocName = locName;
 
-        // Listener to find where the user is currently checked in
+        // Find where the user is currently checked in
         database.child("User").child(user.getUid()).child("Location").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -133,7 +115,37 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             }
         });
 
-        // Listener to find the number of users currently checked in somewhere
+
+        // Update database, change text and background colour when "Check In" button is pressed
+        holder.checkIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final int status =(Integer) v.getTag();
+
+                if (status == 1) {
+                    if (checkedIn != null) {
+                        database.child("Location").child(checkedIn).child("Checked in").child(user.getUid()).removeValue();
+                    }
+                    holder.checkIn.setText("Check Out");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
+                    v.setTag(0); // Checked In
+                    Timestamp time = new Timestamp(System.currentTimeMillis());
+                    database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).setValue(time);
+                    checkedIn = finalPlaceId;
+                    database.child("User").child(user.getUid()).child("Location").setValue(finalPlaceId);
+                    database.child("User").child(user.getUid()).child("LocationName").setValue(finalLocName);
+
+                }else {
+                    holder.checkIn.setText("Check In");
+                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+                    database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).removeValue();
+                    database.child("User").child(user.getUid()).child("LocationName").removeValue();
+                    v.setTag(1); //Checked Out
+                }
+            }
+        });
+
+        // Find the number of users currently checked in somewhere
         database.child("Location").child(finalPlaceId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -149,88 +161,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             }
         });
 
-        // Listener to get time user has spent at this location
-        database.child("User").child(user.getUid()).child("LocationTimes").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                try {
-                    timeSpent = snapshot.child(finalPlaceId).getValue(Integer.class);
-                    if (timeSpent != null){
-                        holder.studyTime.setText(String.valueOf(timeSpent) + " mins");
-                    } else{
-                        holder.studyTime.setText("0 mins");
-                    }
-                }catch(Exception e){
-                }
-            } @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("Wrong");
-            }
-        });
-
-        // Update database, change text and background colour when "Check In" button is pressed
-        final PendingIntent[] pendingIntent = new PendingIntent[1];
-        holder.checkIn.setOnClickListener(new View.OnClickListener() {
-            Intent timerIntent = new Intent();
-
-            @Override
-            public void onClick(View v) {
-                final int status =(Integer) v.getTag();
-
-                //Params for timer
-                timeIntent.putExtra("Place", finalPlaceId);
-                pendingIntent[0] = PendingIntent.getBroadcast(context, 0,  timeIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-
-                //Check button status 1=not checked in, 0 =checked in
-                if (status == 1) {
-                    if (checkedIn != null) {
-                        // Check out of previous location
-                        database.child("Location").child(checkedIn).child("Checked in").child(user.getUid()).removeValue();
-                    }
-
-                    //Update UI
-                    holder.checkIn.setText("Check Out");
-                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
-
-                    // Checked In flag
-                    v.setTag(0);
-
-                    // Update local checked in value, update remote current location values
-                    checkedIn = finalPlaceId;
-                    database.child("Location").child(checkedIn).child("Checked in").child(user.getUid()).setValue("Checked In");
-                    database.child("User").child(user.getUid()).child("Location").setValue(finalPlaceId);
-                    database.child("User").child(user.getUid()).child("LocationName").setValue(finalLocName);
-
-                    // Ensure there is a time value for the checked in location
-                    if (timeSpent == null){
-                        database.child("User").child(user.getUid()).child("LocationTimes").child(finalPlaceId).setValue(0);
-                    }
-
-                    // Start timer using the AlarmManager
-                    //Update the time spent in a location every minute
-                    Log.i("Nearby Adapter", "Started Timer");
-                    processTimer.setRepeating(AlarmManager.RTC_WAKEUP,
-                            System.currentTimeMillis(),60000, pendingIntent[0]);
-
-                }else {
-                    holder.checkIn.setText("Check In");
-
-                    //Update the background colour of the card
-                    holder.card.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
-                    database.child("Location").child(finalPlaceId).child("Checked in").child(user.getUid()).removeValue();
-                    database.child("User").child(user.getUid()).child("LocationName").removeValue();
-
-                    //Stop timer
-                    Log.i("NearbyAdapter", "Timer stopped");
-                    processTimer.cancel(pendingIntent[0]);
-
-                    //Checked Out flag set
-                    v.setTag(1);
-                }
-            }
-        });
-
     }
 
     @Override
@@ -243,7 +173,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
         TextView name;
         TextView distance;
         TextView numberChecked;
-        TextView studyTime;
         Button mapButton;
         Button checkIn;
         ConstraintLayout card;
@@ -257,7 +186,6 @@ public class NearbyAdapter extends RecyclerView.Adapter<NearbyAdapter.MyViewHold
             checkIn = itemView.findViewById(R.id.CheckIn);
             card = itemView.findViewById(R.id.Card);
             checkIn.setTag(1);
-            studyTime = itemView.findViewById(R.id.timeStudied);
         }
     }
 }

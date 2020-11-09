@@ -1,12 +1,15 @@
 package com.example.pomodoro;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,6 +43,8 @@ public final class Challenge extends BaseActivity
     private static final String TAG = "MLKitTAG";
 
 
+
+
     Bitmap originalImage = null;
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
@@ -51,10 +56,10 @@ public final class Challenge extends BaseActivity
     private TextView countdowntext;
     private Button countdown_btn;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 60000 ;
+    private long timeLeftInMilliseconds = 600000;
     private boolean timeRunning;
 
-// to update database
+    // to update database
     public User currentUser;
     public DatabaseReference myRef;
 
@@ -89,15 +94,26 @@ public final class Challenge extends BaseActivity
 
         // database ====================================
 
+
         Intent intent = getIntent();
         String message = intent.getStringExtra("Name");
+        String Challenge_time = intent.getStringExtra("Time");
+
 //
-//    // Capture the layout's TextView and set the string as its text
+        long T = 0;
+        try {
+            T = Long.parseLong(Challenge_time);
+            timeLeftInMilliseconds = T * 60000;
+        } catch (NumberFormatException nfe) {
+            System.out.println("Could not parse " + nfe);
+        }
+        // setting value for the challenge timer
+
+
         TextView textView = findViewById(R.id.Challenger_Name);
         textView.setText(message);
 
-
-
+        updateTimer();
 
     }
     //for timer =======================================
@@ -142,7 +158,7 @@ public final class Challenge extends BaseActivity
         countdowntext.setText(timeleftText);
 
         // if timeLeftInMilliseconds is 1000 - increase the challenge completed by one.
-        if(timeLeftInMilliseconds == 1000){
+        if((minutes == 0) && (seconds == 0)){
 
             final FirebaseAuth mAuth = FirebaseAuth.getInstance();
             FirebaseUser UserInfo =  mAuth.getCurrentUser();
@@ -153,6 +169,7 @@ public final class Challenge extends BaseActivity
             myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot snapshot) {
+
                     long ChallengeWonData = snapshot.child("ChallengeWin").getValue(long.class);
                     DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 
@@ -166,7 +183,7 @@ public final class Challenge extends BaseActivity
 
                 }
 
-                });
+            });
 
             Toast toast = Toast.makeText(getApplicationContext(),
                     "You have Successfully completed the challenge",

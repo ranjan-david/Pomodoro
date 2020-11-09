@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="#c9c9c9"
+        android:background="@color/primary_light"
 
         android:orientation="vertical">
 
@@ -19,7 +19,7 @@
             android:layout_height="60dp"
             android:layout_gravity="center"
 
-            android:background="@drawable/textview_circle_shape"
+            android:background="@color/colorPrimaryDark"
             android:elevation="1dp"
             android:gravity="center"
             android:text="StudyBuddy"

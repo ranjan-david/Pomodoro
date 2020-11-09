@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#c9c9c9"
+    android:background="#77CCF3"
     tools:context=".Challenge">
 
 
@@ -33,7 +33,7 @@
         android:layout_marginBottom="200dp"
         android:visibility="gone"
         android:text="Please Open your left eye"
-        android:textColor="@color/red"
+        android:textColor="#EF7C7C"
         app:layout_constraintBottom_toBottomOf="@+id/firePreview"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.01"
@@ -63,6 +63,7 @@
         android:layout_centerHorizontal="true"
         android:text="0:00"
         android:textSize="40dp"
+        android:textColor="@color/places_text_black_alpha_87"
         app:layout_constraintBottom_toTopOf="@+id/start_challenge"
         app:layout_constraintBottom_toBottomOf="@+id/firePreview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -75,6 +76,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textColor="@color/places_text_black_alpha_87"
         android:text="Current Challenge"
         android:textSize="20dp"
 
@@ -97,9 +99,9 @@
 
         android:hint="@string/Leave_challenge_btn"
 
-        android:textColor="#fff"
+        android:textColor="@color/places_text_black_alpha_87"
         android:textSize="20dp"
-        android:background="#F84343"
+        android:background="@drawable/color_btn_2"
         app:layout_constraintBottom_toTopOf="@+id/start_challenge"
         app:layout_constraintBottom_toBottomOf="@+id/firePreview"
 
@@ -117,9 +119,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:inputType="textPersonName"
+        android:textColor="@color/places_text_black_alpha_87"
         android:text="Name of challenger"
         android:textSize="20dp"
+
         app:layout_constraintBottom_toTopOf="@+id/start_challenge"
         app:layout_constraintBottom_toBottomOf="@+id/firePreview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -141,7 +144,7 @@
         android:enabled="false"
         android:foreground="?android:attr/selectableItemBackground"
         android:text="@string/Start_challenge_btn"
-        android:textColor="#fff"
+        android:textColor="#ffff"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="@+id/firePreview"
         app:layout_constraintEnd_toEndOf="parent"

@@ -33,11 +33,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.concurrent.TimeUnit;
+
 public class DoPomodoroActivity extends AppCompatActivity {
     Integer studyTime, shortBreakTime, longBreakTime, repeatsTillLongBreak;
     TextView timerTextView;
     TextView timerLabelTextView;
-    Integer breakCount = 1;
+    Integer breakCount = 0;
     Ringtone r;
     public DatabaseReference myDatabaseRef;
     public User currentUser;
@@ -45,8 +47,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
     boolean mBound = false;
     enum State { WAITING_FOR_START, SCREEN_DOWN, SCREEN_UP }
     State currentState = State.WAITING_FOR_START;
-    enum PomoState { NOT_STARTED, STUDY, SHORT_BREAK, LONG_BREAK }
-    PomoState currentPomoState = PomoState.NOT_STARTED;
     CountDownTimer timer = null;
     long longestStreakData;
     long averagePomoTimeData;
@@ -111,15 +111,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
         });
 
 
-        Button continueBtn = (Button) findViewById(R.id.continueBtn);
-        continueBtn.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                stopNotification();
-                startNextStep();
-                hideContinueButton();
-            }
-        });
-
         try {
             checkSystemWritePermission();
         }
@@ -176,7 +167,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
         IntentFilter broadcastIntentFilter = new IntentFilter();
         broadcastIntentFilter.addAction(MotionControlService.BROADCAST_INTENT);
         LocalBroadcastManager.getInstance(this).registerReceiver((broadcastReceiver), broadcastIntentFilter);
-        hideContinueButton();
     }
 
 
@@ -221,8 +211,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
 
             public void onFinish() {
                 playNotification();
-                showContinueButton();
-                /*
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
@@ -239,24 +227,20 @@ public class DoPomodoroActivity extends AppCompatActivity {
                     timerLabelTextView.setText("Enjoy your short break");
                     startShortBreak();
                 }
-                 */
             }
         }.start();
-        currentPomoState = PomoState.STUDY;
     }
 
     private void startShortBreak(){
         timer = new CountDownTimer(shortBreakTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
+                timerTextView.setText("seconds remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 breakCount++;
                 playNotification();
-                showContinueButton();
-                /*
                 try {
                     TimeUnit.SECONDS.sleep(5);
                 } catch (InterruptedException e) {
@@ -265,37 +249,30 @@ public class DoPomodoroActivity extends AppCompatActivity {
                 stopNotification();
                 timerLabelTextView.setText("Go Study!");
                 startTimer();
-                */
             }
         }.start();
-        currentPomoState = PomoState.SHORT_BREAK;
     }
 
     private void startLongBreak(){
         timer = new CountDownTimer(longBreakTime * 60000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                timerTextView.setText("Seconds Remaining: " + millisUntilFinished / 1000);
+                timerTextView.setText("seconds remaining: " + millisUntilFinished / 1000);
             }
 
             public void onFinish() {
                 breakCount++;
                 playNotification();
-                showContinueButton();
-                /*
-                //try {
-                //    TimeUnit.SECONDS.sleep(5);
-                //} catch (InterruptedException e) {
-                //    e.printStackTrace();
-               // }
-                //stopNotification();
-                //timerLabelTextView.setText("Go Study!");
-                //startTimer();
-
-                 */
+                try {
+                    TimeUnit.SECONDS.sleep(5);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                stopNotification();
+                timerLabelTextView.setText("Go Study!");
+                startTimer();
             }
         }.start();
-        currentPomoState = PomoState.LONG_BREAK;
     }
 
     private void playNotification(){
@@ -314,45 +291,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private void startNextStep()
-    {
-        if(currentPomoState == PomoState.STUDY)
-        {
-            if(breakCount % repeatsTillLongBreak == 0)
-            {
-                timerLabelTextView.setText("Enjoy your long break. Stretch your legs!");
-                startLongBreak();
-            }
-            else
-            {
-                timerLabelTextView.setText("Enjoy your short break");
-                startShortBreak();
-            }
-        }
-        else if(currentPomoState == PomoState.SHORT_BREAK)
-        {
-            timerLabelTextView.setText("Go Study!");
-            startTimer();
-        }
-        else if(currentPomoState == PomoState.LONG_BREAK)
-        {
-            timerLabelTextView.setText("Go Study!");
-            startTimer();
-        }
-    }
-
-    private void showContinueButton()
-    {
-        Button continueBtn = (Button) findViewById(R.id.continueBtn);
-        continueBtn.setVisibility(View.VISIBLE);
-    }
-
-    private void hideContinueButton()
-    {
-        Button continueBtn = (Button) findViewById(R.id.continueBtn);
-        continueBtn.setVisibility(View.INVISIBLE);
     }
 
     private boolean checkSystemWritePermission() {
@@ -400,7 +338,6 @@ public class DoPomodoroActivity extends AppCompatActivity {
                         FrameLayout parentLayout = (FrameLayout) findViewById(R.id.root_view);
                         parentLayout.removeView(findViewById(R.id.info_overlay));
                         startTimer();
-                        currentPomoState = PomoState.STUDY;
                     }
                     currentState = State.SCREEN_DOWN;
                 }

@@ -14,8 +14,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.TimerTask;
-
 public class processTimerReceiver extends BroadcastReceiver {
     private int timeSpent;
     FirebaseAuth mAuth;

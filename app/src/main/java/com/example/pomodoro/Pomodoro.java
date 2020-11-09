@@ -2,6 +2,7 @@ package com.example.pomodoro;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -14,9 +15,18 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class Pomodoro extends AppCompatActivity {
 
-    public void sendMessage(View view) {
-        Intent intent1 = new Intent(Pomodoro.this, Challenge.class);
-        startActivity(intent1);
+
+    public void callMain(View view){
+        Log.d("MyApp","I am here1");
+        Intent monintent = new Intent(Pomodoro.this, maincaller.class);
+        startActivity(monintent);
+
+    }
+    public void callPdf(View view){
+        Log.d("MyApp","I am here22");
+        Intent newIntent = new Intent(Pomodoro.this, pdfcaller.class);
+        startActivity(newIntent);
+
     }
 
     @Override

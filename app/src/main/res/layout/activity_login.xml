@@ -17,7 +17,7 @@
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="133dp"
             android:text="Promodoro"
             android:textStyle="bold"
             android:textSize="36sp"
@@ -88,7 +88,6 @@
 
 
         <Button
-            android:foreground="?attr/selectableItemBackground"
             android:id="@+id/email_sign_in_button"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
