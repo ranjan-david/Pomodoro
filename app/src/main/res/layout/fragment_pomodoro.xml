@@ -12,11 +12,12 @@
         android:layout_height="50dp"
         android:text="POMODORO"
         android:gravity="center"
-        android:background="@color/colorPrimaryDark"
-        android:textColor="@color/colorPrimaryLight"
         tools:layout_editor_absoluteX="176dp"
         tools:layout_editor_absoluteY="25dp"
-        android:layout_alignParentTop="true"/>
+        android:layout_alignParentTop="true"
+        android:textColor="@color/quantum_white_100"
+        android:fontFamily="sans-serif-condensed"
+        android:background="@drawable/backgorund_list"/>
 
 
     <TextView
@@ -95,25 +96,13 @@
 
     <Button
         android:id="@+id/startPomoButton"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/repeatsVal"
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:text="Start Pomodoro"
-        android:backgroundTint="@color/colorPrimaryDark"
-        android:textColor="@color/colorPrimaryLight"/>
-
-    <Button
-        android:id="@+id/button_v2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:onClick="sendMessage"
-
-        android:layout_below="@+id/startPomoButton"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:text="Challenge" />
+        android:textColor="@color/quantum_white_100"
+        android:background="@drawable/animation_btn_1" />
 
 </RelativeLayout>

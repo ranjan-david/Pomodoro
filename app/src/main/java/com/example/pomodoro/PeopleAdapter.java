@@ -46,38 +46,43 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.cylerViewH
     @NonNull
     @Override
 
-    public void onBindViewHolder(@NonNull cylerViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final cylerViewHolder holder, int position) {
         //set the name and challenge time of user on holder
         holder.title.setText(mDatas.get(position));
         Integer challenge_time = challengeTimes.get(position);
         holder.Challenge_time.setText(challenge_time.toString()+" "+"minutes");
 
+
         //these variables will be transmitted to challenge class
         Cname = holder.title.getText().toString();
         Ctime = challenge_time.toString();
-        holder.itemView.findViewById(R.id.challenge).setOnClickListener(new View.OnClickListener() {
+
+        holder.button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //challenge class
                 Intent intent = new Intent (v.getContext(), Challenge.class);
+
+
                 // transmit variables to challenge class
+                Cname = holder.title.getText().toString();
+                Ctime = holder.Challenge_time.getText().toString();
                 String message = Cname;
                 String Time = Ctime;
 
                 intent.putExtra("Name", message);
-                intent.putExtra("Time", Time);
+//                intent.putExtra("Time", Time);
                 v.getContext().startActivity(intent);
 
 
-
-
-
-
             }
+
         });
 
-
     }
+
+
+
+
 
 
     @Override

@@ -10,12 +10,32 @@
 
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.FLASHLIGHT"/>
     <uses-feature android:name="android.hardware.camera" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
 
+<!--    <provider-->
+<!--        android:name="android.support.v4.content.FileProvider"-->
+<!--        android:authorities="com.consuming.application.fileprovider"-->
+<!--        android:exported="false"-->
+<!--        android:grantUriPermissions="true" >-->
+<!--        <meta-data-->
+<!--            android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--            android:resource="@xml/application_file_paths" />-->
+<!--    </provider>-->
+
+<!--    <provider-->
+<!--        android:name="com.github.stkent.bugshaker.flow.email.screenshot.BugShakerFileProvider"-->
+<!--        android:authorities="com.consuming.application.bugshaker.fileprovider"-->
+<!--        android:exported="false"-->
+<!--        android:grantUriPermissions="true" >-->
+<!--        <meta-data-->
+<!--            android:name="android.support.FILE_PROVIDER_PATHS"-->
+<!--            android:resource="@xml/library_file_paths" />-->
+<!--    </provider>-->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -28,15 +48,20 @@
         <provider
             android:name=".contentprovider.SearchSuggestionProvider"
             android:authorities="com.example.pomodoro.contentprovider.SearchSuggestionProvider"
-            />
-        <provider
-            android:name="androidx.core.content.FileProvider"
-            android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
+        <meta-data
+            android:name="android.support.FILE_PROVIDER_PATHS"
+            android:resource="@xml/provider_paths" />
+        </provider>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths" />
+                android:resource="@xml/file_provider_paths" />
         </provider>
 
         <activity
@@ -73,8 +98,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="com.example.pomodoro.MainActivity" />
 
-        <activity android:name=".Challenge">
+        <activity android:name=".Challenge" />
+
+        <receiver android:name="processTimerReceiver" >
+            <intent-filter>
+                <action android:name="processTimerReceiver" >
+                </action>
+            </intent-filter>
+        </receiver>
+
+        <activity android:name=".pdfcaller">
         </activity>
 
         <activity android:name=".maincaller" />
@@ -85,6 +120,20 @@
                 <action android:name="android.media.action.IMAGE_CAPTURE" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.example.pomodoro.camera.CameraActivity"
+            android:label="@string/title_activity_camera"
+            android:screenOrientation="portrait"
+            android:theme="@style/CameraTheme" >
+        </activity>
+
+        <activity android:name="com.example.pomodoro.SettingsActivity"
+            android:label="@string/settings_title"
+            android:theme="@style/SettingsTheme"
+            >
+
+        </activity>
+
 
         <meta-data
             android:name="com.google.firebase.ml.vision.DEPENDENCIES"

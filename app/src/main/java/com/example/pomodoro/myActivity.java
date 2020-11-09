@@ -1,6 +1,5 @@
 package com.example.pomodoro;
 
-import com.example.pomodoro.R;
 import android.Manifest;
 import android.app.SearchManager;
 import android.content.Context;
@@ -27,12 +26,10 @@ import com.example.pomodoro.interfaces.FrameReturn;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
-import androidx.core.content.FileProvider;
 //import android.support.v4.content.FileProvider;
 
 //import android.support.v7.app.AlertDialog;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 //import android.support.v7.app.AppCompatActivity;
 //import android.support.v7.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -107,7 +104,7 @@ public class myActivity extends BaseActivity implements ActivityCompat.OnRequest
     protected void onCreate(Bundle savedInstanceState) {
         Log.d("MyApp","I am here2");
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_search);
         Log.d("MyApp","I am here3");
 
 

@@ -56,7 +56,7 @@ public final class Challenge extends BaseActivity
     private TextView countdowntext;
     private Button countdown_btn;
     private CountDownTimer countDownTimer;
-    private long timeLeftInMilliseconds = 60000;
+    private long timeLeftInMilliseconds = 600000;
     private boolean timeRunning;
 
     // to update database
@@ -102,16 +102,12 @@ public final class Challenge extends BaseActivity
 //
         long T = 0;
         try {
-            T = Integer.parseInt(Challenge_time);
-            T = T * 60000;
-
-            timeLeftInMilliseconds = T;
-
-
+            T = Long.parseLong(Challenge_time);
+            timeLeftInMilliseconds = T * 60000;
         } catch (NumberFormatException nfe) {
             System.out.println("Could not parse " + nfe);
         }
-
+        // setting value for the challenge timer
 
 
         TextView textView = findViewById(R.id.Challenger_Name);
